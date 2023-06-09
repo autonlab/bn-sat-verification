@@ -1,4 +1,3 @@
-[submodule "BNC_SDD"]
+[submodule "src/BNC_SDD"]
 	path = src/BNC_SDD
-	url = https://github.com/AndyShih12/BNC_SDD
-	branch = master
+	url = https://github.com/istepka/BNC_SDD
