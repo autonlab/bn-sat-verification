@@ -1,0 +1,3 @@
+[submodule "src/bnc_sdd"]
+	path = src/bnc_sdd
+	url = https://github.com/AndyShih12/BNC_SDD
