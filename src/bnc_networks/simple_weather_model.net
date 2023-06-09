@@ -1,0 +1,30 @@
+net
+{
+}
+node Weather
+{
+states = ( "Hot" "Moderate" "Cold" );
+}
+node WearingHat
+{
+states = ( "Yes" "No" );
+}
+node Heatstroke
+{
+states = ( "Yes" "No" );
+}
+potential ( Weather |  )
+{
+data = (
+(0.6 0.3 0.1))
+}
+potential ( WearingHat | Weather )
+{
+data = (
+((0.8 0.2)(0.5 0.5)(0.1 0.9)))
+}
+potential ( Heatstroke | Weather WearingHat )
+{
+data = (
+(((0.7 0.3)(0.8 0.2))((0.1 0.9)(0.12 0.88))((0.01 0.99)(0.01 0.99))))
+}

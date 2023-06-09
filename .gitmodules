@@ -1,3 +1,4 @@
-[submodule "src/bnc_sdd"]
-	path = src/bnc_sdd
+[submodule "BNC_SDD"]
+	path = src/BNC_SDD
 	url = https://github.com/AndyShih12/BNC_SDD
+	branch = master

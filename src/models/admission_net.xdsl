@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was created by ACADEMIC version of SMILE -->
+<smile version="1.0" id="Unnamed" numsamples="10000" discsamples="10000">
+	<nodes>
+		<cpt id="Admit">
+			<state id="True" />
+			<state id="False" />
+			<probabilities>0.7 0.3</probabilities>
+		</cpt>
+		<cpt id="WorkExperience">
+			<state id="State0" />
+			<state id="State1" />
+			<state id="State2" />
+			<state id="State3" />
+			<state id="State4" />
+			<state id="State5" />
+			<parents>Admit</parents>
+			<probabilities>0.1 0.96 0.5 0.5 0.6 0.4 0.8 0.2 0.85 0.15 0.9 0.04</probabilities>
+		</cpt>
+		<cpt id="GPA">
+			<state id="True" />
+			<state id="False" />
+			<parents>Admit</parents>
+			<probabilities>0.89 0.03 0.1 0.97</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="SMILE_ACADEMIC 2.0.10@8fc4651c837e" name="Unnamed">
+			<node id="Admit">
+				<name>Admission</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>10 10 95 65</position>
+			</node>
+			<node id="WorkExperience">
+				<name>Work Experience</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>15 15 100 70</position>
+			</node>
+			<node id="GPA">
+				<name>GPA</name>
+				<interior color="e5f6f7" />
+				<outline color="0000bb" />
+				<font color="000000" name="MS Sans Serif" size="8" />
+				<position>20 20 105 75</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>

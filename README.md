@@ -17,4 +17,27 @@ git submodule update --init --recursive
 ```
 python3 -m pip install -r requirements.txt
 ```
+
+4. Create pysmile_license.py under src/ directory and paste the license key. It should look like this:
+```
+import pysmile
+
+pysmile.License((
+	b"SMILE LICENSE XXXXXXXX XXXXXXXX XXXXXXXX "
+	b"THIS IS AN ACADEMIC LICENSE AND CAN BE USED "
+	b"SOLELY FOR ACADEMIC RESEARCH AND TEACHING, "
+	b"AS DEFINED IN THE BAYESFUSION ACADEMIC "
+	b"SOFTWARE LICENSING AGREEMENT. "
+	b"Serial #: .................. "
+	b"Issued for: Michael Jackson (mjackson@la.edu) "
+	b"Academic institution: Some Institution "
+	b"Valid until: 2023-12-04 "
+	b"Issued by BayesFusion activation server"
+	),[
+	XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,
+	XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,
+	XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,
+	XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX,XXXX])
+
+```
 ***
