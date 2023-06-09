@@ -1,6 +1,8 @@
 import pysmile
-import pysmile_license
-from pysmile_utils import *
+import scripts.pysmile_license as pysmile_license
+from scripts.pysmile_utils import *
+
+SAVEDIR = 'models'
 
 net = pysmile.Network()
 
@@ -60,7 +62,7 @@ net.set_node_definition('WorkExperience', workexperiecnce_hat_CPT)
 net.set_node_definition('GPA', gpa_CPT)
 # ----------------------------------------------------------------
 
-net.write_file("admission_net.xdsl")
+net.write_file(f"{SAVEDIR}/admission1.xdsl")
 
 # ------ Evidence ------
 print("Setting GPA=False.")

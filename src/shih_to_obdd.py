@@ -77,7 +77,7 @@ if __name__ == '__main__':
     if not filepath.endswith('.odd'):
         filepath += '.odd'    
     
-    dic = read_obdd_from_file('.odd')
+    dic = read_obdd_from_file(filepath)
     prettyprint_dict(dic)
     
     if parser.parse_args().plot:    

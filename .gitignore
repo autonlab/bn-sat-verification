@@ -1,6 +1,6 @@
 # Project specific 
 local/
-src/pysmile_license.py
+*pysmile_license.py
 src/BNC_SDD
 
 # Byte-compiled / optimized / DLL files

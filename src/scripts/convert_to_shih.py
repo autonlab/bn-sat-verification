@@ -85,7 +85,7 @@ def convert_to_shih(input_file: str, output_file: str) -> str:
                     
             __write_shih_cpt_recursively(shih_cpt, dimensions, 0, f)
             
-            f.write(')\n}\n')
+            f.write(') ;\n}\n')
             
             
 

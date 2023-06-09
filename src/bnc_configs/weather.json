@@ -1,0 +1,12 @@
+{
+    "id": "1",
+    "name": "weather",
+    "filetype": "net",
+    "vars": 3,
+    "root": "Weather",
+    "leaves": [],
+    "threshold": 0.5,
+    "input_filepath": "../bnc_networks/",
+    "output_filepath": "../odd_models/weather/"
+  }
+  
