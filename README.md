@@ -66,8 +66,8 @@ python3 convert_net_to_odd.py --netconfigpath <netconfigpath> --netfilepath <net
 This requires:
 1. A .odd file that contains the ODD
 ```bash
-python3 shih_to_obdd --filepath <filepath> (optional: --plot <True/False, default=True>)
-# e.g. python shih_to_obdd.py --filepath odd_models/weather/weather_1.odd
+python3 odd_parser.py --filepath <filepath> (optional: --plot <True/False, default=True>)
+# e.g. python odd_parser.py --filepath odd_models/weather/weather_1.odd
 ```
 
 
