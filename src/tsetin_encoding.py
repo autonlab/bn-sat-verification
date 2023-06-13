@@ -1,8 +1,10 @@
 # Encode OMDD (Ordered Multivalue Decision Diagram) to a CNF (Conjunctive Normal Form) formula
 # Using the Tseitin encoding method
 # Based on paper: "On CNF Encodings of Decision Diagrams"
+import json
+import os
 from node import Node
-from shih_to_obdd import read_obdd_from_file, draw_obdd
+from odd_parser import read_obdd_from_file, draw_obdd
 from typing import Dict, List, Tuple
 from pysat.formula import CNF
 from pysat_solver import pysat_solver
@@ -58,10 +60,10 @@ def add_node_clauses(clauses: List, odd: Dict[int, Node]) -> Tuple[CNF, Dict, Di
             
             all_outgoing_edges.append(v_child) # Add to list of outgoing edges for T1 purpose
             
-            epsilon = f'edge_{v_i.variable_name}_{v_child.variable_name}' # Name of the edge variable
+            epsilon = f'edge_{v_i.index}_{v_child.index}' # Name of the edge variable
             add_to_mapping(epsilon) # Add to mapping (if not already there)
             
-            x_i = f'x_{v_i.variable_name} = {j}th value' # Name of the variable that represents the value of the node v_i = j
+            x_i = f'x_{v_i.index} = {j}th value' # Name of the variable that represents the value of the node v_i = j
             add_to_mapping(x_i) # Add to mapping (if not already there)
             
             # Following clauses are added to the cnf formula (Tseitin encoding) 
@@ -83,21 +85,52 @@ def add_node_clauses(clauses: List, odd: Dict[int, Node]) -> Tuple[CNF, Dict, Di
         
     return cnf, mapping, mapping_inv
     
-def print_with_names(cnf: CNF, mapping_inv: Dict):
+def print_with_names(cnf: CNF, mapping_inv: Dict) -> None:
     '''
     Print the cnf formula with the names of the variables
     '''
     for clause in cnf.clauses:
         print([mapping_inv[abs(lit)] if lit > 0 else f'-{mapping_inv[abs(lit)]}' for lit in clause])
 
-def print_mapping(mapping: Dict):
+def print_mapping(mapping: Dict) -> None:
     '''
     Print the mapping in a nice way
     '''
     for key, value in mapping.items():
         print(f'{key:{" "}{"<"}{3}}: {value}')
-
-
+        
+def save_cnf_to_json(cnf: CNF, mapping_inv: Dict, mapping: Dict, path: str) -> None:
+    '''
+    Save the cnf formula and the mapping to a json file
+    '''
+    path = os.path.join(os.path.dirname(__file__), path)
+    
+    if not os.path.exists(os.path.dirname(path)):
+        os.makedirs(os.path.dirname(path))
+        
+    mapping_inv = {str(key): str(value) for key, value in mapping_inv.items()}
+    mapping = {str(key): str(value) for key, value in mapping.items()}
+    
+    with open(path, 'w') as f:
+        json.dump({
+            'cnf': cnf.clauses,
+            'mapping_inv': mapping_inv,
+            'mapping': mapping
+        }, f, indent=4)
+        
+def read_cnf_from_json(path: str) -> CNF:
+    '''
+    Read the cnf formula and the mapping from a json file
+    '''
+    path = os.path.join(os.path.dirname(__file__), path)
+    
+    with open(path, 'r') as f:
+        data = json.load(f)
+        
+    cnf = CNF()
+    cnf.clauses = data['cnf']
+    
+    return cnf
 
 if __name__ == '__main__':
     # -------------------------------
@@ -109,21 +142,27 @@ if __name__ == '__main__':
     #                        0 --> False
     # -------------------------------
     
-    gpa = Node(0, 0, 1, 2, "GPA")
-    we_1 = Node(1, 1, 3, 4, "WE_1")
-    we_2 = Node(2, 2, 3, 4, "WE_2")
-    ter_t = Node(3, 3, None, None, "TRUE")
-    ter_f = Node(4, 4, None, None, "FALSE")
+    # gpa = Node(0, 0, 1, 2, "GPA")
+    # we_1 = Node(1, 1, 3, 4, "WE_1")
+    # we_2 = Node(2, 2, 3, 4, "WE_2")
+    # ter_t = Node(3, 3, None, None, "TRUE")
+    # ter_f = Node(4, 4, None, None, "FALSE")
     
-    odd = {
-        0: gpa,
-        1: we_1,
-        2: we_2,
-        3: ter_t,
-        4: ter_f
-    }
+    # odd = {
+    #     0: gpa,
+    #     1: we_1,
+    #     2: we_2,
+    #     3: ter_t,
+    #     4: ter_f
+    # }
+    
+    CASE_NAME = 'test_diagram'
+    
+    odd = read_obdd_from_file(f'odd_models/test/{CASE_NAME}.odd')
     
     _cnf, _map, _map_inv = add_node_clauses(CLAUSES, odd)
+    
+    save_cnf_to_json(_cnf, _map_inv, _map, f'cnf_files/{CASE_NAME}.json')
  
     print(_cnf.clauses)
     
