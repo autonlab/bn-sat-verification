@@ -4,25 +4,10 @@ import argparse
 import os
 
 from typing import Tuple, Dict, List
-
-
-class Node:
-    def __init__(self, ordering_index: int, variable_index: int, left: int, right: int, variable_name: str) -> None:
-        self.index = ordering_index
-        self.variable_index = variable_index
-        self.left = left
-        self.right = right
-        self.variable_name = variable_name
-    
-    def __str__(self) -> str:
-        return f"Node_{self.index:{' '}{'<'}{5}} Left: {self.left:{' '}{'<'}{3}} \
-          Right: {self.right:{' '}{'<'}{3}} VarIndex: \"{self.variable_index:{' '}{'<'}{2}}\" \
-            VarName: \"{self.variable_name:{' '}{'<'}{3}}"
-
-    def __repr__(self) -> str:
-        return self.__str__()
         
-def read_obdd_from_file(filename: str) -> Tuple[Dict[int, Node], List[str]]:
+from node import Node
+
+def read_obdd_from_file(filename: str) -> Dict[int, Node]:
     '''Reads in an OBDD from a file and returns a dictionary of nodes and a list of variable names'''
     with open(filename,'r') as f:
         variable_names = f.readline().replace('[', '').replace(',', '') \
@@ -30,11 +15,12 @@ def read_obdd_from_file(filename: str) -> Tuple[Dict[int, Node], List[str]]:
         print(variable_names)
         nodes = f.readlines()
         nodes = [x.strip().split(' ') for x in nodes]
-        nodes = [[int(x) if x.isdigit() else x for x in node] for node in nodes]  
+        nodes = [[int(x) + 1 if x.isdigit() else x for x in node] for node in nodes]  
+        
 
     node_dict = {}
     for l in nodes:
-        node_dict[l[0]] = Node(l[0], l[1], l[2], l[3], variable_names[l[1]])
+        node_dict[l[0]] = Node(l[0], l[1], l[2], l[3], variable_names[l[1] - 1])
 
     return node_dict
 
@@ -48,13 +34,15 @@ def draw_obdd(node_dict: Dict[int, Node]) -> None:
     '''Draws the OBDD using networkx. The nodes are labeled with their variable names'''
     G = nx.DiGraph()
     labeldict = {k:v.variable_name for k,v in node_dict.items()}
-    labeldict['S0'] = 'S0'
-    labeldict['S1'] = 'S1'
+    # labeldict['S0'] = 'S0'
+    # labeldict['S1'] = 'S1'
 
     for key in sorted(node_dict):
         G.add_node(node_dict[key].index, name=node_dict[key].variable_name)
-        G.add_edge(node_dict[key].index, node_dict[key].left)
-        G.add_edge(node_dict[key].index, node_dict[key].right)
+        if node_dict[key].edges[0] is not None:
+            G.add_edge(node_dict[key].index, node_dict[key].edges[0])
+        if node_dict[key].edges[1] is not None:
+            G.add_edge(node_dict[key].index, node_dict[key].edges[1])
     pos = nx.spring_layout(G)
 
     fig = plt.figure(figsize=(8, 8))
