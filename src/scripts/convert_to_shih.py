@@ -2,6 +2,7 @@ import pysmile
 import pysmile_license
 from pysmile_utils import *
 import argparse
+import logging
 import numpy as np
 
 def convert_to_shih(input_file: str, output_file: str) -> str:
@@ -64,8 +65,8 @@ def convert_to_shih(input_file: str, output_file: str) -> str:
             shih_cpt = np.array(values)
             shih_cpt = shih_cpt.reshape(shih_cpt_shape) # TODO check this, but seems to work
             
-            print(shih_cpt_shape)
-            print(shih_cpt)
+            logging.debug(shih_cpt_shape)
+            logging.debug(shih_cpt)
             
             # Now we need to write this to the file in the correct format
             
@@ -95,7 +96,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert a BayesFusion xdsl BN to the Shih\'s format.')
     parser.add_argument('--input_file', type=str, help='Path to the input file')
     parser.add_argument('--output_file', type=str, help='Path to the output file')
+    parser.add_argument('--verbose', action='store_true', help='Print more information')
+    
+    
     args = parser.parse_args()
+    
+    if args.verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.WARNING)
+        
     
     convert_to_shih(args.input_file, args.output_file)
             

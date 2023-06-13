@@ -3,6 +3,8 @@
 # Based on paper: "On CNF Encodings of Decision Diagrams"
 import json
 import os
+import logging
+
 from node import Node
 from odd_parser import read_obdd_from_file, draw_obdd
 from typing import Dict, List, Tuple
@@ -90,14 +92,14 @@ def print_with_names(cnf: CNF, mapping_inv: Dict) -> None:
     Print the cnf formula with the names of the variables
     '''
     for clause in cnf.clauses:
-        print([mapping_inv[abs(lit)] if lit > 0 else f'-{mapping_inv[abs(lit)]}' for lit in clause])
+        logging.debug([mapping_inv[abs(lit)] if lit > 0 else f'-{mapping_inv[abs(lit)]}' for lit in clause])
 
 def print_mapping(mapping: Dict) -> None:
     '''
     Print the mapping in a nice way
     '''
     for key, value in mapping.items():
-        print(f'{key:{" "}{"<"}{3}}: {value}')
+        logging.debug(f'{key:{" "}{"<"}{3}}: {value}')
         
 def save_cnf_to_json(cnf: CNF, mapping_inv: Dict, mapping: Dict, path: str) -> None:
     '''
@@ -156,19 +158,38 @@ if __name__ == '__main__':
     #     4: ter_f
     # }
     
-    CASE_NAME = 'test_diagram'
+    import argparse
     
-    odd = read_obdd_from_file(f'odd_models/test/{CASE_NAME}.odd')
+    parser = argparse.ArgumentParser(description='Convert ODD to CNF')
+    
+    parser.add_argument('--odd', type=str, help='Path to the ODD file')
+    parser.add_argument('--cnf', type=str, help='Path to the CNF file')
+    parser.add_argument('--verbose', action='store_true', help='Print debug messages')
+    
+    odd_path = parser.parse_args().odd
+    cnf_path = parser.parse_args().cnf
+    verbose = parser.parse_args().verbose
+    
+    # Set logging level
+    if verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.WARNING)
+    
+    if '.odd' not in odd_path:
+        odd_path += '.odd'
+    if '.json' not in cnf_path:
+        cnf_path += '.json'
+    
+    odd = read_obdd_from_file(f'{odd_path}')
     
     _cnf, _map, _map_inv = add_node_clauses(CLAUSES, odd)
     
-    save_cnf_to_json(_cnf, _map_inv, _map, f'cnf_files/{CASE_NAME}.json')
+    save_cnf_to_json(_cnf, _map_inv, _map, f'{cnf_path}')
  
-    print(_cnf.clauses)
+    logging.debug(_cnf.clauses)
     
     print_mapping(_map_inv)
-    
-    print('\n\n')
     
     print_with_names(_cnf, _map_inv)
     

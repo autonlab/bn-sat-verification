@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import argparse
 import os
+import logging
 
 from typing import Tuple, Dict, List
         
@@ -13,7 +14,7 @@ def read_obdd_from_file(filename: str) -> Dict[int, Node]:
     with open(filename,'r') as f:
         variable_names = f.readline().replace('[', '').replace(',', '') \
             .replace(']', '').strip().split(' ')
-        print(variable_names)
+        logging.debug(variable_names)
         nodes = f.readlines()
         nodes = [x.strip().split(' ') for x in nodes]
         nodes = [[int(x) if x.isdigit() else x for x in node] for node in nodes]  
@@ -43,7 +44,7 @@ def read_obdd_from_file(filename: str) -> Dict[int, Node]:
 def prettyprint_dict(node_dict: Dict[int, Node]) -> None:
     '''Prints out the dictionary of nodes in a pretty format'''
     for key in sorted(node_dict):
-        print(node_dict[key])
+        logging.debug(node_dict[key])
     
 
 def draw_obdd(node_dict: Dict[int, Node]) -> None:
@@ -69,6 +70,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parses an OBDD from a file and creates a graph structure')
     parser.add_argument('--filepath', type=str, help='The filename with path of the OBDD to be parsed')
     parser.add_argument('--plot', type=bool, default=True, help='Whether to plot the OBDD')
+    parser.add_argument('--verbose', action='store_true', help='Whether to print debug messages')
+    
+    if parser.parse_args().verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else: 
+        logging.basicConfig(level=logging.WARNING)
     
     # Make sure the filepath is provided correctly
     filepath = parser.parse_args().filepath

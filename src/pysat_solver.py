@@ -1,3 +1,5 @@
+import logging
+
 from typing import List
 from pysat.solvers import Solver, Glucose3
 from pysat.formula import CNF
@@ -25,11 +27,11 @@ def pysat_solver(cnf: CNF, set_variables: List[int] = [], solver: Solver = Gluco
     solver.append_formula(cnf)
 
     if solver.solve():
-        print(f'SAT')
+        logging.debug(f'SAT')
         sat_model = solver.get_model()
-        print(f'SAT MODEL: {sat_model}')
+        logging.debug(f'SAT MODEL: {sat_model}')
     else:
-        print(f'UNSAT')
+        logging.debug(f'UNSAT')
         sat_model = None
     
     return sat_model
