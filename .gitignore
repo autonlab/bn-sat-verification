@@ -2,6 +2,8 @@
 local/
 *pysmile_license.py
 src/BNC_SDD
+.vscode/
+tests/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

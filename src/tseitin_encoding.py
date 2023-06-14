@@ -11,10 +11,8 @@ from typing import Dict, List, Tuple
 from pysat.formula import CNF
 from pysat_solver import pysat_solver
 
-MODELPATH = "odd_models/admission/admission1_1.odd"
-CLAUSES = []
 
-def add_node_clauses(clauses: List, odd: Dict[int, Node]) -> Tuple[CNF, Dict, Dict]:
+def add_node_clauses(odd: Dict[int, Node]) -> Tuple[CNF, Dict, Dict]:
     '''
     Here we add the clauses that encode the nodes using Tseitin transformation.
     
@@ -183,7 +181,7 @@ if __name__ == '__main__':
     
     odd = read_obdd_from_file(f'{odd_path}')
     
-    _cnf, _map, _map_inv = add_node_clauses(CLAUSES, odd)
+    _cnf, _map, _map_inv = add_node_clauses(odd)
     
     save_cnf_to_json(_cnf, _map_inv, _map, f'{cnf_path}')
  

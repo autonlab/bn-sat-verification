@@ -17,16 +17,10 @@ def pysat_solver(cnf: CNF, set_variables: List[int] = [], solver: Solver = Gluco
     Returns:
         The model if the formula is satisfiable, None otherwise.
     '''
-    
-    # Set variables to be frozen
-    if set_variables:
-        for variable in set_variables:
-            cnf.append(clause=[variable])
-
     # Add cnf formula to solver
     solver.append_formula(cnf)
 
-    if solver.solve():
+    if solver.solve(assumptions=set_variables):
         logging.debug(f'SAT')
         sat_model = solver.get_model()
         logging.debug(f'SAT MODEL: {sat_model}')
