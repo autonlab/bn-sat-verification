@@ -9,7 +9,7 @@ class Node:
         # return f"Node_{self.index:{' '}{'<'}{5}} Left: {self.edges[0]} \
         #   Right: {self.edges[1]} VarIndex: \"{self.variable_index:{' '}{'<'}{2}}\" \
         #     VarName: \"{self.variable_name:{' '}{'<'}{3}}"
-        return f"Node_{self.index}"
+        return f"Node_{self.variable_name if self.variable_name else ''}_{self.index}"
 
     def __repr__(self) -> str:
         return self.__str__()

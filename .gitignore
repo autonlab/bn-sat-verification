@@ -4,6 +4,7 @@ local/
 src/BNC_SDD
 .vscode/
 tests/
+*_local_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
