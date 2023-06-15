@@ -3,7 +3,6 @@ local/
 *pysmile_license.py
 src/BNC_SDD
 .vscode/
-tests/
 *_local_*
 
 # Byte-compiled / optimized / DLL files

@@ -63,7 +63,7 @@ def add_node_clauses(odd: Dict[int, Node]) -> Tuple[CNF, Dict, Dict]:
             epsilon = f'edge_{v_i.index}_{v_child.index}' # Name of the edge variable
             add_to_mapping(epsilon) # Add to mapping (if not already there)
             
-            x_i = f'x_{v_i.index} = {j}th value' # Name of the variable that represents the value of the node v_i = j
+            x_i = f'x_{v_i.variable_index} = {j}th value' # Name of the variable that represents the value of the node v_i = j
             add_to_mapping(x_i) # Add to mapping (if not already there)
             
             # Following clauses are added to the cnf formula (Tseitin encoding) 
@@ -118,9 +118,14 @@ def save_cnf_to_json(cnf: CNF, mapping_inv: Dict, mapping: Dict, path: str) -> N
             'mapping': mapping
         }, f, indent=4)
         
-def read_cnf_from_json(path: str) -> CNF:
+def read_cnf_from_json(path: str) -> Tuple[CNF, Dict, Dict]:
     '''
     Read the cnf formula and the mapping from a json file
+    
+    Returns:
+        cnf: pysat CNF object
+        mapping_inv: mapping from variable index to variable name
+        mapping: mapping from variable name to variable index (in CNF)
     '''
     path = os.path.join(os.path.dirname(__file__), path)
     
@@ -130,7 +135,7 @@ def read_cnf_from_json(path: str) -> CNF:
     cnf = CNF()
     cnf.clauses = data['cnf']
     
-    return cnf
+    return cnf, data['mapping_inv'], data['mapping']
 
 if __name__ == '__main__':
     # -------------------------------
@@ -191,8 +196,8 @@ if __name__ == '__main__':
     
     print_with_names(_cnf, _map_inv)
     
-    should_SAT = pysat_solver(_cnf, set_variables=[1, 5, 6, 7, 8, -11, 14, 15])
+    should_SAT = pysat_solver(_cnf, set_variables=[1, 3, 4, 8, 9, -11])
     assert should_SAT, "Should be SAT"
     
-    should_UNSSAT = pysat_solver(_cnf, set_variables=[1, 5, 6, 7, 8, -11, 16, 17])
+    should_UNSSAT = pysat_solver(_cnf, set_variables=[1, 5, 6, 15, 8, -11])
     assert not should_UNSSAT, "Should be UNSAT"

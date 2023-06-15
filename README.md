@@ -78,6 +78,12 @@ This requires:
 python3 tseitin_encoding.py --odd <odd_file> --cnf <cnf_file> (optional: --verbose)
 # e.g. python3 tseitin_encoding.py --odd odd_models/test/test_diagram.odd --cnf cnf_files/test_diagram.json --verbose
 ```
+***
+## Test queries
+To test a query, while being in top directory, run:
+```bash
+pytest -v
+```
 
 ***
 ## License
