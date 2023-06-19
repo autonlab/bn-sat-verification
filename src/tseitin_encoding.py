@@ -10,7 +10,7 @@ from node import Node
 from odd_parser import read_obdd_from_file, draw_obdd
 from typing import Dict, List, Tuple
 from pysat.formula import CNF
-from pysat_solver import pysat_solver
+from pysat_solver import PySATSolver
 
 def exactly_one(literals: List[int]) -> List[List[int]]:
     '''

@@ -1,34 +1,37 @@
 import logging
-
 from typing import List
 from pysat.solvers import Solver, Glucose3
 from pysat.formula import CNF
 
+from verifications.solver_class import SATSolver
 
-def pysat_solver(cnf: CNF, set_variables: List[int] = [], solver: Solver = Glucose3()) -> List[int] | None:
-    '''
-    Solve the given cnf formula with the given solver using pysat library.
+class PySATSolver(SATSolver):
     
-    Args:
-        cnf: The cnf formula to be solved.
-        set_variables: The variables to be set to true.
-        solver: The solver to be used.
-    
-    Returns:
-        The model if the formula is satisfiable, None otherwise.
-    '''
-    # Add cnf formula to solver
-    solver.append_formula(cnf)
+    @staticmethod
+    def solve(cnf: CNF, solver: Solver = Glucose3(), assumptions: List[int] = []) -> List[int] | None:
+        '''
+        Solve the given cnf formula with the given solver using pysat library.
+        
+        Args:
+            cnf: The cnf formula to be solved.
+            assumptions: The variables to be set to true.
+            solver: The solver to be used.
+        
+        Returns:
+            The model if the formula is satisfiable, None otherwise.
+        '''
+        # Add cnf formula to solver
+        solver.append_formula(cnf)
 
-    if solver.solve(assumptions=set_variables):
-        logging.debug(f'SAT')
-        sat_model = solver.get_model()
-        logging.debug(f'SAT MODEL: {sat_model}')
-    else:
-        logging.debug(f'UNSAT')
-        sat_model = None
-    
-    return sat_model
+        if solver.solve(assumptions=assumptions):
+            logging.debug(f'SAT')
+            sat_model = solver.get_model()
+            logging.debug(f'SAT MODEL: {sat_model}')
+        else:
+            logging.debug(f'UNSAT')
+            sat_model = None
+        
+        return sat_model
 
 if __name__ == "__main__":
     # -------------------------------
@@ -55,4 +58,6 @@ if __name__ == "__main__":
     # Top-level OR 
     cnf.append([6])
     
-    pysat_solver(cnf, set_variables=[1, 3])
+    logging.basicConfig(level=logging.DEBUG)
+    
+    PySATSolver().solve(cnf, assumptions=[1, 3])
