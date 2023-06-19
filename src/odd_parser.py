@@ -28,16 +28,18 @@ def read_obdd_from_file(filename: str) -> Dict[int, Node]:
     translate_indices['S0'] = last + 2
     
     node_dict = {}
-    for ordering_index, variable_index, left, right  in nodes:
-        ordering_index = translate_indices[ordering_index]
-        variable_index = translate_indices[variable_index]
-        left = translate_indices[left]
-        right = translate_indices[right]
-        node_dict[ordering_index] = Node(ordering_index, variable_index, left, right, variable_names[variable_index - 1])
+    for node  in nodes:
+        ordering_index = translate_indices[node[0]]
+        variable_index = translate_indices[node[1]]
+        edges = [translate_indices[x] for x in node[2:]]
+        node_dict[ordering_index] = Node(ordering_index, 
+                                         variable_index, 
+                                         edges, 
+                                         variable_names[variable_index - 1])
         
     # Add the sinks
-    node_dict[last + 1] = Node(last + 1, -999, None, None, 'TRUE')
-    node_dict[last + 2] = Node(last + 2, -999, None, None, 'FALSE')
+    node_dict[last + 1] = Node(last + 1, -999, None, 'TRUE')
+    node_dict[last + 2] = Node(last + 2, -999, None, 'FALSE')
         
     return node_dict
 
@@ -51,17 +53,49 @@ def draw_obdd(node_dict: Dict[int, Node]) -> None:
     '''Draws the OBDD using networkx. The nodes are labeled with their variable names'''
     G = nx.DiGraph()
     labeldict = {k:v.variable_name for k,v in node_dict.items()}
+    max_level = max([v.variable_index for _,v in node_dict.items()])
 
-    for key in sorted(node_dict):
-        G.add_node(node_dict[key].index, name=node_dict[key].variable_name, pos='mid')
-        if node_dict[key].edges[0] is not None:
-            G.add_edge(node_dict[key].index, node_dict[key].edges[0], pos='left')
-        if node_dict[key].edges[1] is not None:
-            G.add_edge(node_dict[key].index, node_dict[key].edges[1], pos='right')
-    pos = nx.spring_layout(G)
+    for key in sorted(node_dict, reverse=True):
+        # Set the y position/level of the nodes
+        level = node_dict[key].variable_index
+        if level == -999:
+            level = 0
+            if node_dict[key].variable_name == 'TRUE':
+                color = 'green'
+            else:
+                color = 'red'
+        else:
+            level = max_level + 1 - level
+            color = 'steelblue' if level % 2 == 0 else 'skyblue'
+
+        # Add the nodes    
+        G.add_node(node_dict[key].index, 
+                   name=node_dict[key].variable_name, 
+                   pos='mid',
+                   level=level,
+                   color=color,)
+        
+        # Add the edges
+        if node_dict[key].edges:
+            for i, edge in enumerate(node_dict[key].edges):
+                G.add_edge(node_dict[key].index, edge, 
+                           label=f'{node_dict[key].variable_name}_{i}th value')
+                
+    pos = nx.multipartite_layout(G, subset_key="level", align='horizontal')
 
     fig = plt.figure(figsize=(8, 8))
-    nx.draw(G, pos, with_labels=True, labels=labeldict, node_size=700, font_size=8)
+    nx.draw(G, 
+            pos=pos, 
+            with_labels=True, 
+            labels=labeldict, 
+            node_size=900, 
+            font_size=9, 
+            node_color=[G.nodes[n]['color'] for n in G.nodes]
+            )
+    nx.draw_networkx_edge_labels(G, 
+                                 pos=pos, 
+                                 edge_labels=nx.get_edge_attributes(G, 'label'), 
+                                 font_size=7)
     plt.show()
 
 

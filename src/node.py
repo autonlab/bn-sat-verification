@@ -1,8 +1,11 @@
+from typing import List
+
+
 class Node:
-    def __init__(self, ordering_index: int, variable_index: int, left: int, right: int, variable_name: str) -> None:
+    def __init__(self, ordering_index: int, variable_index: int, edges: List, variable_name: str) -> None:
         self.index = ordering_index
         self.variable_index = variable_index
-        self.edges = [left, right]
+        self.edges = edges
         self.variable_name = variable_name
     
     def __str__(self) -> str:
