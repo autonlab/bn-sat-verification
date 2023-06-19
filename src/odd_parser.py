@@ -36,8 +36,8 @@ def read_obdd_from_file(filename: str) -> Dict[int, Node]:
         node_dict[ordering_index] = Node(ordering_index, variable_index, left, right, variable_names[variable_index - 1])
         
     # Add the sinks
-    node_dict[last + 1] = Node(last + 1, None, None, None, 'TRUE')
-    node_dict[last + 2] = Node(last + 2, None, None, None, 'FALSE')
+    node_dict[last + 1] = Node(last + 1, -999, None, None, 'TRUE')
+    node_dict[last + 2] = Node(last + 2, -999, None, None, 'FALSE')
         
     return node_dict
 
