@@ -1,6 +1,6 @@
 import pysmile
-import scripts.pysmile_license as pysmile_license
-from scripts.pysmile_utils import *
+import pysmile_license as pysmile_license
+from pysmile_utils import *
 
 SAVEDIR = 'models'
 

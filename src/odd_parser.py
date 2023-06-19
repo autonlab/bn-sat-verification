@@ -6,7 +6,7 @@ import logging
 
 from typing import Tuple, Dict, List
         
-from node import Node    
+from utils.node import Node    
 
 
 def read_obdd_from_file(filename: str) -> Dict[int, Node]:

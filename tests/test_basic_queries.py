@@ -17,7 +17,7 @@ from pysat.formula import CNF
 
 from src.tseitin_encoding import add_node_clauses, read_cnf_from_json
 from src.odd_parser import read_obdd_from_file
-from src.pysat_solver import pysat_solver
+from src.verifications.pysat_solver import PySATSolver
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -64,7 +64,7 @@ class TestEncodingWithSimpleQueries:
     
     def test_if_satisfiable(self, get_data):
         cnf, _, _ = get_data
-        assert pysat_solver(cnf) != None
+        assert PySATSolver().solve(cnf) != None
         
     def test_if_unsatisfiable_under_wrong_assumptions(self, get_data):
         '''
@@ -87,7 +87,7 @@ class TestEncodingWithSimpleQueries:
         
         assumpt = convert_to_assumptions(to_set, mapping)
         
-        should_UNSSAT = pysat_solver(cnf, set_variables=assumpt)
+        should_UNSSAT = PySATSolver().solve(cnf, assumptions=assumpt)
         assert not should_UNSSAT, "Should be UNSAT"
         
     def test_if_satisfiable_under_correct_assumptions(self, get_data):
@@ -111,7 +111,7 @@ class TestEncodingWithSimpleQueries:
         
         assumpt = convert_to_assumptions(to_set, mapping)
         
-        should_SAT = pysat_solver(cnf, set_variables=assumpt)
+        should_SAT = PySATSolver().solve(cnf, assumptions=assumpt)
         assert should_SAT, "Should be SAT"
         
     def test_if_consistent(self, get_data):      
@@ -127,7 +127,7 @@ class TestEncodingWithSimpleQueries:
 
         assumpt = convert_to_assumptions(to_set, mapping)
 
-        should_UNSAT = pysat_solver(cnf, set_variables=assumpt)
+        should_UNSAT = PySATSolver().solve(cnf, assumptions=assumpt)
         assert should_UNSAT == None, "Should be UNSAT, because the assumptions are inconsistent. \
             But it is SAT = wrong!!."
             
@@ -141,7 +141,7 @@ class TestEncodingWithSimpleQueries:
 
         assumpt = convert_to_assumptions(to_set, mapping)
 
-        model = pysat_solver(cnf, set_variables=assumpt)
+        model = PySATSolver().solve(cnf, assumptions=assumpt)
         
         assert model == None, "Should be UNSAT"
             
@@ -156,7 +156,7 @@ class TestEncodingWithSimpleQueries:
                 
         assumpt =  convert_to_assumptions(to_set, mapping)
 
-        should_UNSAT = pysat_solver(cnf, set_variables=assumpt)
+        should_UNSAT = PySATSolver().solve(cnf, assumptions=assumpt)
         assert should_UNSAT == None, "Should be UNSAT, because the assumptions are inconsistent. \
             But it is SAT = wrong!!."            
 
@@ -180,5 +180,5 @@ class TestEncodingWithSimpleQueries:
                 
             assumpt = convert_to_assumptions(to_set, mapping)
 
-            should_UNSAT = pysat_solver(cnf, set_variables=assumpt)
+            should_UNSAT = PySATSolver().solve(cnf, assumptions=assumpt)
             assert should_UNSAT is None, f"Should be SAT, found a counterexample: {should_UNSAT}"

@@ -4,7 +4,8 @@ import json
 def set_dir() -> None:
     # Change path to directory of this file
     dirpath = os.path.dirname(os.path.abspath(__file__))
-    dirpath = os.path.join(dirpath, 'BNC_SDD')
+    srcpath = os.path.dirname(dirpath)
+    dirpath = os.path.join(srcpath, 'BNC_SDD')
     os.chdir(dirpath)
 
 def save_config(filename: str,

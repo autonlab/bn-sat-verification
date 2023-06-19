@@ -2,7 +2,7 @@ import argparse
 import json
 import os 
 import logging
-import adapter
+import utils.adapter as adapter
 
 def run_conversion(_json: dict) -> None:
     '''

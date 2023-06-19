@@ -6,13 +6,14 @@ import os
 import logging
 from collections import defaultdict
 
-from node import Node
+from utils.node import Node
 from odd_parser import read_obdd_from_file, draw_obdd
 from typing import Dict, List, Tuple
 from pysat.formula import CNF
-from pysat_solver import PySATSolver
+from verifications.pysat_solver import PySATSolver
+from utils.cnf_json_parser import save_cnf_to_json, read_cnf_from_json
 
-def exactly_one(literals: List[int]) -> List[List[int]]:
+def __exactly_one(literals: List[int]) -> List[List[int]]:
     '''
     Encodes that exactly one of the literals is true
     '''
@@ -139,7 +140,7 @@ def add_node_clauses(odd: Dict[int, Node]) -> Tuple[CNF, Dict, Dict]:
         
     for level in levels.values():
         literals = [mapping[v] for v in level]
-        exactly_one_encoding = exactly_one(literals)
+        exactly_one_encoding = __exactly_one(literals)
         for clause in exactly_one_encoding:
             cnf.append(clause)
     
@@ -158,44 +159,7 @@ def print_mapping(mapping: Dict) -> None:
     '''
     for key, value in mapping.items():
         logging.debug(f'{key:{" "}{"<"}{3}}: {value}')
-        
-def save_cnf_to_json(cnf: CNF, mapping_inv: Dict, mapping: Dict, path: str) -> None:
-    '''
-    Save the cnf formula and the mapping to a json file
-    '''
-    path = os.path.join(os.path.dirname(__file__), path)
-    
-    if not os.path.exists(os.path.dirname(path)):
-        os.makedirs(os.path.dirname(path))
-        
-    mapping_inv = {str(key): str(value) for key, value in mapping_inv.items()}
-    mapping = {str(key): str(value) for key, value in mapping.items()}
-    
-    with open(path, 'w') as f:
-        json.dump({
-            'cnf': cnf.clauses,
-            'mapping_inv': mapping_inv,
-            'mapping': mapping
-        }, f, indent=4)
-        
-def read_cnf_from_json(path: str) -> Tuple[CNF, Dict, Dict]:
-    '''
-    Read the cnf formula and the mapping from a json file
-    
-    Returns:
-        cnf: pysat CNF object
-        mapping_inv: mapping from variable index to variable name
-        mapping: mapping from variable name to variable index (in CNF)
-    '''
-    path = os.path.join(os.path.dirname(__file__), path)
-    
-    with open(path, 'r') as f:
-        data = json.load(f)
-        
-    cnf = CNF()
-    cnf.clauses = data['cnf']
-    
-    return cnf, data['mapping_inv'], data['mapping']
+
 
 if __name__ == '__main__':
     # -------------------------------
@@ -259,5 +223,5 @@ if __name__ == '__main__':
     should_SAT = PySATSolver().solve(_cnf, assumptions=[])
     assert should_SAT, "Should be SAT"
     
-    should_UNSSAT = PySATSolver().solve(_cnf, assumptions=[1, 13])
+    should_UNSSAT = PySATSolver().solve(_cnf, assumptions=[1, 9])
     assert not should_UNSSAT, "Should be UNSAT"
