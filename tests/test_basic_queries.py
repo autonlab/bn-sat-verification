@@ -15,8 +15,7 @@ sys.path.insert(0, src_path)
 from typing import Dict, List, Tuple
 from pysat.formula import CNF
 
-from src.tseitin_encoding import add_node_clauses, read_cnf_from_json
-from src.odd_parser import read_obdd_from_file
+from src.utils.cnf_json_parser import read_cnf_from_json
 from src.verifications.pysat_solver import PySATSolver
 
 logging.basicConfig(level=logging.DEBUG)
@@ -30,7 +29,7 @@ def get_data() -> Tuple[CNF, Dict, Dict]:
         A tuple of the CNF, a mapping from variable names to integers for the SAT solver, 
         and a mapping from integers to variable names for the SAT solver
     '''
-    cnf, mapping_inverse, mapping = read_cnf_from_json(
+    cnf, mapping_inverse, mapping, _ = read_cnf_from_json(
         os.path.join(os.getcwd(), 
                      "cnf_files/test_diagram.json")
         )
