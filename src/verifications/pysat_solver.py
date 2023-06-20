@@ -7,19 +7,21 @@ from verifications.solver_class import SATSolver
 
 class PySATSolver(SATSolver):
     
-    @staticmethod
-    def solve(cnf: CNF, solver: Solver = Glucose3(), assumptions: List[int] = []) -> List[int] | None:
+    def solve(self, cnf: CNF, solver: Solver = None, assumptions: List[int] = []) -> List[int] | None:
         '''
         Solve the given cnf formula with the given solver using pysat library.
         
         Args:
             cnf: The cnf formula to be solved.
-            assumptions: The variables to be set to true.
-            solver: The solver to be used.
+            solver: The solver to be used. By default, Glucose3 is used.
+            assumptions: The variables to be set to true. By default, no assumptions are made.
         
         Returns:
             The model if the formula is satisfiable, None otherwise.
         '''
+        if solver is None:
+            solver = Glucose3()
+        
         # Add cnf formula to solver
         solver.append_formula(cnf)
 

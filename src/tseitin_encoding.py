@@ -66,12 +66,13 @@ class TseitinEncoder(Encoder):
             
             if not terminal_node:
                 for j, v_child_index in enumerate(v_i.edges): # For all edges of the node v_i
+                    print(f'v_i: {v_i.index}, v_child_index: {v_child_index}')
                     v_child = odd[v_child_index] # Node at level i+1, to which the edge j of v_i leads to
                     add_to_mapping(v_child) # Add to mapping (if not already there)
                     
                     all_outgoing_edges.append(v_child) # Add to list of outgoing edges for T1 purpose
                     
-                    epsilon = f'edge_{v_i.index}_{v_child.index}' # Name of the edge variable
+                    epsilon = f'edge_{v_i.index}_{v_child.index}_({j})' # Name of the edge variable
                     add_to_mapping(epsilon) # Add to mapping (if not already there)
                     incoming_edges_map[v_child.index].append(epsilon) # Add to incoming edges map
                     
