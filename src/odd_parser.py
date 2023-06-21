@@ -55,7 +55,8 @@ def draw_obdd(node_dict: Dict[int, Node]) -> None:
     labeldict = {k:v.variable_name for k,v in node_dict.items()}
     max_level = max([v.variable_index for _,v in node_dict.items()])
 
-    for key in sorted(node_dict, reverse=True):
+    for key in sorted(node_dict, reverse=False):
+        
         # Set the y position/level of the nodes
         level = node_dict[key].variable_index
         if level == -999:
@@ -79,7 +80,7 @@ def draw_obdd(node_dict: Dict[int, Node]) -> None:
         if node_dict[key].edges:
             for i, edge in enumerate(node_dict[key].edges):
                 G.add_edge(node_dict[key].index, edge, 
-                           label=f'{node_dict[key].variable_name}_{i}th value')
+                           label=f'{node_dict[key].variable_name}_{i}')
                 
     pos = nx.multipartite_layout(G, subset_key="level", align='horizontal')
 
@@ -88,14 +89,14 @@ def draw_obdd(node_dict: Dict[int, Node]) -> None:
             pos=pos, 
             with_labels=True, 
             labels=labeldict, 
-            node_size=900, 
-            font_size=9, 
+            node_size=2000, 
+            font_size=10, 
             node_color=[G.nodes[n]['color'] for n in G.nodes]
             )
     nx.draw_networkx_edge_labels(G, 
                                  pos=pos, 
                                  edge_labels=nx.get_edge_attributes(G, 'label'), 
-                                 font_size=7)
+                                 font_size=8.5)
     plt.show()
 
 
