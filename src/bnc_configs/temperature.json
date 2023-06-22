@@ -1,0 +1,12 @@
+{
+    "id": "1",
+    "name": "temperature",
+    "filetype": "net",
+    "vars": 2,
+    "root": "Temperature",
+    "leaves": [],
+    "threshold": 0.5,
+    "input_filepath": "../bnc_networks/",
+    "output_filepath": "../odd_models/test/"
+  }
+  
