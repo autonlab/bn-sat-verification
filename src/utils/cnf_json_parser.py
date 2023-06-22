@@ -29,8 +29,6 @@ def save_cnf_to_json(path: str, **kwargs) -> None:
     to_save['map'] = mapping
     to_save['map_names_vars'] = {str(key): list(value) for key, value in kwargs['map_names_vars'].items()}
     
-    print(to_save)
-    
     with open(path, 'w') as f:
         json.dump(to_save, f, indent=2)
         

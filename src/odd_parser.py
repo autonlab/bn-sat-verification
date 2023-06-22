@@ -55,7 +55,7 @@ def draw_obdd(node_dict: Dict[int, Node]) -> None:
     labeldict = {k:v.variable_name for k,v in node_dict.items()}
     max_level = max([v.variable_index for _,v in node_dict.items()])
 
-    for key in sorted(node_dict, reverse=False):
+    for key in sorted(node_dict, reverse=True):
         
         # Set the y position/level of the nodes
         level = node_dict[key].variable_index
