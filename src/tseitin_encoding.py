@@ -63,17 +63,21 @@ class TseitinEncoder(Encoder):
                 # False leaf node, add clause that it is false
                 self.cnf.append([-self.mapping[v_i]])
                 terminal_node = True
+            if i == 1:
+                # Root node, add clause that it is true
+                self.cnf.append([self.mapping[v_i]])
             
             if not terminal_node:
                 for j, v_child_index in enumerate(v_i.edges): # For all edges of the node v_i
-                    print(f'v_i: {v_i.index}, v_child_index: {v_child_index}')
+                    
                     v_child = odd[v_child_index] # Node at level i+1, to which the edge j of v_i leads to
                     add_to_mapping(v_child) # Add to mapping (if not already there)
                     
-                    all_outgoing_edges.append(v_child) # Add to list of outgoing edges for T1 purpose
                     
-                    epsilon = f'edge_{v_i.index}_{v_child.index}_({j})' # Name of the edge variable
+                    epsilon = f'edge_{v_i.index}_{v_child.index}_({i}_{j})' # Name of the edge variable
                     add_to_mapping(epsilon) # Add to mapping (if not already there)
+                    
+                    all_outgoing_edges.append(epsilon) # Add to list of outgoing edges for T1 purpose
                     incoming_edges_map[v_child.index].append(epsilon) # Add to incoming edges map
                     
                     x_i = f'x_{v_i.variable_index} = {j}th value' # Name of the variable that represents the value of the node v_i = j
@@ -94,27 +98,27 @@ class TseitinEncoder(Encoder):
                     self.cnf.append([-self.mapping[epsilon], self.mapping[x_i]])
                     
                     # T5: v_child and x_i = j -> epsilon
-                    # TODO: Make sure that this is correct
-                    # For now I added to the left side that parent node is also true
-                    # Otherwise levels that have more than one node will not work!!!
-                    self.cnf.append([-self.mapping[v_child], -self.mapping[x_i], -self.mapping[v_i], self.mapping[epsilon]])
+                    self.cnf.append([-self.mapping[v_child], -self.mapping[x_i], self.mapping[epsilon]])
                     
                     # P1: v_i and x_ji -> epsilon
                     self.cnf.append([-self.mapping[v_i], -self.mapping[x_i], self.mapping[epsilon]])
                     
                 # T1: v_i -> V_j epsilon_j
                 self.cnf.append([-self.mapping[v_i]] + [self.mapping[epsilon] for epsilon in all_outgoing_edges])
-                
-            # P2: v_i -> exists epsilon_(i-1)_i \ where i != 1 (i.e. not root node)
+        
+        
+        # P2: v_i -> exists epsilon_(i-1)_i \ where i != 1 (i.e. not root node)
+        for i in sorted(odd.keys()):
+            v_i = odd[i]
             if i != 1:
-                #logging.debug('INCOMING EDGES:', incoming_edges_map[v_i.index])
-                self.cnf.append([-self.mapping[v_i]] + [self.mapping[inc_edge] for inc_edge in incoming_edges_map[v_i.index]])
+                logging.debug(f'Adding P2 for node {v_i.variable_name}: {[-self.mapping[v_i]] + [self.mapping[inc_edge] for inc_edge in incoming_edges_map[v_i.index]]}')
+                self.cnf.append([-self.mapping[v_i]] + [self.mapping[inc_edge] for inc_edge in incoming_edges_map[v_i.index]])    
         
         # P3: x_ij -> epsilon_i_j
         for x, epsilons in variable_values_edges_map.items():
             self.cnf.append([-self.mapping[x]] + [self.mapping[epsilon] for epsilon in epsilons])
             
-        # P4: ExactlyOne(v for v in odd_nodes_on_level_i)
+        # # P4: ExactlyOne(v for v in odd_nodes_on_level_i)
         levels = defaultdict(list)
         for i in sorted(odd.keys()):
             levels[odd[i].variable_index].append(odd[i])
@@ -134,15 +138,19 @@ if __name__ == '__main__':
     
     parser.add_argument('--odd', type=str, help='Path to the ODD file')
     parser.add_argument('--cnf', type=str, help='Path to the CNF file')
-    parser.add_argument('--verbose', action='store_true', help='Print debug messages')
+    parser.add_argument('--verbose', action='store_true', help='Print info messages')
+    parser.add_argument('--debug', action='store_true', help='Print debug messages')
     
     odd_path = parser.parse_args().odd
     cnf_path = parser.parse_args().cnf
     verbose = parser.parse_args().verbose
+    debug = parser.parse_args().debug
     
     # Set logging level
-    if verbose:
+    if debug:
         logging.basicConfig(level=logging.DEBUG)
+    elif verbose:
+        logging.basicConfig(level=logging.INFO)
     else:
         logging.basicConfig(level=logging.WARNING)
     
@@ -167,6 +175,13 @@ if __name__ == '__main__':
     
     should_SAT = PySATSolver().solve(_cnf, assumptions=[])
     assert should_SAT, "Should be SAT"
+    
+    logging.debug('----SAT MODEL--'*10)
+    s = ''
+    for i in should_SAT:
+        if i > 0:
+            s += f'{i}: {_map_inv[i]}, \n'
+    logging.info(f'Variables set to TRUE in the model: \n{s}')
     
     should_UNSSAT = PySATSolver().solve(_cnf, assumptions=[1, 9])
     assert not should_UNSSAT, "Should be UNSAT"
