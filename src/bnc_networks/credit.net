@@ -1,0 +1,111 @@
+net
+{
+}
+node PaymentHistory
+{
+states = ( "Excellent" "Aceptable" "NoAceptable" "Without_Reference" );
+}
+node WorkHistory
+{
+states = ( "Stable" "Unstable" "Justified_no_work" "Unjustified_no_work" );
+}
+node Reliability
+{
+states = ( "Reliable" "Unreliable" );
+}
+node Debit
+{
+states = ( "interval1" "interval2" "interval3" );
+}
+node Income
+{
+states = ( "interval1" "interval2" "interval3" );
+}
+node RatioDebInc
+{
+states = ( "Favorable" "Unfavorable" );
+}
+node Assets
+{
+states = ( "wealthy" "average" "poor" );
+}
+node Worth
+{
+states = ( "High" "Medium" "Low" );
+}
+node Profession
+{
+states = ( "High_income_profession" "Medium_income_profession" "Low_income_profession" );
+}
+node FutureIncome
+{
+states = ( "Promissing" "Not_promissing" );
+}
+node Age
+{
+states = ( "interval1" "interval2" "interval3" );
+}
+node CreditWorthiness
+{
+states = ( "Positive" "Negative" );
+}
+potential ( PaymentHistory |  )
+{
+data = (
+(0.25 0.25 0.25 0.25)) ;
+}
+potential ( WorkHistory |  )
+{
+data = (
+(0.25 0.25 0.25 0.25)) ;
+}
+potential ( Reliability | PaymentHistory WorkHistory )
+{
+data = (
+(((0.99 0.01)(0.7 0.3)(0.7 0.3)(0.5 0.5))((0.7 0.3)(0.55 0.45)(0.6 0.4)(0.4 0.6))((0.196429 0.803571)(0.01 0.99)(0.1 0.9)(0.01 0.99))((0.7 0.3)(0.3 0.7)(0.5 0.5)(0.2 0.8)))) ;
+}
+potential ( Debit |  )
+{
+data = (
+(0.3333333333333333 0.3333333333333333 0.3333333333333334)) ;
+}
+potential ( Income |  )
+{
+data = (
+(0.3333333333333333 0.3333333333333333 0.3333333333333334)) ;
+}
+potential ( RatioDebInc | Debit Income )
+{
+data = (
+(((0.5 0.5)(0.8 0.2)(0.999 0.001))((0.001 0.999)(0.5 0.5)(0.8 0.2))((0.001 0.999)(0.1 0.9)(0.5 0.5)))) ;
+}
+potential ( Assets |  )
+{
+data = (
+(0.333333 0.333333 0.333333)) ;
+}
+potential ( Worth | Income Assets )
+{
+data = (
+(((0.899 0.1 0.001)(0.001 0.3 0.699)(0.001 0.1 0.899))((0.989 0.01 0.001)(0.699 0.3 0.001)(0.1 0.8 0.1))((0.989 0.01 0.001)(0.90734 0.091743 0.0009170000000000001)(0.69 0.3 0.01)))) ;
+}
+potential ( Profession |  )
+{
+data = (
+(0.333333 0.333333 0.333333)) ;
+}
+potential ( FutureIncome | Worth Profession )
+{
+data = (
+(((0.99 0.01)(0.8 0.2)(0.6 0.4))((0.85 0.15)(0.6 0.4)(0.4 0.6))((0.8 0.2)(0.4 0.6)(0.01 0.99)))) ;
+}
+potential ( Age |  )
+{
+data = (
+(0.3333333333333333 0.3333333333333333 0.3333333333333334)) ;
+}
+potential ( CreditWorthiness | Reliability RatioDebInc FutureIncome Age )
+{
+data = (
+(((((0.9 0.1)(0.908257 0.091743)(0.8 0.2))((0.7 0.3)(0.8 0.2)(0.6 0.4)))(((0.7 0.3)(0.727273 0.272727)(0.7 0.3))((0.25 0.75)(0.4 0.6)(0.25 0.75))))((((0.7 0.3)(0.8 0.2)(0.5 0.5))((0.3 0.7)(0.4 0.6)(0.2 0.8)))(((0.5 0.5)(0.5 0.5)(0.4 0.6))((0.001 0.999)(0.001 0.999)(0.001 0.999)))))) ;
+}

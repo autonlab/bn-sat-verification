@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This network was created in GeNIe Academic, which can be used for academic teaching and research purposes only -->
+<smile version="1.0" id="Network1" numsamples="10000" discsamples="10000">
+	<nodes>
+		<cpt id="Community_transmission">
+			<state id="None" />
+			<state id="ATAGI_Low" />
+			<state id="ATAGI_Med" />
+			<state id="ATAGI_High" />
+			<state id="One_percent" />
+			<state id="Two_percent" />
+			<state id="NSW_200_daily" />
+			<state id="NSW_1000_daily" />
+			<state id="VIC_1000_daily" />
+			<state id="QLD_1000_daily" />
+			<probabilities>0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1</probabilities>
+		</cpt>
+		<cpt id="Sex">
+			<state id="Male" />
+			<state id="Female" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="AZ">
+			<state id="None" />
+			<state id="One" />
+			<state id="Two" />
+			<probabilities>0.3 0.35 0.35</probabilities>
+		</cpt>
+		<cpt id="Variant">
+			<state id="Alpha_Wild" />
+			<state id="Delta" />
+			<probabilities>0.05 0.95</probabilities>
+		</cpt>
+		<cpt id="Vac_effectiveness_infection">
+			<state id="Effective" />
+			<state id="Not_effective" />
+			<parents>Variant AZ</parents>
+			<probabilities>0 1 0.6 0.4 0.8 0.2 0 1 0.33 0.6699999999999999 0.61 0.39</probabilities>
+		</cpt>
+		<cpt id="Age">
+			<state id="age_0_9" />
+			<state id="age_10_19" />
+			<state id="age_20_29" />
+			<state id="Age_30_39" />
+			<state id="age_40_49" />
+			<state id="age_50_59" />
+			<state id="age_60_69" />
+			<state id="age_70plus" />
+			<probabilities>0.12387612 0.11988012 0.14085914 0.14585415 0.12787213 0.12187812 0.1048951 0.11488511</probabilities>
+		</cpt>
+		<cpt id="Infection_at_10percent">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Variant Age</parents>
+			<probabilities>0.0416611 0.9583389 0.0702759 0.9297241000000001 0.1589055 0.8410945 0.1212599 0.8787401 0.1005435 0.8994565 0.0977633 0.9022367 0.0812794 0.9187206 0.1126984 0.8873016 0.09182883999999999 0.90817116 0.1423347 0.8576653 0.15400685 0.84599315 0.11311761 0.88688239 0.09119044 0.90880956 0.09033165999999999 0.90966834 0.05484361 0.94515639 0.04305606 0.95694394</probabilities>
+		</cpt>
+		<cpt id="Vac_effectiveness_Death">
+			<state id="Effective" />
+			<state id="Not_effective" />
+			<parents>Variant AZ</parents>
+			<probabilities>0 1 0.8 0.2 0.95 0.05 0 1 0.6899999999999999 0.31 0.9 0.1</probabilities>
+		</cpt>
+		<cpt id="Infection_at_current_transmission">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Infection_at_10percent Vac_effectiveness_infection Community_transmission</parents>
+			<probabilities>0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0.00471 0.99529 0.04469 0.95531 0.5759 0.4241 0.1 0.9 0.2 0.8 0.04455 0.95545 0.22276 0.7772399999999999 0.27289 0.7271099999999999 0.35067 0.64933 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1</probabilities>
+		</cpt>
+		<cpt id="Die_from_Covid">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Infection_at_current_transmission Vac_effectiveness_Death Sex Age</parents>
+			<probabilities>0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0.00030321 0.99969679 0.00032457 0.99967543 0.00080402 0.99919598 0.00086505 0.99913495 0.00374787 0.99625213 0.01879699 0.98120301 0.21743389 0.78256611 0 1 0 1 0 1 0.00044336 0.99955664 0.00062933 0.99937067 0.00285919 0.99714081 0.008069160000000001 0.99193084 0.1910828 0.8089172 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1</probabilities>
+		</cpt>
+		<cpt id="CSVT">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Age</parents>
+			<probabilities>3.8e-07 0.99999962 3.8e-07 0.99999962 6.4e-07 0.99999936 6.4e-07 0.99999936 6.4e-07 0.99999936 7.5e-07 0.99999925 7.5e-07 0.99999925 7.3e-07 0.99999927</probabilities>
+		</cpt>
+		<cpt id="TTS_AZ">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>AZ Age</parents>
+			<probabilities>0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 2.5e-05 0.9999749999999999 2.5e-05 0.9999749999999999 2.5e-05 0.9999749999999999 2.5e-05 0.9999749999999999 2.5e-05 0.9999749999999999 2.7e-05 0.999973 1.6e-05 0.999984 1.85e-05 0.9999815 1.8e-06 0.9999981999999999 1.8e-06 0.9999981999999999 1.8e-06 0.9999981999999999 1.8e-06 0.9999981999999999 1.8e-06 0.9999981999999999 1.8e-06 0.9999981999999999 1.8e-06 0.9999981999999999 1.8e-06 0.9999981999999999</probabilities>
+		</cpt>
+		<cpt id="Die_from_TTS_AZ">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>TTS_AZ</parents>
+			<probabilities>0.05 0.95 0 1</probabilities>
+		</cpt>
+		<cpt id="PVT_Covid">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Infection_at_current_transmission Sex</parents>
+			<probabilities>0.000482596 0.999517404 0.000318407 0.999681593 0 1 0 1</probabilities>
+		</cpt>
+		<cpt id="PVT">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Age</parents>
+			<probabilities>0 1 0 1 2e-07 0.9999998 2.6e-07 0.99999974 5.6e-07 0.99999944 9.1e-07 0.99999909 1.76e-06 0.99999824 1.96e-06 0.99999804</probabilities>
+		</cpt>
+		<cpt id="Die_from_PVT">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>PVT</parents>
+			<probabilities>0.27 0.73 0 1</probabilities>
+		</cpt>
+		<cpt id="Die_from_CSVT">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>CSVT</parents>
+			<probabilities>0.07000000000000001 0.93 0 1</probabilities>
+		</cpt>
+		<cpt id="CSVT_Covid">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Infection_at_current_transmission Sex</parents>
+			<probabilities>2.88732e-05 0.9999711268 5.41969e-05 0.9999458031 0 1 0 1</probabilities>
+		</cpt>
+		<cpt id="Die_from_CSVT_Covid">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>CSVT_Covid</parents>
+			<probabilities>0.174 0.826 0 1</probabilities>
+		</cpt>
+		<cpt id="Die_from_PVT_Covid">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>PVT_Covid</parents>
+			<probabilities>0.199 0.801 0 1</probabilities>
+		</cpt>
+		<cpt id="Input">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Intermediate">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Outcome">
+			<state id="State0" />
+			<state id="State1" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 4.0.2919.0 ACADEMIC" name="Network1">
+			<node id="Infection_at_10percent">
+				<name>Risk of symptomatic infection by age and variant (if overall risk 10%) (n11)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>778 149 927 267</position>
+				<barchart active="true" width="223" height="96" />
+			</node>
+			<node id="Die_from_Covid">
+				<name>Die from COVID-19 (n18)</name>
+				<interior color="ebd7ff" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>701 672 757 707</position>
+				<barchart active="true" width="179" height="76" />
+			</node>
+			<node id="Sex">
+				<name>Sex (n5)</name>
+				<interior color="ffcc99" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>1145 357 1197 389</position>
+				<barchart active="true" width="120" height="57" />
+			</node>
+			<node id="Vac_effectiveness_infection">
+				<name>Vaccine effectiveness against symptomatic infection (n9)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>597 253 653 288</position>
+				<barchart active="true" width="179" height="93" />
+			</node>
+			<node id="Vac_effectiveness_Death">
+				<name>Vaccine effectiveness against death if infected (n10)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>699 443 755 478</position>
+				<barchart active="true" width="179" height="93" />
+			</node>
+			<node id="Community_transmission">
+				<name>Intensity of community transmission - x% over 6 months (n4)</name>
+				<interior color="ffcc99" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>1092 140 1140 170</position>
+				<barchart active="true" width="230" height="236" />
+			</node>
+			<node id="Infection_at_current_transmission">
+				<name>Risk of symptomatic infection under current transmission and vaccination status (n12)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>861 330 1014 413</position>
+				<barchart active="true" width="200" height="93" />
+			</node>
+			<node id="Age">
+				<name>Age distribution of population (n2)</name>
+				<interior color="ffcc99" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>349 109 401 141</position>
+				<barchart active="true" width="163" height="192" />
+			</node>
+			<node id="Variant">
+				<name>SARS CoV-2 variant (n3)</name>
+				<interior color="ffcc99" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>706 43 754 73</position>
+				<barchart active="true" width="182" height="57" />
+			</node>
+			<node id="AZ">
+				<name>AZ vaccine doses (n1)</name>
+				<interior color="ffcc99" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>69 256 125 291</position>
+				<barchart active="true" width="154" height="76" />
+			</node>
+			<node id="CSVT">
+				<name>Background CSVT over 6 weeks (n7)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>284 454 340 489</position>
+				<barchart active="true" width="179" height="79" />
+			</node>
+			<node id="Die_from_TTS_AZ">
+				<name>Die from vaccine-associated TTS (n15)</name>
+				<interior color="ebd7ff" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>67 765 123 800</position>
+				<barchart active="true" width="179" height="79" />
+			</node>
+			<node id="PVT_Covid">
+				<name>COVID-19 associated PVT (n14)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>1113 672 1169 707</position>
+				<barchart active="true" width="179" height="76" />
+			</node>
+			<node id="TTS_AZ">
+				<name>Vaccine-associated TTS (n6)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>70 561 126 596</position>
+				<barchart active="true" width="179" height="79" />
+			</node>
+			<node id="PVT">
+				<name>Background PVT over 6 weeks (n8)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>488 561 544 596</position>
+				<barchart active="true" width="179" height="79" />
+			</node>
+			<node id="Die_from_PVT">
+				<name>Die from background PVT (n17)</name>
+				<interior color="ebd7ff" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>488 765 544 800</position>
+				<barchart active="true" width="179" height="79" />
+			</node>
+			<node id="Die_from_CSVT">
+				<name>Die from background CSVT (n16)</name>
+				<interior color="ebd7ff" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>282 673 338 708</position>
+				<barchart active="true" width="179" height="79" />
+			</node>
+			<node id="CSVT_Covid">
+				<name>COVID-19 associated CSVT (n13)</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>910 672 966 707</position>
+				<barchart active="true" width="179" height="76" />
+			</node>
+			<node id="Die_from_CSVT_Covid">
+				<name>Die from COVID-19 associated CSVT (n19)</name>
+				<interior color="ebd7ff" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>912 849 968 884</position>
+				<barchart active="true" width="179" height="76" />
+			</node>
+			<node id="Die_from_PVT_Covid">
+				<name>Die from COVID-19 associated PVT (n20)</name>
+				<interior color="ebd7ff" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>1113 849 1169 884</position>
+				<barchart active="true" width="179" height="76" />
+			</node>
+			<node id="Input">
+				<name>Input</name>
+				<interior color="ffcc99" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>847 1082 909 1134</position>
+			</node>
+			<node id="Intermediate">
+				<name>Intermediate</name>
+				<interior color="faf99d" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>924 1082 1018 1134</position>
+			</node>
+			<node id="Outcome">
+				<name>Outcome</name>
+				<interior color="ebd7ff" />
+				<outline color="000000" />
+				<font color="000000" name="Calibri" size="10" />
+				<position>1028 1082 1103 1134</position>
+			</node>
+			<textbox>
+				<caption>CoRiCal\n AstraZeneca Model\n</caption>
+				<font color="800000" name="Calibri" size="24" bold="true" align="center" />
+				<position>54 30 257 141</position>
+			</textbox>
+			<textbox>
+				<caption>This model is part of work that can be found in the following publications:\n\nMayfield, H. J., Lau, C. L., Sinclair, J. E., Brown, S. J., Baird, A., Litt, J., Vuorinen, A., Short, K. R., Waller, M., &amp; Mengersen, K. (2022). Designing an evidence-based Bayesian network for estimating the risk versus benefits of AstraZeneca COVID-19 vaccine. Vaccine, 40(22), 3072–3084. https://doi.org/10.1016/j.vaccine.2022.04.004\n\nLau, C. L., Mayfield, H. J., Sinclair, J. E., Brown, S. J., Waller, M., Enjeti, A. K., Baird, A., Short, K. R., Mengersen, K., &amp; Litt, J. (2021). Risk-benefit analysis of the AstraZeneca COVID-19 vaccine in Australia using a Bayesian network modelling framework. Vaccine, 39(51), 7429–7440. https://doi.org/10.1016/j.vaccine.2021.10.079\n\nThis model is used in calculations for the CoRiCal (Covid Risk Calculator) project, which can be found at: corical.immunisationcoalition.org.au. \n\nCollaborating Institutions: The University of Queensland, Flinders University, Queensland University of Technology, The University of Sydney and The immunisation Coalition. </caption>
+				<font color="000000" name="Arial" size="12" bold="true" />
+				<position>7 832 800 1155</position>
+			</textbox>
+			<arcformat parent="Variant" child="Vac_effectiveness_infection" width="1" color="000000" />
+			<arcformat parent="AZ" child="Vac_effectiveness_infection" width="1" color="000000" />
+			<arcformat parent="Variant" child="Infection_at_10percent" width="1" color="000000" />
+			<arcformat parent="Age" child="Infection_at_10percent" width="1" color="000000" />
+			<arcformat parent="Variant" child="Vac_effectiveness_Death" width="1" color="000000" />
+			<arcformat parent="AZ" child="Vac_effectiveness_Death" width="1" color="000000" />
+			<arcformat parent="Infection_at_10percent" child="Infection_at_current_transmission" width="1" color="000000" />
+			<arcformat parent="Vac_effectiveness_infection" child="Infection_at_current_transmission" width="1" color="000000" />
+			<arcformat parent="Community_transmission" child="Infection_at_current_transmission" width="1" color="000000" />
+			<arcformat parent="Infection_at_current_transmission" child="Die_from_Covid" width="1" color="000000" />
+			<arcformat parent="Vac_effectiveness_Death" child="Die_from_Covid" width="1" color="000000" />
+			<arcformat parent="Sex" child="Die_from_Covid" width="1" color="000000" />
+			<arcformat parent="Age" child="Die_from_Covid" width="1" color="000000" />
+			<arcformat parent="Age" child="CSVT" width="1" color="000000" />
+			<arcformat parent="AZ" child="TTS_AZ" width="1" color="000000" />
+			<arcformat parent="Age" child="TTS_AZ" width="1" color="000000" />
+			<arcformat parent="TTS_AZ" child="Die_from_TTS_AZ" width="1" color="000000" />
+			<arcformat parent="Infection_at_current_transmission" child="PVT_Covid" width="1" color="000000" />
+			<arcformat parent="Sex" child="PVT_Covid" width="1" color="000000" />
+			<arcformat parent="Age" child="PVT" width="1" color="000000" />
+			<arcformat parent="PVT" child="Die_from_PVT" width="1" color="000000" />
+			<arcformat parent="CSVT" child="Die_from_CSVT" width="1" color="000000" />
+			<arcformat parent="Infection_at_current_transmission" child="CSVT_Covid" width="1" color="000000" />
+			<arcformat parent="Sex" child="CSVT_Covid" width="1" color="000000" />
+			<arcformat parent="CSVT_Covid" child="Die_from_CSVT_Covid" width="1" color="000000" />
+			<arcformat parent="PVT_Covid" child="Die_from_PVT_Covid" width="1" color="000000" />
+		</genie>
+	</extensions>
+</smile>
