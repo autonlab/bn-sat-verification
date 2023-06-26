@@ -1,0 +1,11 @@
+  {
+    "id": "0",
+    "name": "win95pts",
+    "filetype": "net",
+    "vars": 16,
+    "root": "PTROFFLINE",
+    "leaves": [],
+    "threshold": 0.5,
+    "input_filepath": "../bnc_networks/",
+    "output_filepath": "../odd_models/weather/"
+  }

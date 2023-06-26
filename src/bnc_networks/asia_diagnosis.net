@@ -1,0 +1,75 @@
+net
+{
+}
+node VisitToAsia
+{
+states = ( "NoVisit" "Visit" );
+}
+node Tuberculosis
+{
+states = ( "Absent" "Present" );
+}
+node Smoking
+{
+states = ( "NonSmoker" "Smoker" );
+}
+node LungCancer
+{
+states = ( "Absent" "Present" );
+}
+node TbOrCa
+{
+states = ( "Nothing" "CancerORTuberculosis" );
+}
+node XRay
+{
+states = ( "Normal" "Abnormal" );
+}
+node Bronchitis
+{
+states = ( "Absent" "Present" );
+}
+node Dyspnea
+{
+states = ( "Absent" "Present" );
+}
+potential ( VisitToAsia |  )
+{
+data = (
+(0.99 0.01)) ;
+}
+potential ( Tuberculosis | VisitToAsia )
+{
+data = (
+((0.99 0.01)(0.95 0.05))) ;
+}
+potential ( Smoking |  )
+{
+data = (
+(0.5 0.5)) ;
+}
+potential ( LungCancer | Smoking )
+{
+data = (
+((0.99 0.01)(0.9 0.1))) ;
+}
+potential ( TbOrCa | Tuberculosis LungCancer )
+{
+data = (
+(((1.0 0.0)(0.0 1.0))((0.0 1.0)(0.0 1.0)))) ;
+}
+potential ( XRay | TbOrCa )
+{
+data = (
+((0.95 0.05)(0.02 0.98))) ;
+}
+potential ( Bronchitis | Smoking )
+{
+data = (
+((0.7 0.3)(0.4 0.6))) ;
+}
+potential ( Dyspnea | TbOrCa Bronchitis )
+{
+data = (
+(((0.9 0.1)(0.2 0.8))((0.3 0.7)(0.1 0.9)))) ;
+}
