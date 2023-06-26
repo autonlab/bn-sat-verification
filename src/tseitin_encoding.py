@@ -97,8 +97,6 @@ class TseitinEncoder(Encoder):
                     # T4: epsilon -> x_i = j
                     self.cnf.append([-self.mapping[epsilon], self.mapping[x_i]])
                     
-                    # T5: v_child and x_i = j -> epsilon
-                    self.cnf.append([-self.mapping[v_child], -self.mapping[x_i], self.mapping[epsilon]])
                     
                     # P1: v_i and x_ji -> epsilon
                     self.cnf.append([-self.mapping[v_i], -self.mapping[x_i], self.mapping[epsilon]])
@@ -118,6 +116,16 @@ class TseitinEncoder(Encoder):
         for x, epsilons in variable_values_edges_map.items():
             self.cnf.append([-self.mapping[x]] + [self.mapping[epsilon] for epsilon in epsilons])
             
+        
+        for i in sorted(odd.keys()): # For all nodes in the ODD
+            v_i  = odd[i]
+            if v_i.edges:
+                for j, v_child_index in enumerate(v_i.edges):
+                    # T5: v_child and x_i = j -> epsilon
+                    x_i = f'x_{v_i.variable_index} = {j}th value' 
+                    v_child = odd[v_child_index]
+                    self.cnf.append([-self.mapping[v_child], -self.mapping[x_i]] + [self.mapping[epsilon] for epsilon in incoming_edges_map[v_child.index]])
+        
         # # P4: ExactlyOne(v for v in odd_nodes_on_level_i)
         levels = defaultdict(list)
         for i in sorted(odd.keys()):
@@ -175,6 +183,7 @@ if __name__ == '__main__':
     
     should_SAT = PySATSolver().solve(_cnf, assumptions=[])
     assert should_SAT, "Should be SAT"
+    logging.info('SAT for empty assumptions')
     
     logging.debug('----SAT MODEL--'*10)
     s = ''
@@ -183,5 +192,6 @@ if __name__ == '__main__':
             s += f'{i}: {_map_inv[i]}, \n'
     logging.info(f'Variables set to TRUE in the model: \n{s}')
     
-    should_UNSSAT = PySATSolver().solve(_cnf, assumptions=[1, 9])
+    should_UNSSAT = PySATSolver().solve(_cnf, assumptions=[-1])
     assert not should_UNSSAT, "Should be UNSAT"
+    logging.info('UNSAT for assumption where root node is false')

@@ -1,0 +1,12 @@
+{
+    "id": "1",
+    "name": "credit",
+    "filetype": "net",
+    "vars": 8,
+    "root": "CreditWorthiness",
+    "leaves": [],
+    "threshold": 0.5,
+    "input_filepath": "../bnc_networks/",
+    "output_filepath": "../odd_models/credit/"
+  }
+  
