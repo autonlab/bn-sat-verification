@@ -83,18 +83,18 @@ class VerificationCaseBinaryMonotonicity(VerificationCase):
             verification_task_cnf = CNF(from_clauses=verification_clauses + formula_1 + formula_2)
             
             # Solve the verification task.
-            sat_model = sat_solver.solve(cnf=verification_task_cnf)
+            self.sat_model = sat_solver.solve(cnf=verification_task_cnf)
             
             # UNSAT means that the model is monotonic.
-            if sat_model is None:
+            if self.sat_model is None:
                 logging.info(f'Verification case #{self.name} is UNSAT.')
-                logging.info(f'Verification case #{self.name} model: {sat_model}')
+                logging.info(f'Verification case #{self.name} model: {self.sat_model}')
                 self.set_result(True)
                 return True
             # SAT means that the model is not monotonic.
             else:
                 logging.info(f'Verification case #{self.name} is SAT.')
-                logging.info(f'Verification case #{self.name} model: {sat_model}')
+                logging.info(f'Verification case #{self.name} model: {self.sat_model}')
                 self.set_result(False)
                 return False
             

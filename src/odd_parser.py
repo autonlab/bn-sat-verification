@@ -1,10 +1,9 @@
-import networkx as nx
-import matplotlib.pyplot as plt
 import argparse
 import os
 import logging
 
 from typing import Tuple, Dict, List
+from utils.draw_diagram import draw_obdd
         
 from utils.node import Node    
 
@@ -47,57 +46,6 @@ def prettyprint_dict(node_dict: Dict[int, Node]) -> None:
     '''Prints out the dictionary of nodes in a pretty format'''
     for key in sorted(node_dict):
         logging.debug(node_dict[key])
-    
-
-def draw_obdd(node_dict: Dict[int, Node]) -> None:
-    '''Draws the OBDD using networkx. The nodes are labeled with their variable names'''
-    G = nx.DiGraph()
-    labeldict = {k:v.variable_name for k,v in node_dict.items()}
-    max_level = max([v.variable_index for _,v in node_dict.items()])
-
-    for key in sorted(node_dict, reverse=True):
-        
-        # Set the y position/level of the nodes
-        level = node_dict[key].variable_index
-        if level == -999:
-            level = 0
-            if node_dict[key].variable_name == 'TRUE':
-                color = 'green'
-            else:
-                color = 'red'
-        else:
-            level = max_level + 1 - level
-            color = 'steelblue' if level % 2 == 0 else 'skyblue'
-
-        # Add the nodes    
-        G.add_node(node_dict[key].index, 
-                   name=node_dict[key].variable_name, 
-                   pos='mid',
-                   level=level,
-                   color=color,)
-        
-        # Add the edges
-        if node_dict[key].edges:
-            for i, edge in enumerate(node_dict[key].edges):
-                G.add_edge(node_dict[key].index, edge, 
-                           label=f'{node_dict[key].variable_name}_{i}')
-                
-    pos = nx.multipartite_layout(G, subset_key="level", align='horizontal')
-
-    fig = plt.figure(figsize=(8, 8))
-    nx.draw(G, 
-            pos=pos, 
-            with_labels=True, 
-            labels=labeldict, 
-            node_size=2000, 
-            font_size=10, 
-            node_color=[G.nodes[n]['color'] for n in G.nodes]
-            )
-    nx.draw_networkx_edge_labels(G, 
-                                 pos=pos, 
-                                 edge_labels=nx.get_edge_attributes(G, 'label'), 
-                                 font_size=8.5)
-    plt.show()
 
 
 if __name__ == '__main__':
