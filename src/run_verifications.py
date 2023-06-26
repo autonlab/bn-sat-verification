@@ -54,7 +54,7 @@ if __name__ == '__main__':
         
         draw_path = parser.parse_args().draw
         
-        if draw_path != '':
+        if draw_path != '' and result == False:
             mdd = odd_parser.read_obdd_from_file(f'odd_models{draw_path}')
             highlight = {_map_inv[str(x)]: 'r' for x in verif_case.sat_model if x > 0 and str(x) in _map_inv}
             print(highlight)
@@ -64,6 +64,7 @@ if __name__ == '__main__':
             cutoff = int(max(_map_inv.keys(), key=lambda x: int(x)))
             second_model = [int(x)-cutoff for x in verif_case.sat_model if int(x) > cutoff]
             highlight2 = {_map_inv[str(x)]: 'r' for x in second_model if x > 0 and str(x) in _map_inv}
+            print(highlight2)
             draw_obdd(mdd, highlight2, title='MDD breaking the monotonicity')
         
     

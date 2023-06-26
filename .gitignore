@@ -5,6 +5,7 @@ src/BNC_SDD
 .vscode/
 images/
 *_local_*
+src/verifications/results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
