@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This network was created in GeNIe Academic, which can be used for academic teaching and research purposes only -->
+<smile version="1.0" id="Network2" numsamples="10000" discsamples="10000">
+	<nodes>
+		<cpt id="Vaccinated">
+			<state id="No" />
+			<state id="Yes" />
+			<probabilities>0.5 0.5</probabilities>
+			<property id="DSL_OUTCOME_ORDER">1</property>
+		</cpt>
+		<cpt id="HasCovid">
+			<state id="No" />
+			<state id="Yes" />
+			<parents>Vaccinated</parents>
+			<probabilities>0.6 0.4 0.9 0.1</probabilities>
+		</cpt>
+		<cpt id="Cough">
+			<state id="No" />
+			<state id="Yes" />
+			<parents>HasCovid</parents>
+			<probabilities>0.72 0.28 0.45 0.55</probabilities>
+			<property id="DSL_OUTCOME_ORDER">1</property>
+		</cpt>
+		<cpt id="HasTaste">
+			<state id="NoTaste" />
+			<state id="Taste" />
+			<parents>HasCovid</parents>
+			<probabilities>0.1 0.9 0.8100000000000001 0.19</probabilities>
+			<property id="DSL_OUTCOME_ORDER">1</property>
+		</cpt>
+		<cpt id="CovidTestPositive">
+			<state id="No" />
+			<state id="Yes" />
+			<parents>Cough HasTaste HasCovid</parents>
+			<probabilities>0.44 0.5600000000000001 0.3 0.7 0.72 0.28 0.61 0.39 0.6 0.4 0.26 0.74 0.82 0.18 0.55 0.45</probabilities>
+			<property id="DSL_OUTCOME_ORDER">1</property>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 4.0.2919.0 ACADEMIC" name="Network2">
+			<node id="HasCovid">
+				<name>HasCovid</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>319 657 582 836</position>
+			</node>
+			<node id="CovidTestPositive">
+				<name>CovidTestPositive</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>197 308 397 469</position>
+			</node>
+			<node id="Cough">
+				<name>Cough</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>621 80 823 219</position>
+			</node>
+			<node id="HasTaste">
+				<name>HasTaste</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>689 346 914 494</position>
+			</node>
+			<node id="Vaccinated">
+				<name>Vaccinated</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>696 839 918 1009</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>

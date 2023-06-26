@@ -1,0 +1,12 @@
+{
+    "id": "1",
+    "name": "hascovid",
+    "filetype": "net",
+    "vars": 6,
+    "root": "HasCovid",
+    "leaves": [],
+    "threshold": 0.55,
+    "input_filepath": "../bnc_networks/",
+    "output_filepath": "../odd_models/test/"
+  }
+  

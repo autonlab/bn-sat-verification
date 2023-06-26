@@ -1,0 +1,12 @@
+{
+    "id": "1",
+    "name": "child",
+    "filetype": "net",
+    "vars": 19,
+    "root": "Disease",
+    "leaves": [],
+    "threshold": 0.88,
+    "input_filepath": "../bnc_networks/",
+    "output_filepath": "../odd_models/test/"
+  }
+  

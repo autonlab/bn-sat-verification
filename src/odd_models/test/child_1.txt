@@ -1,0 +1,15 @@
+num_variables: 7
+name: LVHreport
+metadata: none
+name: GruntingReport
+metadata: none
+name: RUQO2
+metadata: none
+name: LowerBodyO2
+metadata: none
+name: XrayReport
+metadata: none
+name: Age
+metadata: none
+name: CO2Report
+metadata: none

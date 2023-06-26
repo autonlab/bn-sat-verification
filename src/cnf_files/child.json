@@ -5598,26 +5598,26 @@
       "x_1 = 1th value"
     ],
     "RUQO2": [
-      "x_2 = 1th value",
       "x_2 = 0th value",
-      "x_2 = 2th value"
+      "x_2 = 2th value",
+      "x_2 = 1th value"
     ],
     "LowerBodyO2": [
-      "x_3 = 1th value",
+      "x_3 = 2th value",
       "x_3 = 0th value",
-      "x_3 = 2th value"
+      "x_3 = 1th value"
     ],
     "XrayReport": [
-      "x_4 = 0th value",
-      "x_4 = 1th value",
       "x_4 = 4th value",
-      "x_4 = 3th value",
-      "x_4 = 2th value"
+      "x_4 = 1th value",
+      "x_4 = 0th value",
+      "x_4 = 2th value",
+      "x_4 = 3th value"
     ],
     "Age": [
-      "x_5 = 2th value",
+      "x_5 = 0th value",
       "x_5 = 1th value",
-      "x_5 = 0th value"
+      "x_5 = 2th value"
     ],
     "GruntingReport": [
       "x_6 = 0th value",

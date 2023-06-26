@@ -1,0 +1,48 @@
+net
+{
+}
+node Vaccinated
+{
+states = ( "No" "Yes" );
+}
+node HasCovid
+{
+states = ( "No" "Yes" );
+}
+node Cough
+{
+states = ( "No" "Yes" );
+}
+node HasTaste
+{
+states = ( "NoTaste" "Taste" );
+}
+node CovidTestPositive
+{
+states = ( "No" "Yes" );
+}
+potential ( Vaccinated |  )
+{
+data = (
+(0.5 0.5)) ;
+}
+potential ( HasCovid | Vaccinated )
+{
+data = (
+((0.6 0.4)(0.9 0.1))) ;
+}
+potential ( Cough | HasCovid )
+{
+data = (
+((0.72 0.28)(0.45 0.55))) ;
+}
+potential ( HasTaste | HasCovid )
+{
+data = (
+((0.1 0.9)(0.81 0.19))) ;
+}
+potential ( CovidTestPositive | Cough HasTaste HasCovid )
+{
+data = (
+((((0.44 0.56)(0.3 0.7))((0.72 0.28)(0.61 0.39)))(((0.6 0.4)(0.26 0.74))((0.82 0.18)(0.55 0.45))))) ;
+}
