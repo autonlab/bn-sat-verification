@@ -52,6 +52,17 @@ def read_cnf_from_json(path: str) -> Tuple[CNF, Dict, Dict, Dict]:
     
     return cnf, data['map_inv'], data['map'], data['map_names_vars']
 
+def read_unstructured_from_json(path: str) -> Dict:
+    '''
+    Read json without parsing anything
+    '''
+    path = __make_sure_path_is_in_src(path)
+    
+    with open(path, 'r') as f:
+        data = json.load(f)
+        
+    return data
+
     
 def print_with_names(cnf: CNF, mapping_inv: Dict) -> None:
     '''

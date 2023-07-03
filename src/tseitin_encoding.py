@@ -63,9 +63,9 @@ class TseitinEncoder(Encoder):
                 # False leaf node, add clause that it is false
                 self.cnf.append([-self.mapping[v_i]])
                 terminal_node = True
-            if i == 1:
-                # Root node, add clause that it is true
-                self.cnf.append([self.mapping[v_i]])
+            # if i == 1:
+            #     # Root node, add clause that it is true
+            #     self.cnf.append([self.mapping[v_i]])
             
             if not terminal_node:
                 for j, v_child_index in enumerate(v_i.edges): # For all edges of the node v_i
@@ -132,10 +132,11 @@ class TseitinEncoder(Encoder):
             levels[odd[i].variable_index].append(odd[i])
             
         for level in levels.values():
-            literals = [self.mapping[v] for v in level]
-            exactly_one_encoding = self._exactly_one(literals)
-            for clause in exactly_one_encoding:
-                self.cnf.append(clause)
+            if len(level) > 1: 
+                literals = [self.mapping[v] for v in level]
+                exactly_one_encoding = self._exactly_one(literals)
+                for clause in exactly_one_encoding:
+                    self.cnf.append(clause)
         
         return self.cnf, self.mapping, self.mapping_inv
 

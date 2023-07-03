@@ -29,7 +29,6 @@ def merge_two_models(cnf1: List[List[int]],
                 common_map_names_vars[vname] = set()
             
             for k in vvalueslist:
-                print(vvalueslist)
                 ith_value = k.split('=')[1]
                 name = f'{vname}={ith_value}'
                 if name not in common_map:
@@ -77,9 +76,6 @@ def merge_two_models(cnf1: List[List[int]],
             new_cnf += [new_clause]
                 
     common_map_inverse = __create_inverse_map(common_map) 
-     
-    print(new_cnf)
-    print(model_index)
     
     return new_cnf, common_map_inverse, common_map, common_map_names_vars
  

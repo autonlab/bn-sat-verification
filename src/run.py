@@ -1,6 +1,8 @@
 import logging
 import os
 from typing import List
+from collections import defaultdict
+from pysat.formula import CNF
 
 from convert_net_to_odd import run_conversion
 from odd_parser import read_obdd_from_file
@@ -10,7 +12,7 @@ from scripts.convert_to_shih import convert_to_shih
 
 from utils.draw_diagram import draw_obdd
 from utils.ensemble_encoding import ensemble_encode
-from utils.cnf_json_parser import read_cnf_from_json, save_cnf_to_json
+from utils.cnf_json_parser import read_cnf_from_json, save_cnf_to_json, read_unstructured_from_json
 
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
@@ -105,11 +107,10 @@ def run_encoding(odd_filename: str, cnf_save_filename: str) -> None:
     
     encoder.save_to_json(cnf_save_filename)
     
-def test_if_cnf_satisfiable(cnf_filename: str, solver: SATSolver = None) -> None:
+def test_if_cnf_satisfiable(cnf: CNF, solver: SATSolver = None) -> None:
     '''
     Runs the SAT solver to check if the CNF is satisfiable
     '''
-    cnf, _, _, _ = read_cnf_from_json(cnf_filename)
 
     if solver is None:
         solver = PySATSolver()
@@ -127,11 +128,23 @@ def run_encoding_ensemble(cnf_files: List[str], cnf_save_filename: str) -> None:
     '''
     cnf, inverse_map, mapping, map_variable_names = ensemble_encode(cnf_files)
     
+    sink_map = defaultdict(list)
+    
+    for k in mapping:
+        if 'TRUE' in k or 'FALSE' in k:
+            for i, file in enumerate(cnf_files):
+                if i == 0 and k[-3:-1] != '__':
+                    sink_map[file].append(k)
+                elif i > 0:
+                    if k.endswith(f'__{i}'):
+                        sink_map[file].append(k)
+    
     save_cnf_to_json(cnf_save_filename,
                      cnf=cnf,
                      map_inv=inverse_map,
                      map=mapping,
-                     map_names_vars=map_variable_names
+                     map_names_vars=map_variable_names,
+                     sinks_map=sink_map
     )
     
     
@@ -169,7 +182,49 @@ if __name__ == '__main__':
         cnf_filenames.append(cnf_filename)
         run_encoding(odd_filename=odd_filename, cnf_save_filename=cnf_filename)
 
-        test_if_cnf_satisfiable(cnf_filename=cnf_filename)
+        cnf, _, _, _ = read_cnf_from_json(cnf_filename)
+        test_if_cnf_satisfiable(cnf=cnf)
     
-    run_encoding_ensemble(cnf_files=cnf_filenames, cnf_save_filename=f"cnf_files/{DATASET_NAME}_ensemble.json")
+    ensemble_cnf_filename = f"cnf_files/{DATASET_NAME}_ensemble.json"
+    run_encoding_ensemble(cnf_files=cnf_filenames, cnf_save_filename=ensemble_cnf_filename)
+    
+    ensemble_dic = read_unstructured_from_json(ensemble_cnf_filename)
+    sinks_map = ensemble_dic['sinks_map']
+    cnf = ensemble_dic['cnf']
+    mapping = ensemble_dic['map']
+    inv_map = ensemble_dic['map_inv']
+    
+    to_swap = {}
+    # Check if Immediate can be satisfied
+    for filename, nodes in sinks_map.items():
+        if 'Immediate' not in filename:
+            for node in nodes:
+                if 'FALSE' in node:
+                    to_swap[mapping[node]] = int(mapping[node])
+                if 'TRUE' in node:
+                    to_swap[mapping[node]] = -int(mapping[node])
+                    
+    print(to_swap)
+                    
+    new_cnf = CNF()
+    for clause in cnf:
+        found = False
+        for key in to_swap:
+            if len(clause) == 1 and abs(int(clause[0])) == int(key):
+                new_clause = to_swap[key]
+                new_cnf.append([new_clause])
+                found = True
+        if not found:
+            new_cnf.append([int(c) for c in clause])
+    
+    for c in new_cnf:
+        if len(c) == 1:
+            print(c, inv_map[str(abs(c[0]))])
+            
+    test_if_cnf_satisfiable(new_cnf)
+                
+             
+    
+    
+    
     
