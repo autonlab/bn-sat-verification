@@ -23,8 +23,8 @@ def read_obdd_from_file(filename: str) -> Dict[int, Node]:
     # Reindexing the nodes to start from 1 and increment by 1
     translate_indices = {x: i + 1 for i, x in enumerate(sorted(numbers))} 
     last = max(translate_indices.values())
-    translate_indices['S1'] = last + 1
-    translate_indices['S0'] = last + 2
+    translate_indices['S0'] = last + 1
+    translate_indices['S1'] = last + 2
     
     node_dict = {}
     for node  in nodes:
