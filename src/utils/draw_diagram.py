@@ -7,6 +7,7 @@ def draw_obdd(node_dict: Dict[int, Node],
               coloring_dict: Dict[str, str] = {}, 
               title: str = '',
               display_block: bool = True,
+              save_path = None,
               ) -> None:
     '''Draws the OBDD using networkx. The nodes are labeled with their variable names'''
     G = nx.DiGraph()
@@ -48,7 +49,7 @@ def draw_obdd(node_dict: Dict[int, Node],
     
     edge_colors = [G[u][v]['color'] for u,v in G.edges]
 
-    fig = plt.figure(figsize=(8, 8))
+    fig = plt.figure(figsize=(12, 12))
     nx.draw(G, 
             pos=pos, 
             with_labels=True, 
@@ -63,6 +64,9 @@ def draw_obdd(node_dict: Dict[int, Node],
                                  pos=pos, 
                                  edge_labels=nx.get_edge_attributes(G, 'label'), 
                                  font_size=8.5)
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300)
     
     plt.show(block=display_block)
     

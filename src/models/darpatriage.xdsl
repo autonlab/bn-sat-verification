@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This network was created in GeNIe Academic, which can be used for academic teaching and research purposes only -->
+<smile version="1.0" id="Network2" numsamples="10000" discsamples="10000">
+	<nodes>
+		<cpt id="Immediate" target="true">
+			<state id="Immediate" />
+			<state id="No" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Delayed" target="true">
+			<state id="Delayed" />
+			<state id="No" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Minimal" target="true">
+			<state id="Minimal" />
+			<state id="No" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="RespiratoryCondition">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Immediate Delayed Minimal</parents>
+			<probabilities>0.5 0.5 0.9 0.09999999999999998 0.5 0.5 0.99 0.01000000000000001 0.4 0.6 0.7 0.3 0.2 0.8 0.01 0.99</probabilities>
+		</cpt>
+		<cpt id="Breathless">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>RespiratoryCondition</parents>
+			<probabilities>0.8 0.2 0.12 0.88</probabilities>
+		</cpt>
+		<cpt id="PerfusionCondition">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Immediate Delayed Minimal</parents>
+			<probabilities>0.8 0.2 0.92 0.08 0.4 0.6 0.99 0.01 0.5 0.5 0.6 0.4 0.3 0.7 0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="BrokenLeg">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>PerfusionCondition</parents>
+			<probabilities>0.9 0.1 0.2 0.8</probabilities>
+		</cpt>
+		<cpt id="BloodPressure">
+			<state id="Abnormal" />
+			<state id="Normal" />
+			<state id="MIssing" />
+			<parents>BrokenLeg</parents>
+			<probabilities>0.7 0.2 0.1 0.1 0.8 0.1</probabilities>
+		</cpt>
+		<cpt id="MentalResponsiveness">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Immediate Delayed Minimal</parents>
+			<probabilities>0.3 0.7 0.2 0.8 0.5 0.5 0.02 0.98 0.8 0.2 0.5 0.5 0.9 0.1 0.01 0.99</probabilities>
+		</cpt>
+		<cpt id="BlastInjury">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>MentalResponsiveness PerfusionCondition</parents>
+			<probabilities>0.67 0.33 0.02 0.98 0.95 0.05 0.23 0.77</probabilities>
+		</cpt>
+		<cpt id="RespiratoryRate">
+			<state id="Abnormal" />
+			<state id="Normal" />
+			<state id="Missing" />
+			<parents>BlastInjury Breathless</parents>
+			<probabilities>0.8 0.02 0.18 0.1 0.5 0.4 0.9 0.01 0.09 0 0.9 0.1</probabilities>
+		</cpt>
+		<cpt id="TorsoDetected">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>RespiratoryRate BloodPressure</parents>
+			<probabilities>0.9 0.1 0.9 0.1 0.18 0.82 0.9 0.1 0.9 0.1 0.2 0.8 0.5 0.5 0.4 0.6 0.1 0.9</probabilities>
+		</cpt>
+		<cpt id="SkullFracture">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>MentalResponsiveness</parents>
+			<probabilities>0.89 0.11 0.1 0.9</probabilities>
+		</cpt>
+		<cpt id="EventType">
+			<state id="Shot" />
+			<state id="Explosion" />
+			<parents>BlastInjury SkullFracture BrokenLeg Breathless</parents>
+			<probabilities>0.4 0.6 0.62 0.38 0.35 0.65 0.3 0.7 0.3 0.7 0.55 0.45 0.3 0.7 0.2 0.8 0.78 0.22 0.86 0.14 0.7 0.3 0.75 0.25 0.4 0.6 0.5 0.5 0.2 0.8 0.5 0.5</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 4.0.2919.0 ACADEMIC" name="Network2">
+			<node id="Breathless">
+				<name>Breathless</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>701 438 882 570</position>
+			</node>
+			<node id="BloodPressure">
+				<name>BloodPressure</name>
+				<interior color="00ff00" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>506 629 675 739</position>
+			</node>
+			<node id="TorsoDetected">
+				<name>TorsoDetected</name>
+				<interior color="00ffff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>388 765 557 875</position>
+			</node>
+			<node id="SkullFracture">
+				<name>SkullFracture</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>282 437 478 574</position>
+			</node>
+			<node id="RespiratoryRate">
+				<name>RespiratoryRate</name>
+				<interior color="00ff00" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>278 630 447 740</position>
+			</node>
+			<node id="RespiratoryCondition">
+				<name>RespiratoryCondition</name>
+				<interior color="ff6600" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1009 390 1205 527</position>
+			</node>
+			<node id="PerfusionCondition">
+				<name>PerfusionCondition</name>
+				<interior color="ff6600" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>991 231 1187 368</position>
+			</node>
+			<node id="MentalResponsiveness">
+				<name>MentalResponsiveness</name>
+				<interior color="ff6600" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1005 581 1201 718</position>
+			</node>
+			<node id="EventType">
+				<name>EventType</name>
+				<interior color="808080" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>298 175 633 324</position>
+			</node>
+			<node id="BrokenLeg">
+				<name>BrokenLeg</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>495 436 691 573</position>
+			</node>
+			<node id="BlastInjury">
+				<name>BlastInjury</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>68 424 264 561</position>
+			</node>
+			<node id="Immediate">
+				<name>Immediate</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1360 245 1570 379</position>
+			</node>
+			<node id="Delayed">
+				<name>Delayed</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1368 430 1578 564</position>
+			</node>
+			<node id="Minimal">
+				<name>Minimal</name>
+				<interior color="e5f6f7" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1367 583 1577 717</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>

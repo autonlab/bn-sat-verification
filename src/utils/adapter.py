@@ -1,12 +1,12 @@
 import os
 import json
 
-def set_dir() -> None:
+def get_dir() -> str:
     # Change path to directory of this file
     dirpath = os.path.dirname(os.path.abspath(__file__))
     srcpath = os.path.dirname(dirpath)
     dirpath = os.path.join(srcpath, 'BNC_SDD')
-    os.chdir(dirpath)
+    return dirpath
 
 def save_config(filename: str,
                 vars: int, 
@@ -27,7 +27,7 @@ def save_config(filename: str,
         input_filepath (str): Path to the input file directory
         output_filepath (str): Path to the output file directory
     '''
-    set_dir()
+    dirpath = get_dir()
     config = {
         "id": "1",
         "name": filename.split('.')[0],
@@ -40,7 +40,7 @@ def save_config(filename: str,
         "output_filepath": output_filepath
     }
 
-    with open('config.json', 'w') as f:
+    with open(os.path.join(dirpath, 'config.json'), 'w') as f:
         json.dump(config, f, indent=4)
 
 def save_config(_json: dict) -> str:
@@ -51,18 +51,20 @@ def save_config(_json: dict) -> str:
     Parameters: 
         json (str): String of the json file
     '''
-    set_dir()
-    with open('config.json', 'w') as f:
+    dirpath = get_dir()
+    with open(os.path.join(dirpath, 'config.json'), 'w') as f:
         json.dump(_json, f, indent=4)
 
 def run_bnc_to_obdd() -> None:
     '''Run the bash file that initializes necessary stuff for the BNC to OBDD conversion'''
+    current_cwd = os.getcwd()
     
-    set_dir()
+    dirpath = get_dir()
+    os.chdir(dirpath)
     os.system('bash run')
-    
     
     subpath = os.path.join(os.getcwd(), 'src', 'sdd')
     os.chdir(subpath)
     
-    # os.system('python convert_to_sdd.py ../../config.json')
+    # Change cwd back to original
+    os.chdir(current_cwd)

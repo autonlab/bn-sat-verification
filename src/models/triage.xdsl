@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This network was created in GeNIe Academic, which can be used for academic teaching and research purposes only -->
+<smile version="1.0" id="Network1" numsamples="10000" discsamples="10000">
+	<nodes>
+		<cpt id="EventType">
+			<state id="Shot" />
+			<state id="Explosion" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="BrokenLeg" target="true">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>EventType</parents>
+			<probabilities>0.01 0.99 0.65 0.35</probabilities>
+		</cpt>
+		<cpt id="BrokenArm" target="true">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>EventType</parents>
+			<probabilities>0.05 0.95 0.6 0.4</probabilities>
+		</cpt>
+		<cpt id="Pulseless" target="true">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>EventType</parents>
+			<probabilities>0.2 0.8 0.6 0.4</probabilities>
+		</cpt>
+		<cpt id="PerfusionCondition" target="true">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>BrokenArm BrokenLeg Pulseless</parents>
+			<probabilities>0.98 0.02 0.4 0.6 0.8 0.2 0.2 0.8 0.9 0.1 0.2 0.8 0.85 0.15 0.01 0.99</probabilities>
+		</cpt>
+		<cpt id="BlastInjury" target="true">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>EventType</parents>
+			<probabilities>0.01 0.99 0.8 0.2</probabilities>
+		</cpt>
+		<cpt id="Breathless">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>EventType</parents>
+			<probabilities>0.2 0.8 0.67 0.33</probabilities>
+		</cpt>
+		<cpt id="SkullFracture" target="true">
+			<state id="Present" />
+			<state id="Absent" />
+			<parents>EventType</parents>
+			<probabilities>0.3 0.7 0.35 0.65</probabilities>
+		</cpt>
+		<cpt id="RespiratoryCondition" target="true">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>BlastInjury Breathless SkullFracture</parents>
+			<probabilities>0.99 0.01 0.85 0.15 0.4 0.6 0.1 0.9 0.92 0.08 0.8100000000000001 0.19 0.1 0.9 0.01 0.99</probabilities>
+		</cpt>
+		<cpt id="MentalResponsiveness" target="true">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>SkullFracture BlastInjury Breathless</parents>
+			<probabilities>0.04 0.96 0.08 0.92 0.3 0.7 0.6 0.4 0.5 0.5 0.78 0.22 0.55 0.45 0.98 0.02</probabilities>
+		</cpt>
+		<cpt id="Immediate" target="true">
+			<state id="Yes" />
+			<state id="No" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="Classification" target="true">
+			<state id="Immediate" />
+			<state id="Delayed" />
+			<state id="Minimal" />
+			<parents>PerfusionCondition RespiratoryCondition MentalResponsiveness Immediate</parents>
+			<probabilities>1 0 0 0 0.75 0.25 1 0 0 0 0.5 0.5 1 0 0 0 0.8571428571428571 0.1428571428571429 1 0 0 0 0.8461538461538461 0.1538461538461539 1 0 0 0 0.888888888888889 0.1111111111111111 1 0 0 0 0.9411764705882352 0.0588235294117647 1 0 0 0 0.0101010101010101 0.9898989898989899 1 0 0 0 0.0816326530612245 0.9183673469387755</probabilities>
+		</cpt>
+		<cpt id="Delayed" target="true">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Classification</parents>
+			<probabilities>0 1 1 0 0 1</probabilities>
+		</cpt>
+		<cpt id="Minimal" target="true">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>Classification</parents>
+			<probabilities>0 1 0 1 1 0</probabilities>
+		</cpt>
+		<cpt id="FaceDetected">
+			<state id="Yes" />
+			<state id="No" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="BloodPressure">
+			<state id="High" />
+			<state id="Normal" />
+			<state id="Low" />
+			<parents>FaceDetected Pulseless BrokenLeg BrokenArm</parents>
+			<probabilities>0 0 1 0 0 1 0 0 1 0 0 1 0.8 0.1 0.1 0.7 0.2 0.1 0.7 0.2 0.1 0.3333333333333333 0.3333333333333333 0.3333333333333334 0 0 1 0 0 1 0 0 1 0 0 1 0.5 0.2 0.3 0.4 0.2 0.4 0.4 0.2 0.4 0.3333333333333333 0.3333333333333333 0.3333333333333334</probabilities>
+		</cpt>
+		<cpt id="TorsoDetected">
+			<state id="Yes" />
+			<state id="No" />
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="RespiratoryRate">
+			<state id="High" />
+			<state id="Normal" />
+			<state id="Low" />
+			<parents>TorsoDetected BlastInjury</parents>
+			<probabilities>0.4 0.2 0.4 0.1 0.8 0.1 0.1 0.2 0.7 0.3333333333333333 0.3333333333333333 0.3333333333333334</probabilities>
+		</cpt>
+		<cpt id="PupilResponse">
+			<state id="Yes" />
+			<state id="No" />
+			<parents>FaceDetected Breathless Pulseless SkullFracture</parents>
+			<probabilities>0.05 0.95 0.1 0.9 0.3 0.7 0.35 0.65 0.5 0.5 0.5 0.5 0.5 0.5 0.95 0.05 0.001 0.999 0.1 0.9 0.12 0.88 0.2 0.8 0.1 0.9 0.3 0.7 0.1 0.9 0.5 0.5</probabilities>
+		</cpt>
+	</nodes>
+	<extensions>
+		<genie version="1.0" app="GeNIe 4.0.2919.0 ACADEMIC" name="Network1">
+			<node id="Delayed">
+				<name>Delayed</name>
+				<interior color="ffff99" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1601 684 1797 821</position>
+			</node>
+			<node id="Immediate">
+				<name>Immediate</name>
+				<interior color="ffffd1" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1564 421 1760 558</position>
+			</node>
+			<node id="Classification">
+				<name>Classification</name>
+				<interior color="ffff00" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1264 680 1460 817</position>
+			</node>
+			<node id="BrokenArm">
+				<name>BrokenArm</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>844 260 1040 397</position>
+			</node>
+			<node id="BlastInjury">
+				<name>BlastInjury</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>15 439 211 576</position>
+			</node>
+			<node id="BrokenLeg">
+				<name>BrokenLeg</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>691 415 887 552</position>
+			</node>
+			<node id="SkullFracture">
+				<name>SkullFracture</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>184 521 380 658</position>
+			</node>
+			<node id="EventType">
+				<name>EventType</name>
+				<interior color="808080" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>388 184 723 333</position>
+			</node>
+			<node id="Pulseless">
+				<name>Pulseless</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>386 544 590 692</position>
+			</node>
+			<node id="Breathless">
+				<name>Breathless</name>
+				<interior color="cc99ff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>587 581 768 713</position>
+			</node>
+			<node id="BloodPressure">
+				<name>BloodPressure</name>
+				<interior color="00ff00" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>701 799 870 909</position>
+			</node>
+			<node id="RespiratoryRate">
+				<name>RespiratoryRate</name>
+				<interior color="00ff00" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>251 812 420 922</position>
+			</node>
+			<node id="PupilResponse">
+				<name>PupilResponse</name>
+				<interior color="00ff00" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>510 809 679 919</position>
+			</node>
+			<node id="FaceDetected">
+				<name>FaceDetected</name>
+				<interior color="00ffff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>585 1034 754 1144</position>
+			</node>
+			<node id="TorsoDetected">
+				<name>TorsoDetected</name>
+				<interior color="00ffff" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>290 995 459 1105</position>
+			</node>
+			<node id="RespiratoryCondition">
+				<name>RespiratoryCondition</name>
+				<interior color="ff6600" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>958 637 1154 774</position>
+			</node>
+			<node id="PerfusionCondition">
+				<name>PerfusionCondition</name>
+				<interior color="ff6600" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>963 485 1159 622</position>
+			</node>
+			<node id="MentalResponsiveness">
+				<name>MentalResponsiveness</name>
+				<interior color="ff6600" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>961 782 1157 919</position>
+			</node>
+			<node id="Minimal">
+				<name>Minimal</name>
+				<interior color="ffff99" />
+				<outline color="000080" />
+				<font color="000000" name="Arial" size="8" />
+				<position>1573 899 1769 1036</position>
+			</node>
+		</genie>
+	</extensions>
+</smile>

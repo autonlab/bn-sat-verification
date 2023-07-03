@@ -1,11 +1,11 @@
 import pysmile
-import pysmile_license
-from pysmile_utils import *
+import scripts.pysmile_license
+from scripts.pysmile_utils import *
 import argparse
 import logging
 import numpy as np
 
-def convert_to_shih(input_file: str, output_file: str) -> str:
+def convert_to_shih(input_file: str, output_file: str) -> None:
     '''
     Convert a BayesFusion xdsl BN to the Shih's format. 
     
