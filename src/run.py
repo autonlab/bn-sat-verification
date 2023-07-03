@@ -167,6 +167,8 @@ if __name__ == '__main__':
     
     
     cnf_filenames = []
+    total_clauses = 0
+    
     for DATASET_ROOT in OUTCOMES:
         logging.info(f"RUNNING PIPELINE FOR {DATASET_NAME} WITH DATASET_ROOT: {DATASET_ROOT}")
         DATASET_CONFIG["root"] = DATASET_ROOT
@@ -183,6 +185,7 @@ if __name__ == '__main__':
         run_encoding(odd_filename=odd_filename, cnf_save_filename=cnf_filename)
 
         cnf, _, _, _ = read_cnf_from_json(cnf_filename)
+        total_clauses += len(cnf.clauses)
         test_if_cnf_satisfiable(cnf=cnf)
     
     ensemble_cnf_filename = f"cnf_files/{DATASET_NAME}_ensemble.json"
@@ -197,14 +200,13 @@ if __name__ == '__main__':
     to_swap = {}
     # Check if Immediate can be satisfied
     for filename, nodes in sinks_map.items():
-        if 'Immediate' not in filename:
+        if 'Immediate' not in filename and 'Delayed' not in filename:
             for node in nodes:
                 if 'FALSE' in node:
                     to_swap[mapping[node]] = int(mapping[node])
                 if 'TRUE' in node:
                     to_swap[mapping[node]] = -int(mapping[node])
                     
-    print(to_swap)
                     
     new_cnf = CNF()
     for clause in cnf:
@@ -217,10 +219,12 @@ if __name__ == '__main__':
         if not found:
             new_cnf.append([int(c) for c in clause])
     
+    
     for c in new_cnf:
         if len(c) == 1:
-            print(c, inv_map[str(abs(c[0]))])
+            logging.debug('Sinks:', c, inv_map[str(abs(c[0]))])
             
+    logging.debug(f'Total clauses before: {total_clauses}, after: {len(new_cnf.clauses)}')
     test_if_cnf_satisfiable(new_cnf)
                 
              

@@ -18,9 +18,10 @@ def merge_two_models(cnf1: List[List[int]],
     '''
     
     
-    common_indexer = 0
+    common_indexer = 1
     common_map = {}
     common_map_names_vars = {}
+    common_map_vars_names = {} 
     
     for _mapnames in [map_names_vars1, map_names_vars2]:
         for vname, vvalueslist in _mapnames.items():
@@ -36,11 +37,11 @@ def merge_two_models(cnf1: List[List[int]],
                     common_indexer += 1
                     
                 common_map_names_vars[vname].add(name)
+                common_map_vars_names[k] = vname
                
     first = (cnf1, map1, inverse_map1)
     second = (cnf2, map2, inverse_map2)
-    
-    
+     
     for m_index, _map in enumerate([map1, map2]):
         for name in _map:
             if name.startswith('x_') or '=' in name:
@@ -62,8 +63,8 @@ def merge_two_models(cnf1: List[List[int]],
                 literal_name = _inverse[literal_int_as_string]
                 
                 if literal_name.startswith('x_') or '=' in literal_name:
-                    ith_value = k.split('=')[1]
-                    name = f'{vname}={ith_value}'
+                    ith_value = literal_name.split('=')[1]
+                    name = f'{common_map_vars_names[literal_name]}={ith_value}'
                 else:
                     if m_index == 1:
                         name = f'{literal_name}__{model_index}'
