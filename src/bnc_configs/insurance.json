@@ -3,7 +3,7 @@
     "name": "insurance",
     "filetype": "net",
     "vars": 26,
-    "root": "Temperature",
+    "root": "GoodStudent",
     "leaves": [],
     "threshold": 0.5,
     "input_filepath": "../bnc_networks/",

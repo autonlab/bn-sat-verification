@@ -1,5 +1,5 @@
 num_variables: 2
-name: WearingHat
-metadata: none
 name: Heatstroke
+metadata: none
+name: WearingHat
 metadata: none

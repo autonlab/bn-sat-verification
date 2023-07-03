@@ -6,6 +6,14 @@ src/BNC_SDD
 images/
 *_local_*
 src/verifications/results/
+cnf_files/
+models/
+odd_models/
+bnc_configs/
+bnc_networks/
+
+
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

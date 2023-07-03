@@ -1,0 +1,6 @@
+net,bnc_nodes,cnf_literals,cnf_clauses,mdd_nodes,mdd_edges,mdd_variable_values
+coma,5,31,105,9,14,8
+child,20,193,916,41,132,20
+temperature,3,18,60,5,8,5
+asia_diagnosis,8,15,49,5,6,4
+win95pts,76,796,5874,256,508,32
