@@ -19,7 +19,7 @@ from verifications.solver_class import SATSolver
 
 DATASET_NAME = "darpatriage"
 VARS = 11
-OUTCOMES = ["Immediate", "Delayed", "Minimal"]
+OUTCOMES = ["Minimal", "Delayed", "Immediate"]
 LEAVES = ["Breathless", 
             "EventType", 
             "PerfusionCondition", 
@@ -37,7 +37,7 @@ DATASET_CONFIG = {
     "id": None,
     "name": DATASET_NAME,
     "filetype": "net",
-    "vars": 11,
+    "vars": 12,
     "root": None,
     "leaves": LEAVES,
     "threshold": 0.5000001,
@@ -174,11 +174,11 @@ if __name__ == '__main__':
         DATASET_CONFIG["root"] = DATASET_ROOT
         DATASET_CONFIG['id'] = DATASET_ROOT
         
-        # run_net_to_odd_compilation(DATASET_NAME, DATASET_CONFIG)
+        run_net_to_odd_compilation(DATASET_NAME, DATASET_CONFIG)
     
         odd_filename = f"odd_models/{DATASET_NAME}_{DATASET_ROOT}.odd"
         save_path = f"{RESULTS_DIR}/{DATASET_NAME}/{DATASET_NAME}_{DATASET_ROOT}.png"
-        # run_plot_odd(odd_filename=odd_filename, save_path=save_path, display_block=False)
+        run_plot_odd(odd_filename=odd_filename, save_path=save_path, display_block=True)
     
         cnf_filename = f"cnf_files/{DATASET_NAME}_{DATASET_ROOT}.json"
         cnf_filenames.append(cnf_filename)
@@ -187,6 +187,8 @@ if __name__ == '__main__':
         cnf, _, _, _ = read_cnf_from_json(cnf_filename)
         total_clauses += len(cnf.clauses)
         test_if_cnf_satisfiable(cnf=cnf)
+        
+        DATASET_CONFIG["leaves"].append(DATASET_ROOT)
     
     ensemble_cnf_filename = f"cnf_files/{DATASET_NAME}_ensemble.json"
     run_encoding_ensemble(cnf_files=cnf_filenames, cnf_save_filename=ensemble_cnf_filename)
