@@ -92,98 +92,98 @@
 				<name>Breathless</name>
 				<interior color="cc99ff" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>701 438 882 570</position>
 			</node>
 			<node id="BloodPressure">
 				<name>BloodPressure</name>
 				<interior color="00ff00" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>506 629 675 739</position>
 			</node>
 			<node id="TorsoDetected">
 				<name>TorsoDetected</name>
 				<interior color="00ffff" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>388 765 557 875</position>
 			</node>
 			<node id="SkullFracture">
 				<name>SkullFracture</name>
 				<interior color="cc99ff" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>282 437 478 574</position>
 			</node>
 			<node id="RespiratoryRate">
 				<name>RespiratoryRate</name>
 				<interior color="00ff00" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>278 630 447 740</position>
 			</node>
 			<node id="RespiratoryCondition">
 				<name>RespiratoryCondition</name>
 				<interior color="ff6600" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>1009 390 1205 527</position>
 			</node>
 			<node id="PerfusionCondition">
 				<name>PerfusionCondition</name>
 				<interior color="ff6600" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>991 231 1187 368</position>
 			</node>
 			<node id="MentalResponsiveness">
 				<name>MentalResponsiveness</name>
 				<interior color="ff6600" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
-				<position>1005 581 1201 718</position>
+				<font color="000000" name="Arial" size="12" />
+				<position>994 587 1190 724</position>
 			</node>
 			<node id="EventType">
 				<name>EventType</name>
 				<interior color="808080" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="16" />
 				<position>298 175 633 324</position>
 			</node>
 			<node id="BrokenLeg">
 				<name>BrokenLeg</name>
 				<interior color="cc99ff" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>495 436 691 573</position>
 			</node>
 			<node id="BlastInjury">
 				<name>BlastInjury</name>
 				<interior color="cc99ff" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>68 424 264 561</position>
 			</node>
 			<node id="Immediate">
 				<name>Immediate</name>
-				<interior color="e5f6f7" />
+				<interior color="ffcc00" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>1360 245 1570 379</position>
 			</node>
 			<node id="Delayed">
 				<name>Delayed</name>
-				<interior color="e5f6f7" />
+				<interior color="ffcc99" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
-				<position>1368 430 1578 564</position>
+				<font color="000000" name="Arial" size="12" />
+				<position>1377 411 1587 545</position>
 			</node>
 			<node id="Minimal">
 				<name>Minimal</name>
-				<interior color="e5f6f7" />
+				<interior color="ffff99" />
 				<outline color="000080" />
-				<font color="000000" name="Arial" size="8" />
+				<font color="000000" name="Arial" size="12" />
 				<position>1367 583 1577 717</position>
 			</node>
 		</genie>

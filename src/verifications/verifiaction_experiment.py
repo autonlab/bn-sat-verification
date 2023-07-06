@@ -35,8 +35,10 @@ class VerificationExperiment:
         end_time = timeit.default_timer()
         verification_case.set_result(is_SAT)
         
-        logging.debug(f"Verification case {verification_case.name} is {is_SAT}.")
-        logging.debug(f"Verification case {verification_case.name} took {end_time - start_time} seconds.")
+        logging.info(f'-'*80)
+        logging.info(f"Verification case: '{verification_case.name}' is {'PASSED' if is_SAT else 'FAILED'} ({'UNSAT' if is_SAT else 'SAT'}).")
+        logging.info(f"Verification case: '{verification_case.name}' took {1000 * (end_time - start_time):.1f} ms.")
+        logging.info(f'-'*80)
         
         return is_SAT, end_time - start_time
     
