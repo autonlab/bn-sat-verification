@@ -78,7 +78,7 @@ class VerificationCaseBinaryMonotonicity(VerificationCase):
                     verif_clauses_DNF.append([x_cat_values_1[i], x_cat_values_2[j]])
                 
             # # Convert DNF to CNF using Tseitin transformation.
-            verification_clauses = tseitin_transformation_2(verif_clauses_DNF, max_var * 2)
+            verification_clauses, _ = tseitin_transformation_2(verif_clauses_DNF, max_var * 2)
                 
             verification_task_cnf = CNF(from_clauses=verification_clauses + formula_1 + formula_2)
             

@@ -26,7 +26,7 @@ def strip_sinks(cnf: CNF, sinks_map: dict, mapping: dict) -> CNF:
             
     return CNF(from_clauses=altered_cnf)
 
-def A_greater_than_B(a: List[int], b: List[int], max_var):
+def A_greater_than_B(a: List[int], b: List[int], max_var) -> Tuple[List[List[int]], int]:
     '''
     Returns CNF clauses that encode the constraint a > b.
     
