@@ -3,6 +3,7 @@ from typing import Dict, List, Tuple
 from copy import deepcopy
 from verifications.verification_case import VerificationCase
 from verifications.solver_class import SATSolver
+from verifications.verification_utils import strip_sinks
 from pysat.formula import CNF
 from utils.tseitin_transformation import tseitin_transformation_2
 
@@ -33,7 +34,7 @@ class VerificationCaseClassCoherency(VerificationCase):
                    sat_solver: SATSolver, 
                    ) -> bool:
             '''
-            Verify the monotonicity of the model in binary classification setting.
+            Verify the class coherency of the model in multiclass classification setting.
 
             Parameters
                 `cnf`: CNF formula of CNF class from PySAT. 
@@ -72,24 +73,7 @@ class VerificationCaseClassCoherency(VerificationCase):
                         
             verification_clauses = tseitin_transformation_2(dnf=dnf_clauses, max_var=max_var)
             
-            altered_cnf = []
-            for clause in cnf.clauses:
-                # Remove sink constraints that say TRUE sink has to be true 
-                # and FALSE sink has to be false. We want to check if any 
-                # assignment from verification query is possible. 
-                # We do not lose soundness of the entire enocoding,
-                # as we have clauses that disallow True and False to be
-                # active at the same time
-                drop = False
-                for true_sink, false_sink in self.sink_names_in_order:
-                    t = int(self.map[true_sink])
-                    f = int(self.map[false_sink])
-                    if clause == [t] or clause == [-t] or clause == [f] or clause == [-f]:
-                        drop = True
-                
-                # If not drop then we just add clause to the goal cnf
-                if not drop:
-                    altered_cnf.append(clause)    
+            altered_cnf = strip_sinks(cnf=cnf, sinks_map=self.sink_names_in_order, mapping=self.map).clauses
                                     
             verification_task_cnf = CNF(from_clauses=verification_clauses + altered_cnf)
             
