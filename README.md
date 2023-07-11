@@ -54,7 +54,7 @@ python3 scripts/convert_to_shih.py --input_file <input_file> --output_file <outp
 # e.g. python scripts/convert_to_shih.py --input_file models/simple_weather_model.xdsl --output_file bnc_networks/weather.net
 ```
 
-### **To build Ordered Decision Diagrams (ODDs) from a .net file, run:**
+### **To build Multivalued Decision Diagrams (MDDs) from a .net file, run:**
 This requires:
 1. A .net file that contains the Bayesian Network
 2. A .json file that contains the configuration of the Bayesian Network
@@ -63,17 +63,17 @@ python3 convert_net_to_odd.py --netconfigpath <netconfigpath> --netfilepath <net
 # e.g. python convert_net_to_odd.py --netconfigpath "bnc_configs/weather.json" --netfilepath bnc_networks/weather.net
 ```
 
-### **To parse and display ODD(or OBDD) from .odd file, run:**
+### **To parse and display MDD from .odd file, run:**
 This requires:
-1. A .odd file that contains the ODD
+1. A .odd file that contains the MDD
 ```bash
 python3 odd_parser.py --filepath <filepath> (optional: --plot <True/False, default=True>, --verbose)
 # e.g. python odd_parser.py --filepath odd_models/weather/weather_1.odd
 ```
 
-### **To convert ODD into CNF, run:**
+### **To convert MDD into CNF, run:**
 This requires:
-- A .odd file that contains the ODD
+- A .odd file that contains the MDD
 ```bash
 python3 tseitin_encoding.py --odd <odd_file> --cnf <cnf_file> (optional: --verbose)
 # e.g. python3 tseitin_encoding.py --odd odd_models/test/test_diagram.odd --cnf cnf_files/test_diagram.json --verbose

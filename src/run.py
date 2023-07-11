@@ -162,9 +162,7 @@ if __name__ == '__main__':
         os.makedirs(RESULTS_DIR)
         logging.info(f"Created directory {RESULTS_DIR}")
         
-        
     run_xsdl_to_net(DATASET_NAME)
-    
     
     cnf_filenames = []
     total_clauses = 0
@@ -207,8 +205,7 @@ if __name__ == '__main__':
                 if 'FALSE' in node:
                     to_swap[mapping[node]] = int(mapping[node])
                 if 'TRUE' in node:
-                    to_swap[mapping[node]] = -int(mapping[node])
-                    
+                    to_swap[mapping[node]] = -int(mapping[node])      
                     
     new_cnf = CNF()
     for clause in cnf:
@@ -221,16 +218,10 @@ if __name__ == '__main__':
         if not found:
             new_cnf.append([int(c) for c in clause])
     
-    
     for c in new_cnf:
         if len(c) == 1:
             logging.debug('Sinks:', c, inv_map[str(abs(c[0]))])
             
     logging.debug(f'Total clauses before: {total_clauses}, after: {len(new_cnf.clauses)}')
     test_if_cnf_satisfiable(new_cnf)
-                
-             
-    
-    
-    
     
