@@ -7,40 +7,33 @@ from pysat.formula import CNF
 from convert_net_to_odd import run_conversion
 from odd_parser import read_obdd_from_file
 from tseitin_encoding import TseitinEncoder
+from encoder import Encoder
 
 from scripts.convert_to_shih import convert_to_shih
 
 from utils.draw_diagram import draw_obdd
 from utils.ensemble_encoding import ensemble_encode
 from utils.cnf_json_parser import read_cnf_from_json, save_cnf_to_json, read_unstructured_from_json
+from utils.tseitin_transformation import tseitin_transformation_2
 
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
 
-DATASET_NAME = "darpatriage"
-VARS = 11
+DATASET_NAME = "darpatriage_simplified2"
+VARS = 2
 OUTCOMES = ["Minimal", "Delayed", "Immediate"]
-LEAVES = ["Breathless", 
-            "EventType", 
-            "PerfusionCondition", 
-            "RespiratoryCondition", 
-            "MentalResponsiveness",
-            "BrokenLeg",
-            "SkullFracture",
-            "BlastInjury",
-            "RespiratoryRate",
-            "BloodPressure",
-            "TorsoDetected"
+LEAVES = ["MajorInjury", 
+              "BloodPressure"
             ]
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
     "id": None,
     "name": DATASET_NAME,
     "filetype": "net",
-    "vars": 12,
+    "vars": 2,
     "root": None,
     "leaves": LEAVES,
-    "threshold": 0.5000001,
+    "threshold": 0.6000001,
     "input_filepath": "../bnc_networks/",
     "output_filepath": "../odd_models/"
 }
@@ -224,4 +217,61 @@ if __name__ == '__main__':
             
     logging.debug(f'Total clauses before: {total_clauses}, after: {len(new_cnf.clauses)}')
     test_if_cnf_satisfiable(new_cnf)
+    
+    
+    # # Add adapter that selects only one sink of all the 3 sinks
+    # # It will have three inputs, one for each sink
+    # # It will have three outputs, one for each sink
+    # # Only one output can be true at a time
+    # # If multiple inputs are true, then the lowest of them is selected as output
+    # adapter_cnf = CNF()
+    # max_v = 0
+    # for c in new_cnf:
+    #     for v in c:
+    #         max_v = max(max_v, abs(v))
+            
+    # # Strip all sinks
+    # for varname, sinklist in sinks_map.items():
+    #     for sink in sinklist:
+    #         for c in new_cnf:
+    #             remove = False
+    #             if len(c) == 1 and abs(c[0]) == int(mapping[sink]):
+    #                 remove = True
+                
+    #             adapter_cnf.append([int(v) for v in c if not remove])
+                
+    # # Add adapter
+    # # Add outputs
+    # # Y1 = ~X2 & ~X3 + X1
+    # # Y2 = ~X1 & X2
+    # # Y3 = ~X1 & ~X2 & X3
+    # # EO(Y1, Y2, Y3)
+    
+    # Y = OUTCOMES
+    # dnf = []
+    # X = [None, None, None]
+    # for i, (varname, sinklist) in enumerate(sinks_map.items()):
+    #     true_sink = [sink for sink in sinklist if 'TRUE' in sink][0]
+    #     var = mapping[true_sink]
+    #     if 'Minimal' in varname:
+    #         X[0] = var
+    #     if 'Immediate' in varname:
+    #         X[1] = var
+    #     if 'Delayed' in varname:
+    #         X[2] = var
+            
+    # dnf = [
+    #     [-X[1], -X[2]], [X[0]], # Y1
+    #     [-X[0], X[1]], # Y2
+    #     [-X[0], -X[1], X[2]] # Y3
+    # ]
+    
+    # eo = Encoder()._exactly_one([Y[0], Y[1], Y[2]])
+    
+    
+        
+        
+                
+                
+            
     
