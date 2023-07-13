@@ -4,7 +4,7 @@ from utils.tseitin_transformation import tseitin_transformation_2
 
 
 
-def strip_sinks(cnf: CNF, sinks_map: dict, mapping: dict) -> CNF:
+def strip_sinks(cnf: CNF, sinks_map: dict, mapping: dict) -> List[List[int]]:
     altered_cnf = []
     for clause in cnf.clauses:
         # Remove sink constraints that say TRUE sink has to be true 
@@ -24,7 +24,7 @@ def strip_sinks(cnf: CNF, sinks_map: dict, mapping: dict) -> CNF:
         if not drop:
             altered_cnf.append(clause)  
             
-    return CNF(from_clauses=altered_cnf)
+    return altered_cnf
 
 def A_greater_than_B(a: List[int], b: List[int], max_var) -> Tuple[List[List[int]], int]:
     '''
@@ -44,6 +44,7 @@ def A_greater_than_B(a: List[int], b: List[int], max_var) -> Tuple[List[List[int
         for j in range(len(b)):
             if i > j:
                 dnf.append([a[i], b[j]])
-    return tseitin_transformation_2(dnf, max_var)    
+    cnf, max_var =  tseitin_transformation_2(dnf, max_var)    
+    return cnf, max_var
     
                 

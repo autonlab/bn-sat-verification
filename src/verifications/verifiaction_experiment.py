@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Dict, List, Tuple
 from pysat.formula import CNF
 import timeit
@@ -31,7 +32,7 @@ class VerificationExperiment:
         Run a single verification case.
         '''
         start_time = timeit.default_timer()
-        is_SAT: bool = verification_case.verify(self.cnf, self.sat_solver)
+        is_SAT: bool = verification_case.verify(deepcopy(self.cnf), self.sat_solver)
         end_time = timeit.default_timer()
         verification_case.set_result(is_SAT)
         

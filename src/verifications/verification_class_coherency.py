@@ -71,10 +71,10 @@ class VerificationCaseClassCoherency(VerificationCase):
                 for lit in clause:
                     max_var = max(max_var, abs(lit))
                         
-            verification_clauses = tseitin_transformation_2(dnf=dnf_clauses, max_var=max_var)
+            verification_clauses, _ = tseitin_transformation_2(dnf=dnf_clauses, max_var=max_var)
             
-            altered_cnf = strip_sinks(cnf=cnf, sinks_map=self.sink_names_in_order, mapping=self.map).clauses
-                                    
+            altered_cnf = strip_sinks(cnf=cnf, sinks_map=self.sink_names_in_order, mapping=self.map)
+            
             verification_task_cnf = CNF(from_clauses=verification_clauses + altered_cnf)
             
             # Solve the verification task.
