@@ -103,6 +103,13 @@ class TseitinEncoder(Encoder):
                     
                 # T1: v_i -> V_j epsilon_j
                 self.cnf.append([-self.mapping[v_i]] + [self.mapping[epsilon] for epsilon in all_outgoing_edges])
+                
+                # Modification
+                # Add at most one constraint for the outgoing edges
+                if len(all_outgoing_edges) > 1:
+                    exactly_one_encoding = self.at_most_one([self.mapping[epsilon] for epsilon in all_outgoing_edges])
+                    for clause in exactly_one_encoding:
+                        self.cnf.append(clause)
         
         
         # P2: v_i -> exists epsilon_(i-1)_i \ where i != 1 (i.e. not root node)

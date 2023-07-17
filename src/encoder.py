@@ -39,6 +39,20 @@ class Encoder:
             return clauses
 
         return [at_least_one(literals)] + at_most_one(literals)
+    
+    @staticmethod
+    def at_most_one(literals: List[int]) -> List[List[int]]:
+        '''
+        Encodes that at most one of the literals is true
+        This 
+        '''
+        clauses = []
+        for i in range(len(literals)-1):
+            for j in range(i+1, len(literals)):
+                clauses.append([-literals[i], -literals[j]])
+            
+        return clauses
+
 
     @abstractmethod
     def encode_to_cnf(self, odd: Dict[int, Node]) -> Tuple[CNF, Dict, Dict]:
