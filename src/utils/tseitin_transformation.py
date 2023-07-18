@@ -112,15 +112,15 @@ def tseitin_transformation(dnf: List[List[int]], start_var: int) -> Tuple[List[L
             
         DNF_ONE.append(last_t)
             
-    
-    # OR tseitin transformation
-    for i in range(1, len(DNF_ONE)):
-        new_t = start_var
-        start_var += 1
+    cnf.append(DNF_ONE)
+    # # OR tseitin transformation
+    # for i in range(1, len(DNF_ONE)):
+    #     new_t = start_var
+    #     start_var += 1
         
-        cnf.append([DNF_ONE[i - 1], DNF_ONE[i], -new_t])
-        cnf.append([-DNF_ONE[i - 1], new_t])
-        cnf.append([-DNF_ONE[i], new_t])
+    #     cnf.append([DNF_ONE[i - 1], DNF_ONE[i], -new_t])
+    #     cnf.append([-DNF_ONE[i - 1], new_t])
+    #     cnf.append([-DNF_ONE[i], new_t])
         
     return cnf, start_var - 1
 
@@ -128,7 +128,14 @@ def tseitin_transformation(dnf: List[List[int]], start_var: int) -> Tuple[List[L
 
 if __name__ == '__main__':
     
+    from pysat.formula import CNF
+    from pysat.solvers import Glucose3
     # Verify tseitin transformation
-    dnf = [[-1, 2, 3], [1,2]]
+    dnf = [[-1, -2, 3], [1,2]]
     cnf, max_var = tseitin_transformation(dnf, 4)
-    print(cnf)
+    print('cnf', cnf)
+    
+    gl=Glucose3()
+    gl.append_formula(CNF(from_clauses=cnf))
+    print(gl.solve())
+    print(gl.get_model())

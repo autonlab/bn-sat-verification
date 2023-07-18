@@ -53,8 +53,8 @@ class VerificationIfThenRules(VerificationCase):
                 for lit in clause:
                     max_var = max(max_var, abs(lit))
                
-            altered_cnf = strip_sinks(cnf=cnf, sinks_map=self.sink_names_in_order, mapping=self.map)  
-        
+            altered_cnf = strip_sinks(cnf=cnf, sinks_map=self.sink_names_in_order, mapping=self.map) 
+
             def get_variable_values_list(variable_name: str):
                 names = sorted(
                     [name for name in self.map_name_vars[variable_name]], 
@@ -90,16 +90,19 @@ class VerificationIfThenRules(VerificationCase):
             #     if len(clause) < 2:
             #         raise Exception('Not implemented for DNF_X clauses shorter than 2 literals.')
                 
-            # Use tseitin transformation to get the CNF of DNF_X
-            CNF_X, max_var = tseitin_transformation(DNF_X, max_var + 1)
-            
-            logging.debug(f'DNF_X: {DNF_X}')      
+            if len(DNF_X) == 1 and len(DNF_X[0]) ==1:
+                CNF_X = [[DNF_X[0][0]]]
+            else:
+                # Use tseitin transformation to get the CNF of DNF_X
+                CNF_X, max_var = tseitin_transformation(DNF_X, max_var + 1)
             # Translate and print DNF_X
             for clause in DNF_X:
                 _c = []
                 for lit in clause:
                     _c.append(self.map_inverse[lit])
-                logging.debug(f'Clause: {_c}')  
+                logging.debug(f'DNF_X clause: {_c}')  
+            logging.debug(f'CNF_X: {CNF_X}')
+            logging.debug(f'DNF_X: {DNF_X}')      
                    
             
             # THEN PART
@@ -110,11 +113,11 @@ class VerificationIfThenRules(VerificationCase):
             else:
                 _s = self.sink_names_in_order[0]
                 if 'TRUE' in _s[0]: 
-                    sinks_list.append(int(self.map[_s[0]]))
                     sinks_list.append(int(self.map[_s[1]]))
+                    sinks_list.append(int(self.map[_s[0]]))
                 else:
-                    sinks_list.append(int(self.map[_s[1]]))
                     sinks_list.append(int(self.map[_s[0]]))
+                    sinks_list.append(int(self.map[_s[1]]))
                                     
                 logging.debug(f'Sinks: {sinks_list}')
                 
@@ -127,22 +130,27 @@ class VerificationIfThenRules(VerificationCase):
                 else:
                     raise Exception('Not implemented for non-binary case.')
             
-            CNF_Y, max_var = tseitin_transformation(DNF_Y, max_var + 1)
-            # if len(DNF_Y) == 0:
-            #     raise Exception('DNF_Y is empty.')
-            # elif len(DNF_Y) == 1:
-            #     CNF_Y = [[DNF_Y[0][0]]]
-            # elif len(DNF_Y) == 2:
-            #     # Use tseitin transformation to get the CNF of DNF_Y
-            #     t = max_var + 1
-            #     CNF_Y = []
-            #     CNF_Y.append([-DNF_Y[0][0], t])
-            #     CNF_Y.append([-DNF_Y[1][0], t])
-            #     CNF_Y.append([DNF_Y[0][0], DNF_Y[1][0], -t])
-            #     max_var = t
-            # else:
-            #     raise Exception('Not implemented for DNF_Y longer than 2 clauses.')
+            # CNF_Y, max_var = tseitin_transformation(DNF_Y, max_var + 1)
+            if len(DNF_Y) == 0:
+                # If there are no Y's, then we need to add that any Y sink would be a contradiction.
+                # CNF_Y, max_var = tseitin_transformation([[sinks_list[0]], [sinks_list[1]]], max_var + 1)
+                raise Exception('Not implemented for no Y case.')
+            elif len(DNF_Y) == 1:
+                # If there is only one Y, then we need to add that any other Y sink would be a contradiction.
+                CNF_Y = [[sinks_list[0]], [-sinks_list[1]]]
+            elif len(DNF_Y) == 2:
+                # Use tseitin transformation to get the CNF of DNF_Y
+                t = max_var + 1
+                CNF_Y = []
+                CNF_Y.append([-DNF_Y[0][0], t])
+                CNF_Y.append([-DNF_Y[1][0], t])
+                CNF_Y.append([DNF_Y[0][0], DNF_Y[1][0], -t])
+                max_var = t
+            else:
+                # TODO: Implement for DNF_Y longer than 2 clauses.
+                raise Exception('Not implemented for DNF_Y longer than 2 clauses.')
             
+            logging.debug(f'CNF_Y: {CNF_Y}')
             logging.debug(f'DNF_Y: {DNF_Y}')
             # Translate and print DNF_Y
             for clause in DNF_Y:
@@ -156,6 +164,7 @@ class VerificationIfThenRules(VerificationCase):
             
             outcome = sat_solver.solve(cnf=CNF(from_clauses=final_cnf))
             
+            
             if outcome is None:
                 logging.debug(f'Verification case #{self.name} is UNSAT.')
                 logging.debug(f'Verification case #{self.name} model: {None}')
@@ -164,6 +173,11 @@ class VerificationIfThenRules(VerificationCase):
             else:
                 logging.debug(f'Verification case #{self.name} is SAT.')
                 logging.debug(f'Verification case #{self.name} model: {outcome}')
+                
+                # Print actual names of true literals in the model
+                for lit in outcome:
+                    if lit > 0 and lit in self.map_inverse.keys():
+                        logging.debug(f'Literal [{lit}]: {self.map_inverse[lit]}')
                 self.set_result(False)
                 return False
             
