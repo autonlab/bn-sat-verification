@@ -36,6 +36,10 @@ class VerificationIfThenRules(VerificationCase):
             self.if_tuples = if_tuples
             self.then_tuples = then_tuples
             
+            for tpl in then_tuples:
+                if tpl[1] not in ['>=', '<=']:
+                    raise Exception('Only >= and <= are supported.')
+            
             
         def verify(self, cnf: CNF, 
                    sat_solver: SATSolver, 
@@ -106,15 +110,15 @@ class VerificationIfThenRules(VerificationCase):
                    
             
             # THEN PART
-            sinks_list = []
+            sinks_list = [] 
             
             if not self.binary:
                raise NotImplementedError('Not implemented for non-binary case.')
             else:
                 _s = self.sink_names_in_order[0]
                 if 'TRUE' in _s[0]: 
-                    sinks_list.append(int(self.map[_s[1]]))
-                    sinks_list.append(int(self.map[_s[0]]))
+                    sinks_list.append(int(self.map[_s[1]])) # We want to have the false sink as the first one
+                    sinks_list.append(int(self.map[_s[0]])) # and the true sink as the second one.
                 else:
                     sinks_list.append(int(self.map[_s[0]]))
                     sinks_list.append(int(self.map[_s[1]]))
@@ -123,10 +127,16 @@ class VerificationIfThenRules(VerificationCase):
                 
             DNF_Y = []
             for _then_tuple in self.then_tuples:
-                var_name, threshold = _then_tuple 
+                var_name, sign, threshold = _then_tuple 
                 if var_name == 'Y':
-                    for i in range(0, threshold): # Only Y >= threshold. We add all Y's lower than threshold as contradiction.
-                        DNF_Y.append([sinks_list[i]])
+                    if sign == '>=':
+                        for i in range(0, threshold): # Only Y >= threshold. We add all Y's lower than threshold as contradiction.
+                            DNF_Y.append([sinks_list[i]])
+                    if sign == '<=':
+                        if threshold + 1< len(sinks_list):
+                            for i in range(threshold + 1, len(sinks_list)):
+                                print(i)
+                                DNF_Y.append([sinks_list[i]])
                 else:
                     raise Exception('Not implemented for non-binary case.')
             
@@ -137,7 +147,13 @@ class VerificationIfThenRules(VerificationCase):
                 raise Exception('Not implemented for no Y case.')
             elif len(DNF_Y) == 1:
                 # If there is only one Y, then we need to add that any other Y sink would be a contradiction.
-                CNF_Y = [[sinks_list[0]], [-sinks_list[1]]]
+                if DNF_Y[0][0] == sinks_list[0]:
+                    CNF_Y = [[sinks_list[1]], [-sinks_list[0]]]
+                elif DNF_Y[0][0] == sinks_list[1]:
+                    CNF_Y = [[sinks_list[0]], [-sinks_list[1]]]
+                else:
+                    raise Exception('Unexpected DNF_Y[0][0] value.')
+                    
             elif len(DNF_Y) == 2:
                 # Use tseitin transformation to get the CNF of DNF_Y
                 t = max_var + 1
@@ -150,7 +166,6 @@ class VerificationIfThenRules(VerificationCase):
                 # TODO: Implement for DNF_Y longer than 2 clauses.
                 raise Exception('Not implemented for DNF_Y longer than 2 clauses.')
             
-            logging.debug(f'CNF_Y: {CNF_Y}')
             logging.debug(f'DNF_Y: {DNF_Y}')
             # Translate and print DNF_Y
             for clause in DNF_Y:
@@ -158,6 +173,8 @@ class VerificationIfThenRules(VerificationCase):
                 for lit in clause:
                     _c.append(self.map_inverse[lit])
                 logging.debug(f'Clause: {_c}')
+            logging.debug(f'CNF_Y: {CNF_Y}, \
+                real_names: {[[self.map_inverse[abs(lit)] for lit in clause] for clause in CNF_Y]}')
             
             final_cnf = deepcopy(altered_cnf) + CNF_X + CNF_Y
             
