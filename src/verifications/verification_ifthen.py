@@ -73,40 +73,15 @@ class VerificationIfThenRules(VerificationCase):
                 var_name, threshold = _if_tuple
                 IF.append((get_variable_values_list(variable_name=var_name), threshold))
                 
-            def all_combinations(_DNF, _IF, _i, _path):
-                '''Assuming all >= for thresholds'''
-                x, threshold = _IF[_i]
-                for j in range(threshold, len(x)):
-                    next_path = _path + [x[j]]
-                    if _i == len(_IF) - 1:
-                        _DNF.append(next_path)
-                    else:
-                        all_combinations(_DNF, _IF, _i + 1, next_path)
-
-                return _DNF
             
-            DNF_X = all_combinations(_DNF=[], _IF=IF, _i=0, _path=[])
-            
-            # # Check if any DNF_X clause is longer than 2 literals. If so, raise an error.
-            # for clause in DNF_X:
-            #     if len(clause) > 2:
-            #         raise Exception('Not implemented for DNF_X clauses longer than 2 literals.')
-            #     if len(clause) < 2:
-            #         raise Exception('Not implemented for DNF_X clauses shorter than 2 literals.')
-                
-            if len(DNF_X) == 1 and len(DNF_X[0]) ==1:
-                CNF_X = [[DNF_X[0][0]]]
-            else:
-                # Use tseitin transformation to get the CNF of DNF_X
-                CNF_X, max_var = tseitin_transformation(DNF_X, max_var + 1)
-            # Translate and print DNF_X
-            for clause in DNF_X:
-                _c = []
-                for lit in clause:
-                    _c.append(self.map_inverse[lit])
-                logging.debug(f'DNF_X clause: {_c}')  
-            logging.debug(f'CNF_X: {CNF_X}')
-            logging.debug(f'DNF_X: {DNF_X}')      
+            CNF_X = []
+            for x, threshold in IF:
+                clause = []
+                for i in range(threshold, len(x)):
+                    clause.append(x[i])
+                CNF_X.append(clause)
+                 
+            logging.debug(f'CNF_X: {CNF_X}') 
                    
             
             # THEN PART
@@ -148,9 +123,9 @@ class VerificationIfThenRules(VerificationCase):
             elif len(DNF_Y) == 1:
                 # If there is only one Y, then we need to add that any other Y sink would be a contradiction.
                 if DNF_Y[0][0] == sinks_list[0]:
-                    CNF_Y = [[sinks_list[1]], [-sinks_list[0]]]
-                elif DNF_Y[0][0] == sinks_list[1]:
                     CNF_Y = [[sinks_list[0]], [-sinks_list[1]]]
+                elif DNF_Y[0][0] == sinks_list[1]:
+                    CNF_Y = [[sinks_list[1]], [-sinks_list[0]]]
                 else:
                     raise Exception('Unexpected DNF_Y[0][0] value.')
                     
