@@ -19,21 +19,21 @@ from utils.tseitin_transformation import tseitin_transformation_2
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
 
-DATASET_NAME = "darpatriage_simplified2"
-VARS = 2
-OUTCOMES = ["Minimal", "Delayed", "Immediate"]
-LEAVES = ["MajorInjury", 
-              "BloodPressure"
-            ]
+DATASET_NAME = "triage_monotonic"
+VARS = 4
+# OUTCOMES = ["Minimal", "Delayed", "Immediate", "Expectant"]
+OUTCOMES = ['Class']
+# LEAVES = ["BleedingRate", "Pulse"]
+LEAVES = ["PulseRateConfidence", "PulseRate", "BreathingRate", "BreathingRateConfidence", "PhysicalDamage"]
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
     "id": None,
     "name": DATASET_NAME,
     "filetype": "net",
-    "vars": 2,
+    "vars": VARS,
     "root": None,
     "leaves": LEAVES,
-    "threshold": 0.6000001,
+    "threshold": 0.501,
     "input_filepath": "../bnc_networks/",
     "output_filepath": "../odd_models/"
 }
