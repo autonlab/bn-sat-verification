@@ -3,6 +3,7 @@ import os
 from typing import List
 from collections import defaultdict
 from pysat.formula import CNF
+import time
 
 from convert_net_to_odd import run_conversion
 from odd_parser import read_obdd_from_file
@@ -19,12 +20,13 @@ from utils.tseitin_transformation import tseitin_transformation_2
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
 
-DATASET_NAME = "triage_monotonic"
-VARS = 4
+DATASET_NAME = "alarm"
+VARS = 20
 # OUTCOMES = ["Minimal", "Delayed", "Immediate", "Expectant"]
-OUTCOMES = ['Class']
-# LEAVES = ["BleedingRate", "Pulse"]
-LEAVES = ["PulseRateConfidence", "PulseRate", "BreathingRate", "BreathingRateConfidence", "PhysicalDamage"]
+OUTCOMES = ['DISCONNECT']
+LEAVES = [
+          ]
+# LEAVES = ["PulseRateConfidence", "PulseRate", "BreathingRate", "BreathingRateConfidence", "PhysicalDamage"]
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
     "id": None,
@@ -33,7 +35,7 @@ DATASET_CONFIG = {
     "vars": VARS,
     "root": None,
     "leaves": LEAVES,
-    "threshold": 0.501,
+    "threshold": 0.9,
     "input_filepath": "../bnc_networks/",
     "output_filepath": "../odd_models/"
 }
@@ -142,7 +144,7 @@ def run_encoding_ensemble(cnf_files: List[str], cnf_save_filename: str) -> None:
     
     
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s: %(message)s', datefmt="%Y-%m-%d|%H:%M:%S")
+    logging.basicConfig(level=logging.WARNING, format='%(asctime)s|%(levelname)s: %(message)s', datefmt="%Y-%m-%d|%H:%M:%S")
 
     logging.info(f"DATASET_NAME: {DATASET_NAME}")
     logging.info(f"RESULTS_DIR: {RESULTS_DIR}")
@@ -155,7 +157,7 @@ if __name__ == '__main__':
         os.makedirs(RESULTS_DIR)
         logging.info(f"Created directory {RESULTS_DIR}")
         
-    run_xsdl_to_net(DATASET_NAME)
+    # run_xsdl_to_net(DATASET_NAME)
     
     cnf_filenames = []
     total_clauses = 0
@@ -165,7 +167,16 @@ if __name__ == '__main__':
         DATASET_CONFIG["root"] = DATASET_ROOT
         DATASET_CONFIG['id'] = DATASET_ROOT
         
+
+        # Start timer
+        start = time.time()
+        
         run_net_to_odd_compilation(DATASET_NAME, DATASET_CONFIG)
+        
+        # Stop timer
+        end = time.time()
+        
+        print(f"Time taken: {end - start}")
     
         odd_filename = f"odd_models/{DATASET_NAME}_{DATASET_ROOT}.odd"
         save_path = f"{RESULTS_DIR}/{DATASET_NAME}/{DATASET_NAME}_{DATASET_ROOT}.png"

@@ -14,6 +14,7 @@ class VerificationCaseMulticlassMonotonicity(VerificationCase):
                         sink_names_in_order: List[Tuple[str, str]],
                         variable_to_verify: str,
                         map_name_vars: Dict[str, List[str]],
+                        assumptions: List[Tuple[str, int]] = None,
                         binary: bool = False
                    ) -> None:
             '''
@@ -32,6 +33,7 @@ class VerificationCaseMulticlassMonotonicity(VerificationCase):
             self.variable_to_verify = variable_to_verify
             # self.variable_to_verify_index = self.map[variable_to_verify]
             self.map_name_vars = map_name_vars
+            self.assumptions = assumptions
             self.binary = binary
             
             
@@ -81,6 +83,21 @@ class VerificationCaseMulticlassMonotonicity(VerificationCase):
             if len(variable_values) < 3:
                 raise ValueError(f'Variable {self.variable_to_verify} has {len(variable_values)} values. It should have at least 3 values in order to run this verification task.')
             logging.debug(f'Variable {self.variable_to_verify} has {len(variable_values)} values: {variable_values}.')
+            
+            ASSUMPTIONS = []
+            # Add assumptions i.e., freeze some variables to their values
+            if self.assumptions is not None:
+                for name, index in self.assumptions:
+                    if name in self.map_name_vars:
+                        __names = sorted(
+                            [name for name in self.map_name_vars[name]], 
+                            key=lambda x: int(x.split('=')[1].split('th')[0])
+                            )
+                        ASSUMPTIONS.append([int(self.map[__names[index]])])
+                    else:
+                        raise ValueError(f'Variable {name} is not in the map.')
+            logging.debug(f'Assumptions: {ASSUMPTIONS}')
+            ALL_ASSUMPTIONS = [[a[0] + off] for off in offsets for a in ASSUMPTIONS]
             
             
             # --- VAR_ORD --- #
@@ -156,10 +173,10 @@ class VerificationCaseMulticlassMonotonicity(VerificationCase):
                     raise ValueError('CNF contains 0.')
 
             # Create two separate verification tasks for LHL and HLH.
-            verif1 = models[0] + models[1] + models[2] + VAR_ORD + LHL
+            verif1 = models[0] + models[1] + models[2] + VAR_ORD + LHL + ALL_ASSUMPTIONS
             verif1 = deepcopy(verif1)
             
-            verif2 = models[0] + models[1] + models[2] + VAR_ORD + HLH
+            verif2 = models[0] + models[1] + models[2] + VAR_ORD + HLH + ALL_ASSUMPTIONS
             verif2 = deepcopy(verif2)
             
             outcome1 = sat_solver.solve(cnf=CNF(from_clauses=verif1))
