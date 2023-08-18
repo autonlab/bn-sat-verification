@@ -1,6 +1,6 @@
 import logging
 from typing import List
-from pysat.solvers import Solver, Glucose3
+from pysat.solvers import Solver, Cadical153, Glucose4
 from pysat.formula import CNF
 
 from verifications.solver_class import SATSolver
@@ -20,7 +20,7 @@ class PySATSolver(SATSolver):
             The model if the formula is satisfiable, None otherwise.
         '''
         if solver is None:
-            solver = Glucose3()
+            solver = Cadical153()
         
         # Add cnf formula to solver
         solver.append_formula(cnf)
