@@ -20,13 +20,16 @@ from utils.tseitin_transformation import tseitin_transformation_2
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
 
-DATASET_NAME = "alarm"
+DATASET_NAME = "darpatriage"
 VARS = 20
 # OUTCOMES = ["Minimal", "Delayed", "Immediate", "Expectant"]
-OUTCOMES = ['DISCONNECT']
+OUTCOMES = ['Minimal', 'Delayed', 'Immediate']
 LEAVES = [
           ]
-# LEAVES = ["PulseRateConfidence", "PulseRate", "BreathingRate", "BreathingRateConfidence", "PhysicalDamage"]
+LEAVES = ["BlastInjury", "SkullFracture", 
+          "BrokenLeg", "Breathless", 
+          "RespiratoryRate", 'BloodPressure', 
+          'TorsoDetected', 'EventType']
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
     "id": None,
@@ -35,7 +38,7 @@ DATASET_CONFIG = {
     "vars": VARS,
     "root": None,
     "leaves": LEAVES,
-    "threshold": 0.9,
+    "threshold": 0.67,
     "input_filepath": "../bnc_networks/",
     "output_filepath": "../odd_models/"
 }
@@ -157,7 +160,7 @@ if __name__ == '__main__':
         os.makedirs(RESULTS_DIR)
         logging.info(f"Created directory {RESULTS_DIR}")
         
-    # run_xsdl_to_net(DATASET_NAME)
+    run_xsdl_to_net(DATASET_NAME)
     
     cnf_filenames = []
     total_clauses = 0

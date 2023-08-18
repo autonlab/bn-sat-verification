@@ -14,17 +14,17 @@ from verifications.verification_ifthen import VerificationIfThenRules
 
 dirpath = os.path.dirname(os.path.abspath(__file__))
 
-DATASET_NAME = "alarm"
-CLASS_ORDER = ['DISCONNECT']
-VARIABLE_TO_VERIFY = 'PAP'
+DATASET_NAME = "darpatriage"
+OUTCOMES = ['Minimal', 'Delayed', 'Immediate']
+VARIABLE_TO_VERIFY = 'RespiratoryRate'
 CNF_FILEPATH = f"cnf_files/{DATASET_NAME}_ensemble.json"
 
 MONOTONICITY = [
 ]
 
 IF = [  
-    ('PRESS', 1),
-    ('HRBP', 1),
+    ('RespiratoryRate', 1),
+    ('TorsoDetected', 0),
 ]
 
 THEN = [
@@ -32,7 +32,7 @@ THEN = [
 ] 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.WARNING)
+    logging.basicConfig(level=logging.CRITICAL)
     
     with open(os.path.join(dirpath, CNF_FILEPATH), 'r') as f:
         data = json.load(f)
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     sinks_names_in_order = [None] * len(sinks_map)
     
     for filename, sinks in sinks_map.items():
-        for i, _class in enumerate(CLASS_ORDER):
+        for i, _class in enumerate(OUTCOMES):
             if _class in filename:
                 if 'TRUE' in sinks[0]:
                     sinks_names_in_order[i] = (sinks[0], sinks[1])
@@ -53,19 +53,26 @@ if __name__ == '__main__':
                     sinks_names_in_order[i] = (sinks[1], sinks[0])
         
         
-    # sinks_names_in_order = sorted(sinks_names_in_order, 
-                                #   key=lambda x: int(x[0].split('__')[1]) if '__' in x[0] else -1)
+    sinks_names_in_order = sorted(sinks_names_in_order, 
+                                  key=lambda x: int(x[0].split('__')[1]) if '__' in x[0] else -1)
         
-    # case1 = VerificationCaseClassCoherency(name='All Class Coherency', 
-    #                                         map=_map, 
-    #                                         sink_names_in_order=sinks_names_in_order,
-    #                                         # only_check_sinks=None
-    #                                         )
-                                           
+    def case1():
+        case1 = VerificationCaseClassCoherency(name='All Class Coherency', 
+                                                map=_map, 
+                                                sink_names_in_order=sinks_names_in_order,
+                                                # only_check_sinks=None
+                                                )
+                                            
+        
+        experiment = VerificationExperiment(cnf=cnf, sat_solver=sat_solver)
+        experiment.add_verification_case(case1)
+        experiment.run_all_verification_cases()
     
-    # experiment = VerificationExperiment(cnf=cnf, sat_solver=sat_solver)
-    # experiment.add_verification_case(case1)
-    # experiment.run_all_verification_cases()
+    
+    x = timeit.timeit(case1, number=100) / 100
+    print(f'CC: Average time: {x*1000:.2f} ms')
+    
+    exit()
     
     
     def case2():
