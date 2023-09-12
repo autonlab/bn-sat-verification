@@ -40,7 +40,7 @@ def A_greater_than_B(a: List[int], b: List[int], max_var) -> Tuple[List[List[int
         
         `max_var`: Maximum variable in the formula.
     '''
-    logging.debug(f'A: {a}, B: {b}, max_var: {max_var}')
+    # logging.debug(f'A: {a}, B: {b}, max_var: {max_var}')
     dnf = []
     for i in range(len(a)):
         for j in range(len(b)):

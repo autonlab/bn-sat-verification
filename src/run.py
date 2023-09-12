@@ -20,16 +20,10 @@ from utils.tseitin_transformation import tseitin_transformation_2
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
 
-DATASET_NAME = "darpatriage"
+DATASET_NAME = "alarm"
 VARS = 20
-# OUTCOMES = ["Minimal", "Delayed", "Immediate", "Expectant"]
-OUTCOMES = ['Minimal', 'Delayed', 'Immediate']
-LEAVES = [
-          ]
-LEAVES = ["BlastInjury", "SkullFracture", 
-          "BrokenLeg", "Breathless", 
-          "RespiratoryRate", 'BloodPressure', 
-          'TorsoDetected', 'EventType']
+OUTCOMES = ['HYPOVOLEMIA']
+LEAVES = []
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
     "id": None,
@@ -38,7 +32,7 @@ DATASET_CONFIG = {
     "vars": VARS,
     "root": None,
     "leaves": LEAVES,
-    "threshold": 0.67,
+    "threshold": 0.75,
     "input_filepath": "../bnc_networks/",
     "output_filepath": "../odd_models/"
 }
