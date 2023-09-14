@@ -66,11 +66,22 @@ class Encoder:
         Save the CNF formula to a JSON file.
         Includes the mapping from variable names to variable indices.
         '''
+        
+            
+        sink_map = defaultdict(list)
+        
+        for k in self.mapping:
+            if 'TRUE' in k.__str__() or 'FALSE' in k.__str__():
+                if k.__str__()[-3:-1] != '__':
+                    sink_map[path].append(k.__str__())
+    
+        
         save_cnf_to_json(path,
                         cnf=self.cnf,
                         map_inv=self.mapping_inv,
                         map=self.mapping,
-                        map_names_vars=self.mapping_variable_xval)
+                        map_names_vars=self.mapping_variable_xval,
+                        sinks_map=sink_map)
     
     def load_from_json(self, path) -> None:
         '''

@@ -4,6 +4,7 @@ from typing import List
 from collections import defaultdict
 from pysat.formula import CNF
 import time
+import argparse
 
 from convert_net_to_odd import run_conversion
 from odd_parser import read_obdd_from_file
@@ -22,7 +23,7 @@ from verifications.solver_class import SATSolver
 
 DATASET_NAME = "alarm"
 VARS = 20
-OUTCOMES = ['HYPOVOLEMIA']
+OUTCOMES = ['LVFailure']
 LEAVES = []
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
@@ -141,7 +142,21 @@ def run_encoding_ensemble(cnf_files: List[str], cnf_save_filename: str) -> None:
     
     
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.WARNING, format='%(asctime)s|%(levelname)s: %(message)s', datefmt="%Y-%m-%d|%H:%M:%S")
+    parser = argparse.ArgumentParser(description='Run compilation&encoding pipeline')
+    parser.add_argument('--nocompile', action='store_true', help="Don't run the compilation step")
+    parser.add_argument('--noconvert', action='store_true', help="Don't run xdsl conversion script")
+    parser.add_argument('--noplot', action='store_true', help="Don't plot odd")
+    parser.add_argument('--noencode', action='store_true', help="Don't run encoding step")
+    parser.add_argument('--noensemble', action='store_true', help="Don't create an ensemble")
+    parser.add_argument('--logging', choices=['debug', 'info', 'warning'], help='Logging verbosity level', default='debug')
+    
+    
+    verbosity_level = parser.parse_args().logging
+    if verbosity_level == 'debug': verbosity_level = logging.DEBUG
+    elif verbosity_level == 'info': verbosity_level = logging.INFO
+    elif verbosity_level == 'warning': verbosity_level = logging.WARNING
+    
+    logging.basicConfig(level=verbosity_level, format='%(asctime)s|%(levelname)s: %(message)s', datefmt="%Y-%m-%d|%H:%M:%S")
 
     logging.info(f"DATASET_NAME: {DATASET_NAME}")
     logging.info(f"RESULTS_DIR: {RESULTS_DIR}")
@@ -154,7 +169,8 @@ if __name__ == '__main__':
         os.makedirs(RESULTS_DIR)
         logging.info(f"Created directory {RESULTS_DIR}")
         
-    run_xsdl_to_net(DATASET_NAME)
+    if not parser.parse_args().noconvert:
+        run_xsdl_to_net(DATASET_NAME)
     
     cnf_filenames = []
     total_clauses = 0
@@ -165,67 +181,71 @@ if __name__ == '__main__':
         DATASET_CONFIG['id'] = DATASET_ROOT
         
 
-        # Start timer
-        start = time.time()
-        
-        run_net_to_odd_compilation(DATASET_NAME, DATASET_CONFIG)
-        
-        # Stop timer
-        end = time.time()
-        
-        print(f"Time taken: {end - start}")
+        if not parser.parse_args().nocompile:
+            # Start timer
+            start = time.time()
+            run_net_to_odd_compilation(DATASET_NAME, DATASET_CONFIG)
+            # Stop timer
+            end = time.time()
+            
+            print(f"Time taken to compile the odd: {end - start}")
     
         odd_filename = f"odd_models/{DATASET_NAME}_{DATASET_ROOT}.odd"
         save_path = f"{RESULTS_DIR}/{DATASET_NAME}/{DATASET_NAME}_{DATASET_ROOT}.png"
-        run_plot_odd(odd_filename=odd_filename, save_path=save_path, display_block=True)
+        
+        if not parser.parse_args().noplot:
+            run_plot_odd(odd_filename=odd_filename, save_path=save_path, display_block=True)
     
         cnf_filename = f"cnf_files/{DATASET_NAME}_{DATASET_ROOT}.json"
         cnf_filenames.append(cnf_filename)
-        run_encoding(odd_filename=odd_filename, cnf_save_filename=cnf_filename)
+        
+        if not parser.parse_args().noencode:
+            run_encoding(odd_filename=odd_filename, cnf_save_filename=cnf_filename)
 
-        cnf, _, _, _ = read_cnf_from_json(cnf_filename)
-        total_clauses += len(cnf.clauses)
-        test_if_cnf_satisfiable(cnf=cnf)
+            cnf, _, _, _ = read_cnf_from_json(cnf_filename)
+            total_clauses += len(cnf.clauses)
+            test_if_cnf_satisfiable(cnf=cnf)
         
         DATASET_CONFIG["leaves"].append(DATASET_ROOT)
     
-    ensemble_cnf_filename = f"cnf_files/{DATASET_NAME}_ensemble.json"
-    run_encoding_ensemble(cnf_files=cnf_filenames, cnf_save_filename=ensemble_cnf_filename)
-    
-    ensemble_dic = read_unstructured_from_json(ensemble_cnf_filename)
-    sinks_map = ensemble_dic['sinks_map']
-    cnf = ensemble_dic['cnf']
-    mapping = ensemble_dic['map']
-    inv_map = ensemble_dic['map_inv']
-    
-    to_swap = {}
-    # Check if Immediate can be satisfied
-    for filename, nodes in sinks_map.items():
-        if 'Immediate' not in filename and 'Delayed' not in filename:
-            for node in nodes:
-                if 'FALSE' in node:
-                    to_swap[mapping[node]] = int(mapping[node])
-                if 'TRUE' in node:
-                    to_swap[mapping[node]] = -int(mapping[node])      
-                    
-    new_cnf = CNF()
-    for clause in cnf:
-        found = False
-        for key in to_swap:
-            if len(clause) == 1 and abs(int(clause[0])) == int(key):
-                new_clause = to_swap[key]
-                new_cnf.append([new_clause])
-                found = True
-        if not found:
-            new_cnf.append([int(c) for c in clause])
-    
-    for c in new_cnf:
-        if len(c) == 1:
-            logging.debug('Sinks:', c, inv_map[str(abs(c[0]))])
-            
-    logging.debug(f'Total clauses before: {total_clauses}, after: {len(new_cnf.clauses)}')
-    test_if_cnf_satisfiable(new_cnf)
-    
+    if not parser.parse_args().noensemble:
+        ensemble_cnf_filename = f"cnf_files/{DATASET_NAME}_ensemble.json"
+        run_encoding_ensemble(cnf_files=cnf_filenames, cnf_save_filename=ensemble_cnf_filename)
+        
+        ensemble_dic = read_unstructured_from_json(ensemble_cnf_filename)
+        sinks_map = ensemble_dic['sinks_map']
+        cnf = ensemble_dic['cnf']
+        mapping = ensemble_dic['map']
+        inv_map = ensemble_dic['map_inv']
+        
+        to_swap = {}
+        # Check if Immediate can be satisfied
+        for filename, nodes in sinks_map.items():
+            if 'Immediate' not in filename and 'Delayed' not in filename:
+                for node in nodes:
+                    if 'FALSE' in node:
+                        to_swap[mapping[node]] = int(mapping[node])
+                    if 'TRUE' in node:
+                        to_swap[mapping[node]] = -int(mapping[node])      
+                        
+        new_cnf = CNF()
+        for clause in cnf:
+            found = False
+            for key in to_swap:
+                if len(clause) == 1 and abs(int(clause[0])) == int(key):
+                    new_clause = to_swap[key]
+                    new_cnf.append([new_clause])
+                    found = True
+            if not found:
+                new_cnf.append([int(c) for c in clause])
+        
+        for c in new_cnf:
+            if len(c) == 1:
+                logging.debug('Sinks:', c, inv_map[str(abs(c[0]))])
+                
+        logging.debug(f'Total clauses before: {total_clauses}, after: {len(new_cnf.clauses)}')
+        test_if_cnf_satisfiable(new_cnf)
+        
     
     # # Add adapter that selects only one sink of all the 3 sinks
     # # It will have three inputs, one for each sink

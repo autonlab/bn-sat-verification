@@ -2,27 +2,23 @@ import json
 import os
 
 
-NETWORK_NAME = 'darpatriage'
+DATASET_NAME = 'alarm'
+NETWORK_NAME = 'LVFailure'
 
-config_filename = f'{NETWORK_NAME}_config.json'
+config_filename = f'{DATASET_NAME}_{NETWORK_NAME}_config.json'
 path = os.path.join(os.path.dirname(__file__), config_filename)
 
 config = {
     'network_name': NETWORK_NAME,
-    'experiment_n': 50,
-    'outcomes': ['Minimal', 'Delayed', 'Immediate'],
-    'cnf_filepath': f"cnf_files/{NETWORK_NAME}_ensemble.json",
+    'experiment_n': 5,
+    'outcomes': ['LVFailure'],
+    'cnf_filepath': f"cnf_files/{DATASET_NAME}_{NETWORK_NAME}.json",
     'OCC': True,
     'FMO': [
-        {'assumptions': [('Breathless', 0), ('BlastInjury', 1)], 'variable_to_verify': 'RespiratoryRate',},
-        {'assumptions': [('Breathless', 0), ('BlastInjury', 0)], 'variable_to_verify': 'RespiratoryRate',},
-        {'assumptions': [('TorsoDetected', 1), ('BrokenLeg', 1)], 'variable_to_verify': 'BloodPressure',},
-        {'assumptions': [('TorsoDetected', 0), ('BrokenLeg', 1)], 'variable_to_verify': 'BloodPressure',},
+        {'assumptions': [], 'variable_to_verify': 'CVP',},
         ],
     'SEC': [
-        {'if-tuples': [('Breathless', 0), ('BlastInjury', 1)], 'then': ('Y', '>=', 1), },
-        {'if-tuples': [('Breathless', 0), ('BlastInjury', 1)], 'then': ('Y', '<=', 0), },
-        {'if-tuples': [('Breathless', 0), ('BlastInjury', 1)], 'then': ('Y', '>=', 0), }
+        {'if-tuples': [('CVP', 0), ('PCWP', 1)], 'then': ('Y', '>=', 1), }
     ]
 }
 
