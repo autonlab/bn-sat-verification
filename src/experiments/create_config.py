@@ -10,7 +10,7 @@ path = os.path.join(os.path.dirname(__file__), config_filename)
 
 config = {
     'network_name': NETWORK_NAME,
-    'experiment_n': 5,
+    'experiment_n': 1,
     'outcomes': ['LVFailure'],
     'cnf_filepath': f"cnf_files/{DATASET_NAME}_{NETWORK_NAME}.json",
     'OCC': True,
@@ -18,7 +18,7 @@ config = {
         {'assumptions': [], 'variable_to_verify': 'CVP',},
         ],
     'SEC': [
-        {'if-tuples': [('CVP', 0), ('PCWP', 1)], 'then': ('Y', '>=', 1), }
+        {'if-tuples': [('CVP', 2), ('PCWP', 2)], 'then': ('Y', '>=', 0), }
     ]
 }
 

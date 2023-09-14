@@ -1,0 +1,34 @@
+{
+    "network_name": "LVFailure",
+    "experiment_n": 1,
+    "outcomes": [
+        "LVFailure"
+    ],
+    "cnf_filepath": "cnf_files/alarm_LVFailure.json",
+    "OCC": true,
+    "FMO": [
+        {
+            "assumptions": [],
+            "variable_to_verify": "CVP"
+        }
+    ],
+    "SEC": [
+        {
+            "if-tuples": [
+                [
+                    "CVP",
+                    0
+                ],
+                [
+                    "PCWP",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        }
+    ]
+}

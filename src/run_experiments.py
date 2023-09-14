@@ -2,6 +2,7 @@ import logging
 import os
 import json
 import timeit
+import argparse
 
 from pysat.formula import CNF
 
@@ -11,31 +12,48 @@ from verifications.verifiaction_experiment import VerificationExperiment
 from verifications.verification_multiclass_monotonicity import VerificationCaseMulticlassMonotonicity
 from verifications.verification_ifthen import VerificationIfThenRules
 
-dirpath = os.path.dirname(os.path.abspath(__file__))
 
 EXPERIMENTS_PATH = 'experiments'
-DATASET_NAME = "darpatriage"
-
-config_path = os.path.join(dirpath, EXPERIMENTS_PATH, f'{DATASET_NAME}_config.json') 
-
-with open(config_path, 'r') as f:
-    CONFIG = json.load(f)
-    
-EXPERIMENT_N = CONFIG['experiment_n'] # average over n runs
-
-BINARY = True if len(CONFIG['outcomes']) == 1 else False 
-
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.CRITICAL)
-    
+
+    parser = argparse.ArgumentParser(description='Run compilation&encoding pipeline')
+    parser.add_argument('--dataset', type=str, help="Dataset name, e.g., --dataset=alarm", required=True)
+    parser.add_argument('--ynode', type=str, help="Only for binary case, pass here the name of Y variable, e.g., --ynode=LVFailure", required=True)
+    parser.add_argument('--logging', choices=['debug', 'info', 'warning'], help='Logging verbosity level', default='info')
+    parser.add_argument('--nofmo', action='store_true', default=False, help="Don't run FMO verification queries")
+    parser.add_argument('--nocc', action='store_true', default=False, help="Don't run CC verification queries")
+    parser.add_argument('--nosec', action='store_true', default=False, help="Don't run SEC verification queries")
+
+    dirpath = os.path.dirname(os.path.abspath(__file__))
+
+    DATASET_NAME = parser.parse_args().dataset
+    Y_NODE_NAME = parser.parse_args().ynode
+
+    config_path = os.path.join(dirpath, EXPERIMENTS_PATH, f'{DATASET_NAME}_{Y_NODE_NAME}_config.json') 
+
+    with open(config_path, 'r') as f:
+        CONFIG = json.load(f)
+        
+    EXPERIMENT_N = CONFIG['experiment_n'] # average over n runs
+
+    BINARY = True if len(CONFIG['outcomes']) == 1 else False 
+
+
+    verbosity_level = parser.parse_args().logging
+    if verbosity_level == 'debug': verbosity_level = logging.DEBUG
+    elif verbosity_level == 'info': verbosity_level = logging.INFO
+    elif verbosity_level == 'warning': verbosity_level = logging.WARNING
+
+    logging.basicConfig(level=verbosity_level, format='%(asctime)s|%(levelname)s: %(message)s', datefmt="%Y-%m-%d|%H:%M:%S")    
     with open(os.path.join(dirpath, CONFIG['cnf_filepath']), 'r') as f:
         data = json.load(f)
         
-    sinks_map = data['sinks_map']
     _map = data['map']
     cnf = CNF(from_clauses=data['cnf'])
     sat_solver = PySATSolver()
+    
+    sinks_map = data['sinks_map']
     
     sinks_names_in_order = [None] * len(sinks_map)
     
@@ -54,7 +72,7 @@ if __name__ == '__main__':
     
     
     # Ordinal Class Coherency
-    if CONFIG['OCC'] is True: 
+    if CONFIG['OCC'] is True and not parser.parse_args().nocc: 
         def __occ():
             coherency_verif = VerificationCaseClassCoherency(name='All Class Coherency', 
                                                     map=_map, 
@@ -72,7 +90,7 @@ if __name__ == '__main__':
     
     
     # Feature Monotonicity
-    if CONFIG['FMO']:
+    if CONFIG['FMO'] and not parser.parse_args().nofmo:
         for i, case in enumerate(CONFIG['FMO']):
             assumptions, variable_to_verify = case.values()
             
@@ -98,7 +116,7 @@ if __name__ == '__main__':
     
    
     # IF then Rules (Safety Engineering Constraints)
-    if CONFIG['SEC']:
+    if CONFIG['SEC'] and not parser.parse_args().nosec:
         for i, case in enumerate(CONFIG['SEC']):
             if_tuples, then = case.values()
         def __sec():
