@@ -12,6 +12,8 @@ odd_models/
 bnc_configs/
 bnc_networks/
 results/
+*BNC_SDD*
+src/test.py
 
 
 
