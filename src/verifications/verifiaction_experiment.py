@@ -49,7 +49,7 @@ class VerificationExperiment:
         '''
         for verification_case in self.verification_cases:
             is_SAT, exec_time = self.run_verification_case(verification_case)
-            self.results[verification_case] = {"is_SAT": is_SAT, "exec_time": exec_time}
+            self.results[verification_case.__str__()] = {"is_SAT": is_SAT, "exec_time": exec_time, 'result_model': verification_case.get_result_model()}
             
     def get_results(self) -> Dict[VerificationCase, Dict]:
         '''
