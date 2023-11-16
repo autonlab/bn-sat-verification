@@ -21,10 +21,11 @@ from utils.tseitin_transformation import tseitin_transformation_2
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
 
-DATASET_NAME = "alarm"
-VARS = 20
-OUTCOMES = ['LVFailure']
-LEAVES = []
+DATASET_NAME = "credit10k"
+VARS = 12
+OUTCOMES = ['CreditWorthiness']
+LEAVES = ['PaymentHistory', 'WorkHistory', 'Reliability', 'Debit', 'Income',
+       'RatioDebInc', 'Assets', 'Worth', 'Profession', 'FutureIncome', 'Age']
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
     "id": None,
@@ -33,7 +34,7 @@ DATASET_CONFIG = {
     "vars": VARS,
     "root": None,
     "leaves": LEAVES,
-    "threshold": 0.75,
+    "threshold": 0.5,
     "input_filepath": "../bnc_networks/",
     "output_filepath": "../odd_models/"
 }

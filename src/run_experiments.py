@@ -13,7 +13,7 @@ from verifications.verification_multiclass_monotonicity import VerificationCaseM
 from verifications.verification_ifthen import VerificationIfThenRules
 
 
-EXPERIMENTS_PATH = 'experiments'
+EXPERIMENTS_PATH = 'experiments_fall'
 
 if __name__ == '__main__':
 
