@@ -48,7 +48,8 @@ def extract_rules(tree: DecisionTreeClassifier,
     if tree.children_left[node_index] == tree.children_right[node_index]:
         # Leaf node, check for purity
         class_label = np.argmax(tree.value[node_index])
-        if np.unique(tree.value[node_index]).shape[0] == 2 or not only_pure_leaves:
+        classes = np.unique(tree.value[node_index])
+        if classes.shape[0] == 2 and 0 in classes or not only_pure_leaves:
             # Leaf node is pure
             rule_with_class = {'rule':  rule, 'class': int(class_label)}
             return [rule_with_class]
@@ -158,12 +159,54 @@ def deduplicate_list_of_rules(list_of_rules: list) -> list:
     
     return list_of_rules
 
+def filter_rules(rules: list, min_cov: float = 0.001) -> list:
+    '''
+    Filter rules by coverage.
+    '''
+    return [rule for rule in rules if rule['coverage'] >= min_cov]
+
+def check_overlap_and_collapse(rules: list) -> list:
+    '''
+    Check a rule has two if statements on feature and collapse them.
+    '''
+    new_rules = []
+    for rule in rules:
+        d  = {}  
+        constraints = rule['rule']
+        for feature, sign, value in constraints:
+            value = float(value)
+            if not feature in d:
+                d[feature] = (-np.inf, np.inf)
+           
+            _min, _max = d[feature]
+            if sign == '<=':
+                d[feature] = (_min, min(_max, value))
+            if sign == '>':
+                d[feature] = (max(_min, value), _max)   
+                    
+        new_rule = []
+        for feature, (min_, max_) in d.items():
+            if min_ == -np.inf:
+                new_rule.append((feature, '<=', max_))
+            elif max_ == np.inf:
+                new_rule.append((feature, '>', min_))
+            else:
+                new_rule.append((feature, '<=', max_))
+                new_rule.append((feature, '>', min_))
+                
+        new_rules.append({'rule': new_rule, 'class': rule['class'], 'coverage': rule['coverage']})
+    return new_rules            
+
 
 if __name__ == '__main__':
-    NAME = 'carton_1'
-    DATA_PATH = f'src/paper_experiment_fire/data/{NAME}.csv'
-    CLASS_FEATURE_NAME = 'Status'
-    TRIALS = 10
+    from experiment_utils import credit_pipeline
+    import os 
+    
+    filedir = os.path.dirname(os.path.realpath(__file__))
+    
+    NAME = 'Credit10K'
+    DATA_PATH = f'src/paper_experiment_fire/data/{NAME}.csv' 
+    TRIALS = 5
     RANDOM_START_SEED = 32
     
     np.random.seed(RANDOM_START_SEED)
@@ -171,8 +214,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     
     raw_data = pd.read_csv(DATA_PATH)
-    data = prep_data(raw_data)
-    data = discretize_data(data, data)
+    train_df, test_df, CLASS_FEATURE_NAME = credit_pipeline(raw_data)
+    
+    data = pd.concat([train_df, test_df])
     
     X = data.drop(columns=[CLASS_FEATURE_NAME])
     y = data[CLASS_FEATURE_NAME]
@@ -193,8 +237,12 @@ if __name__ == '__main__':
     
     list_of_rules = deduplicate_list_of_rules(list_of_rules)
     
+    list_of_rules = filter_rules(list_of_rules, min_cov=0.01)
+    
+    list_of_rules = check_overlap_and_collapse(list_of_rules)
+    
     pretty_print(list_of_rules, X, y)
     
-    save_rules_to_json(list_of_rules, f'rules_{NAME}')
+    save_rules_to_json(list_of_rules, f'{filedir}/rules_{NAME}')
     
 

@@ -1,0 +1,322 @@
+[
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                "<=",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.039
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                ">",
+                0.0
+            ],
+            [
+                "Assets",
+                ">",
+                0.0
+            ],
+            [
+                "Profession",
+                ">",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.016
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "Age",
+                ">",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                "<=",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.026
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "Profession",
+                "<=",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                "<=",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.023
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "Age",
+                ">",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                ">",
+                0.0
+            ],
+            [
+                "Profession",
+                ">",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.02
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                ">",
+                0.0
+            ],
+            [
+                "Assets",
+                "<=",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.028
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "Age",
+                "<=",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.035
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "Age",
+                ">",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                ">",
+                0.0
+            ],
+            [
+                "Profession",
+                "<=",
+                0.0
+            ],
+            [
+                "Assets",
+                "<=",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.01
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "Profession",
+                "<=",
+                0.0
+            ],
+            [
+                "WorkHistory",
+                ">",
+                0.0
+            ],
+            [
+                "Assets",
+                "<=",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.014
+    },
+    {
+        "rule": [
+            [
+                "FutureIncome",
+                "<=",
+                0.0
+            ],
+            [
+                "Reliability",
+                "<=",
+                0.0
+            ],
+            [
+                "RatioDebInc",
+                "<=",
+                0.0
+            ],
+            [
+                "Profession",
+                ">",
+                0.0
+            ]
+        ],
+        "class": 0,
+        "coverage": 0.046
+    }
+]
