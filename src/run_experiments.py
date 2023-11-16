@@ -146,6 +146,8 @@ if __name__ == '__main__':
     if CONFIG['SEC'] and not parser.parse_args().nosec:
         
         def __sec():
+            cnf = CNF(from_clauses=data['cnf'])
+            experiment = VerificationExperiment(cnf=cnf, sat_solver=sat_solver)
             for i, case in enumerate(CONFIG['SEC']):
                 if_tuples, then = case.values() 
                 verif = VerificationIfThenRules(
@@ -157,15 +159,13 @@ if __name__ == '__main__':
                     map_name_vars=data['map_names_vars'],
                     binary=BINARY
                 )
-                cnf = CNF(from_clauses=data['cnf'])
-                experiment = VerificationExperiment(cnf=cnf, sat_solver=sat_solver)
                 experiment.add_verification_case(verif)
-                experiment.run_all_verification_cases()
-                
-                results = translate_results(experiment.results)
-                
-                with open(os.path.join(ARTIFACTS_PATH, f'ifthen_{i}.json'), 'w') as f:
-                    json.dump(results, f, indent=4)
+            experiment.run_all_verification_cases()
+            
+            results = translate_results(experiment.results)
+            
+            with open(os.path.join(ARTIFACTS_PATH, f'ifthen_{DATASET_NAME}.json'), 'w') as f:
+                json.dump(results, f, indent=4)
         
          
         runtime = timeit.timeit(__sec, number=EXPERIMENT_N) / EXPERIMENT_N
