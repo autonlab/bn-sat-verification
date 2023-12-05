@@ -176,9 +176,10 @@ class VerificationIfThenRules(VerificationCase):
             
             outcome = sat_solver.solve(cnf=CNF(from_clauses=final_cnf))
             
+            self.set_sat_solver(sat_solver)
+            
             self.result_model = outcome
-            
-            
+                   
             if outcome is None:
                 logging.debug(f'Verification case #{self.name} is UNSAT.')
                 logging.debug(f'Verification case #{self.name} model: {None}')

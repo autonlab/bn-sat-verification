@@ -13,7 +13,7 @@ class VerificationExperiment:
         self.cnf = cnf
         self.sat_solver = sat_solver
         self.verification_cases: List[VerificationCase] = []
-        self.results: Dict[VerificationCase, Dict] = {}
+        self.results: Dict[str, Dict] = {}
         
     def add_verification_case(self, verification_case: VerificationCase) -> None:
         '''
@@ -43,13 +43,18 @@ class VerificationExperiment:
         
         return is_SAT, end_time - start_time
     
-    def run_all_verification_cases(self) -> None:
+    def run_all_verification_cases(self, generate_all_SAT_models: bool = False) -> None:
         '''
         Run all verification cases.
         '''
         for verification_case in self.verification_cases:
             is_SAT, exec_time = self.run_verification_case(verification_case)
             self.results[verification_case.__str__()] = {"is_SAT": is_SAT, "exec_time": exec_time, 'result_model': verification_case.get_result_model()}
+            
+            if generate_all_SAT_models:
+                self.results[verification_case.__str__()]['all_sat_models'] = verification_case.get_all_models()
+            else:
+                self.results[verification_case.__str__()]['all_sat_models'] = []
             
     def get_results(self) -> Dict[VerificationCase, Dict]:
         '''

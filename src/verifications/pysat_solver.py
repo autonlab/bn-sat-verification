@@ -20,20 +20,34 @@ class PySATSolver(SATSolver):
             The model if the formula is satisfiable, None otherwise.
         '''
         if solver is None:
-            solver = Cadical153()
+            self.solver = Cadical153()
+        else:
+            self.solver = solver
+            
+        self.cnf = cnf
+        self.assumptions = assumptions
         
         # Add cnf formula to solver
-        solver.append_formula(cnf)
+        self.solver.append_formula(cnf)
 
-        if solver.solve(assumptions=assumptions):
+        if self.solver.solve(assumptions=self.assumptions):
             logging.debug(f'SAT')
-            sat_model = solver.get_model()
+            sat_model = self.solver.get_model()
             logging.debug(f'SAT MODEL: {sat_model}')
         else:
             logging.debug(f'UNSAT')
             sat_model = None
         
         return sat_model
+    
+    def enumerate_all_SAT_models(self) -> List[List[int]]:
+        '''
+        Enumerate all SAT models for the given cnf formula.
+        
+        Returns:
+            A list of all SAT models.
+        '''
+        return [m for m in self.solver.enum_models()]
 
 if __name__ == "__main__":
     # -------------------------------

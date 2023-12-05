@@ -123,8 +123,7 @@ if __name__ == '__main__':
     
     def translate_results(results: dict) -> dict:
         
-        for key, value in results.items():
-            model = value['result_model']
+        def __translate_model(model: list) -> list:
             true_elements = []
             false_elements = []
             
@@ -136,9 +135,24 @@ if __name__ == '__main__':
                         true_elements.append(_inv_map[atom])
                     else:
                         false_elements.append(_inv_map[atom])
-                    
+                        
+            return true_elements, false_elements
+        
+        for key, value in results.items():
+            model = value['result_model']
+            
+            true_elements, false_elements = __translate_model(model)
             results[key]['true_variables'] = true_elements
             results[key]['false_variables'] = false_elements
+            
+            
+            _all_sat_models = value['all_sat_models'].copy()
+            
+            results[key]['all_sat_models'] = []
+            for sat_model in _all_sat_models:
+                true_elements, false_elements = __translate_model(sat_model)
+                results[key]['all_sat_models'] += [{'true_variables': true_elements, 'false_variables': false_elements}]
+
 
         return results
     
@@ -168,10 +182,12 @@ if __name__ == '__main__':
                     binary=BINARY
                 )
                 experiment.add_verification_case(verif)
-            experiment.run_all_verification_cases()
+                
+            experiment.run_all_verification_cases(generate_all_SAT_models=True)
             
             results = translate_results(experiment.results)
             
+                       
             with open(os.path.join(ARTIFACTS_PATH, f'ifthen_{DATASET_NAME}.json'), 'w') as f:
                 json.dump(results, f, indent=4)
         
