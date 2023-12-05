@@ -24,8 +24,7 @@ from verifications.solver_class import SATSolver
 DATASET_NAME = "credit10k"
 VARS = 12
 OUTCOMES = ['CreditWorthiness']
-LEAVES = ['PaymentHistory', 'WorkHistory', 'Reliability', 'Debit', 'Income',
-       'RatioDebInc', 'Assets', 'Worth', 'Profession', 'FutureIncome', 'Age']
+LEAVES = []
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
     "id": None,

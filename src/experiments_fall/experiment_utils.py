@@ -2,6 +2,21 @@ import pandas as pd
 from sklearn.preprocessing import KBinsDiscretizer
 from sklearn.model_selection import train_test_split
 
+credit10k_translation_table = {
+            'PaymentHistory': {'Without_Reference': 0, 'NoAceptable': 1, 'Aceptable': 2, 'Excellent': 3},
+            'WorkHistory': {'Unjustified_no_work': 0, 'Unstable': 1, 'Justified_no_work': 2, 'Stable': 3},
+            'Reliability': {'Unreliable': 0, 'Reliable': 1},
+            'Debit': {'a0_11100': 0, 'a11101_25900': 1, 'a25901_more': 2},
+            'Income': {'s0_30000': 0, 's30001_70000': 1, 's70001_more': 2},
+            'RatioDebInc': {'Unfavorable': 0, 'Favorable': 1},
+            'Assets': {'poor': 0, 'average': 1, 'wealthy': 2},
+            'Worth': {'Low': 0, 'Medium': 1, 'High': 2},
+            'Profession': {'Low_income_profession': 0, 'Medium_income_profession': 1, 'High_income_profession': 2},
+            'FutureIncome': {'Not_promissing': 0, 'Promissing': 1},
+            'Age': {'a16_21': 0, 'a22_65': 1, 'a66_up': 2},
+            'CreditWorthiness': {'Negative': 0, 'Positive': 1}
+        }
+
 def prep_data(df: pd.DataFrame) -> pd.DataFrame:
     '''Preprocess data. Drop columns, convert detector to binary.'''
     columns_to_drop = ['Time', 'Reading ID']
@@ -32,24 +47,9 @@ def discretize_data(original_df: pd.DataFrame,
 
 def credit_pipeline(raw_data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, str]:
     def encode_ordinal(df):
-        translation_table = {
-            'PaymentHistory': {'Without_Reference': 0, 'NoAceptable': 1, 'Aceptable': 2, 'Excellent': 3},
-            'WorkHistory': {'Unjustified_no_work': 0, 'Unstable': 1, 'Justified_no_work': 2, 'Stable': 3},
-            'Reliability': {'Unreliable': 0, 'Reliable': 1},
-            'Debit': {'a0_11100': 0, 'a11101_25900': 1, 'a25901_more': 2},
-            'Income': {'s0_30000': 0, 's30001_70000': 1, 's70001_more': 2},
-            'RatioDebInc': {'Unfavorable': 0, 'Favorable': 1},
-            'Assets': {'poor': 0, 'average': 1, 'wealthy': 2},
-            'Worth': {'Low': 0, 'Medium': 1, 'High': 2},
-            'Profession': {'Low_income_profession': 0, 'Medium_income_profession': 1, 'High_income_profession': 2},
-            'FutureIncome': {'Not_promissing': 0, 'Promissing': 1},
-            'Age': {'a16_21': 0, 'a22_65': 1, 'a66_up': 2},
-            'CreditWorthiness': {'Negative': 0, 'Positive': 1}
-        }
-
         df_encoded = df.copy()
 
-        for feature, mapping in translation_table.items():
+        for feature, mapping in credit10k_translation_table.items():
             df_encoded[feature] = df_encoded[feature].map(mapping)
 
         return df_encoded

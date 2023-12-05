@@ -236,7 +236,7 @@ if __name__ == '__main__':
     
     list_of_rules = deduplicate_list_of_rules(list_of_rules)
     
-    list_of_rules = filter_rules(list_of_rules, min_cov=0.002)
+    list_of_rules = filter_rules(list_of_rules, min_cov=0.001)
     
     list_of_rules = check_overlap_and_collapse(list_of_rules)
     

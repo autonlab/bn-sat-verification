@@ -141,6 +141,7 @@ if __name__ == '__main__':
             results[key]['false_variables'] = false_elements
 
         return results
+    
    
     # IF then Rules (Safety Engineering Constraints)
     if CONFIG['SEC'] and not parser.parse_args().nosec:
@@ -150,11 +151,18 @@ if __name__ == '__main__':
             experiment = VerificationExperiment(cnf=cnf, sat_solver=sat_solver)
             for i, case in enumerate(CONFIG['SEC']):
                 if_tuples, then = case.values() 
+                
+                # Remove tuples that involve irrelevant variable
+                filtered_tuples = list()
+                for tpl in if_tuples:
+                    if any(str(tpl[0]).lower() in s.lower() for s in _map.keys()):
+                      filtered_tuples.append(tpl)  
+                
                 verif = VerificationIfThenRules(
                     name=f'IfThen#{i}',
                     map=_map,
                     sink_names_in_order=sinks_names_in_order,
-                    if_tuples=if_tuples,
+                    if_tuples=filtered_tuples,
                     then_tuples=[then], 
                     map_name_vars=data['map_names_vars'],
                     binary=BINARY
