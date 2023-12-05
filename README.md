@@ -16,6 +16,7 @@ There should be directory src/bnc_sdd. If not, run
 3. Install dependencies
 Note: Tested on Python 3.10.11
 	```bash
+	python -m pip install --index-url https://support.bayesfusion.com/pysmile-A/ pysmile
 	python3 -m pip install -r requirements.txt
 	```
 
