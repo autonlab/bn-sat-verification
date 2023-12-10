@@ -48,7 +48,7 @@ class VerificationCaseClassCoherency(VerificationCase):
             
             if n <= 2:
                 # There is no point in checking anything as two classes are always adjacent 
-                logging.info(f'Verification case #{self.name} is SAT. Because it has only two classes.')
+                logging.debug(f'Verification case #{self.name} is SAT. Because it has only two classes.')
                 return True
             
             dnf_clauses = []

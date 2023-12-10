@@ -45,7 +45,7 @@ def discretize_data(original_df: pd.DataFrame,
     
     return df_to_discretize
 
-def credit_pipeline(raw_data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, str]:
+def credit_pipeline(raw_data: pd.DataFrame, test_split_ratio: float = 0.2) -> tuple[pd.DataFrame, pd.DataFrame, str]:
     def encode_ordinal(df):
         df_encoded = df.copy()
 
@@ -56,7 +56,7 @@ def credit_pipeline(raw_data: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame,
     
     raw_data = encode_ordinal(raw_data)
     
-    train_df, test_df = train_test_split(raw_data, test_size=0.2, random_state=42)
+    train_df, test_df = train_test_split(raw_data, test_size=test_split_ratio, random_state=42)
     
     return train_df, test_df, 'CreditWorthiness'  
 

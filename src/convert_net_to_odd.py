@@ -3,6 +3,7 @@ import json
 import os 
 import logging
 import utils.adapter as adapter
+import sys
 
 def run_conversion(_json: dict) -> None:
     '''
@@ -12,6 +13,11 @@ def run_conversion(_json: dict) -> None:
         configpath (str): Path to the BNC json config file e.g. bnc_configs/admission.json
     ''' 
     adapter.save_config(_json)
+    
+    # Copy the network into the datasetname.net file which is read by the BNC_SDD library
+    original_file = f"bnc_networks/{_json['name']}_{_json['id']}.net"
+    to_file = f"bnc_networks/{_json['name']}.net"
+    os.system(f'cp {original_file} {to_file}')
     
     adapter.run_bnc_to_obdd()
     
