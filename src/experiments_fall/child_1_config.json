@@ -1,0 +1,394 @@
+{
+    "dataset": "child",
+    "id": "1",
+    "experiment_n": 1,
+    "outcomes": [
+        "BirthAsphyxia"
+    ],
+    "config_filepath": "bnc_configs/child_1.json",
+    "cnf_filepath": "cnf_files/child_1.json",
+    "OCC": false,
+    "FMO": [
+        {
+            "assumptions": [
+                [
+                    "CO2Report",
+                    1
+                ]
+            ],
+            "variable_to_verify": "LVHreport"
+        },
+        {
+            "assumptions": [
+                [
+                    "LowerBodyO2",
+                    0
+                ],
+                [
+                    "LVHreport",
+                    0
+                ]
+            ],
+            "variable_to_verify": "Age"
+        },
+        {
+            "assumptions": [
+                [
+                    "XrayReport",
+                    1
+                ],
+                [
+                    "CO2Report",
+                    0
+                ]
+            ],
+            "variable_to_verify": "Age"
+        },
+        {
+            "assumptions": [],
+            "variable_to_verify": "RUQO2"
+        },
+        {
+            "assumptions": [
+                [
+                    "Age",
+                    0
+                ],
+                [
+                    "LowerBodyO2",
+                    1
+                ],
+                [
+                    "CO2Report",
+                    1
+                ],
+                [
+                    "XrayReport",
+                    0
+                ],
+                [
+                    "GruntingReport",
+                    0
+                ]
+            ],
+            "variable_to_verify": "LVHreport"
+        },
+        {
+            "assumptions": [
+                [
+                    "CO2Report",
+                    0
+                ],
+                [
+                    "LowerBodyO2",
+                    0
+                ],
+                [
+                    "LVHreport",
+                    1
+                ],
+                [
+                    "XrayReport",
+                    1
+                ]
+            ],
+            "variable_to_verify": "Age"
+        },
+        {
+            "assumptions": [
+                [
+                    "CO2Report",
+                    0
+                ],
+                [
+                    "GruntingReport",
+                    0
+                ],
+                [
+                    "LowerBodyO2",
+                    0
+                ],
+                [
+                    "RUQO2",
+                    1
+                ],
+                [
+                    "Age",
+                    1
+                ],
+                [
+                    "XrayReport",
+                    0
+                ]
+            ],
+            "variable_to_verify": "LVHreport"
+        },
+        {
+            "assumptions": [
+                [
+                    "XrayReport",
+                    1
+                ],
+                [
+                    "LowerBodyO2",
+                    0
+                ],
+                [
+                    "LVHreport",
+                    0
+                ]
+            ],
+            "variable_to_verify": "RUQO2"
+        },
+        {
+            "assumptions": [],
+            "variable_to_verify": "CO2Report"
+        },
+        {
+            "assumptions": [
+                [
+                    "Age",
+                    0
+                ]
+            ],
+            "variable_to_verify": "LowerBodyO2"
+        }
+    ],
+    "ITR": [
+        {
+            "if-tuples": [
+                [
+                    "LVHreport",
+                    "<",
+                    0
+                ],
+                [
+                    "Age",
+                    "<",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "RUQO2",
+                    ">",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Age",
+                    "<=",
+                    0
+                ],
+                [
+                    "XrayReport",
+                    ">",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Age",
+                    "<=",
+                    1
+                ],
+                [
+                    "XrayReport",
+                    "<=",
+                    0
+                ],
+                [
+                    "LVHreport",
+                    "<",
+                    1
+                ],
+                [
+                    "LowerBodyO2",
+                    ">=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "CO2Report",
+                    "<",
+                    0
+                ],
+                [
+                    "LowerBodyO2",
+                    ">",
+                    1
+                ],
+                [
+                    "CO2Report",
+                    ">",
+                    1
+                ],
+                [
+                    "RUQO2",
+                    "<=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "LVHreport",
+                    ">",
+                    1
+                ],
+                [
+                    "XrayReport",
+                    "<",
+                    1
+                ],
+                [
+                    "LowerBodyO2",
+                    "<",
+                    0
+                ],
+                [
+                    "Age",
+                    "<",
+                    1
+                ],
+                [
+                    "LVHreport",
+                    "<=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "RUQO2",
+                    ">",
+                    1
+                ],
+                [
+                    "LowerBodyO2",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "LVHreport",
+                    "<",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "XrayReport",
+                    "<",
+                    1
+                ],
+                [
+                    "Age",
+                    ">=",
+                    0
+                ],
+                [
+                    "GruntingReport",
+                    ">=",
+                    0
+                ],
+                [
+                    "XrayReport",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Age",
+                    ">=",
+                    1
+                ],
+                [
+                    "CO2Report",
+                    ">",
+                    0
+                ],
+                [
+                    "GruntingReport",
+                    ">=",
+                    1
+                ],
+                [
+                    "Age",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        }
+    ]
+}

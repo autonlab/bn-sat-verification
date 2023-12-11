@@ -85,7 +85,7 @@ class ExperimentRunner:
         
     def setup(self) -> None:
         self.dirpath = os.path.dirname(os.path.abspath(__file__))
-        self.artifacts_path = os.path.join( self.dirpath, self.experiments_path, f'{self.dataset_name}_{self.id}_artifacts')
+        self.artifacts_path = os.path.join( self.dirpath, self.experiments_path, 'artifacts', f'{self.dataset_name}_{self.id}_artifacts')
         if not os.path.exists(self.artifacts_path):
             os.makedirs(self.artifacts_path)
             
@@ -132,19 +132,30 @@ class ExperimentRunner:
         for i, case in enumerate(self.config['FMO']):
             assumptions, variable_to_verify = case.values()
             
-            fmo_verif = VerificationCaseMulticlassMonotonicity(name=f'{variable_to_verify}-Monotonicity',
+            if variable_to_verify not in self.data['map_names_vars'].keys():
+                logging.warning(f'Variable {variable_to_verify} not in the map. Skipping...')
+                continue
+            
+            # Filter out assumptions that involve irrelevant variables
+            filtered_assumptions = list(filter(lambda x: x[0] in self.data['map_names_vars'].keys(), assumptions))
+            
+            fmo_verif = VerificationCaseMulticlassMonotonicity(name=f'{variable_to_verify}-Monotonicity-#{i}',
                                                             map=self.map,
                                                             sink_names_in_order=self.sinks_names_in_order,
                                                             variable_to_verify=variable_to_verify,
                                                             map_name_vars=self.data['map_names_vars'],
-                                                            assumptions=assumptions,
+                                                            assumptions=filtered_assumptions,
                                                             binary=self.binary
                                                         )
             
             
             
             experiment.add_verification_case(fmo_verif)
-        experiment.run_all_verification_cases()
+        experiment.run_all_verification_cases(iterate_sat_models)
+        results = translate_results(experiment.results, self.inv_map)
+            
+        with open(os.path.join(self.artifacts_path, f'fmo_{self.dataset_name}.json'), 'w') as f:
+            json.dump(results, f, indent=4)
             
     def itr(self, iterate_sat_models: bool = True) -> None:
         

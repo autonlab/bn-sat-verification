@@ -2,11 +2,11 @@
     "id": "1",
     "name": "child",
     "filetype": "net",
-    "vars": 19,
-    "root": "Disease",
-    "leaves": [],
-    "threshold": 0.88,
+    "vars": 12,
+    "root": "BirthAsphyxia",
+    "leaves": ["Age", "Grunting", "LVHreport", "LowerBodyO2", "RUQO2", "CO2Report", "XrayReport", "HypDistrib", "HypoxiaInO2"], 
+    "threshold": 0.9,
     "input_filepath": "../bnc_networks/",
-    "output_filepath": "../odd_models/test/"
+    "output_filepath": "../odd_models/"
   }
   

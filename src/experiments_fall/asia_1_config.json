@@ -1,0 +1,340 @@
+{
+    "dataset": "asia",
+    "id": "1",
+    "experiment_n": 1,
+    "outcomes": [
+        "Bronchitis"
+    ],
+    "config_filepath": "bnc_configs/asia_1.json",
+    "cnf_filepath": "cnf_files/asia_1.json",
+    "OCC": false,
+    "FMO": [
+        {
+            "assumptions": [
+                [
+                    "XRay",
+                    1
+                ]
+            ],
+            "variable_to_verify": "Dyspnea"
+        },
+        {
+            "assumptions": [
+                [
+                    "XRay",
+                    0
+                ]
+            ],
+            "variable_to_verify": "Dyspnea"
+        },
+        {
+            "assumptions": [],
+            "variable_to_verify": "XRay"
+        },
+        {
+            "assumptions": [],
+            "variable_to_verify": "XRay"
+        },
+        {
+            "assumptions": [],
+            "variable_to_verify": "XRay"
+        },
+        {
+            "assumptions": [
+                [
+                    "Dyspnea",
+                    1
+                ]
+            ],
+            "variable_to_verify": "XRay"
+        },
+        {
+            "assumptions": [
+                [
+                    "XRay",
+                    0
+                ]
+            ],
+            "variable_to_verify": "Dyspnea"
+        },
+        {
+            "assumptions": [
+                [
+                    "Dyspnea",
+                    0
+                ]
+            ],
+            "variable_to_verify": "XRay"
+        },
+        {
+            "assumptions": [],
+            "variable_to_verify": "XRay"
+        },
+        {
+            "assumptions": [],
+            "variable_to_verify": "XRay"
+        }
+    ],
+    "ITR": [
+        {
+            "if-tuples": [
+                [
+                    "Dyspnea",
+                    "<=",
+                    1
+                ],
+                [
+                    "Dyspnea",
+                    "<",
+                    0
+                ],
+                [
+                    "Dyspnea",
+                    "<",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Dyspnea",
+                    "<",
+                    0
+                ],
+                [
+                    "XRay",
+                    ">=",
+                    1
+                ],
+                [
+                    "Dyspnea",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Dyspnea",
+                    "<",
+                    1
+                ],
+                [
+                    "XRay",
+                    ">",
+                    1
+                ],
+                [
+                    "XRay",
+                    "<=",
+                    0
+                ],
+                [
+                    "Dyspnea",
+                    ">=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Dyspnea",
+                    "<=",
+                    1
+                ],
+                [
+                    "XRay",
+                    ">",
+                    0
+                ],
+                [
+                    "XRay",
+                    ">",
+                    0
+                ],
+                [
+                    "XRay",
+                    "<=",
+                    1
+                ],
+                [
+                    "XRay",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "XRay",
+                    "<=",
+                    1
+                ],
+                [
+                    "Dyspnea",
+                    ">",
+                    0
+                ],
+                [
+                    "XRay",
+                    ">=",
+                    0
+                ],
+                [
+                    "Dyspnea",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "XRay",
+                    ">=",
+                    1
+                ],
+                [
+                    "XRay",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Dyspnea",
+                    ">=",
+                    0
+                ],
+                [
+                    "Dyspnea",
+                    "<=",
+                    0
+                ],
+                [
+                    "XRay",
+                    "<",
+                    1
+                ],
+                [
+                    "XRay",
+                    "<=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "XRay",
+                    ">=",
+                    1
+                ],
+                [
+                    "Dyspnea",
+                    "<=",
+                    1
+                ],
+                [
+                    "Dyspnea",
+                    "<",
+                    0
+                ],
+                [
+                    "XRay",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "XRay",
+                    "<",
+                    0
+                ],
+                [
+                    "Dyspnea",
+                    ">",
+                    1
+                ],
+                [
+                    "Dyspnea",
+                    ">=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Dyspnea",
+                    "<",
+                    0
+                ],
+                [
+                    "XRay",
+                    ">=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        }
+    ]
+}

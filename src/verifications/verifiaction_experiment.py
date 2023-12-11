@@ -32,17 +32,23 @@ class VerificationExperiment:
         Run a single verification case.
         '''
         start_time = timeit.default_timer()
-        is_SAT: bool = verification_case.verify(deepcopy(self.cnf), self.sat_solver)
-        end_time = timeit.default_timer()
-        verification_case.set_result(is_SAT)
+        try:
+            is_SAT: bool = verification_case.verify(deepcopy(self.cnf), self.sat_solver)
+            end_time = timeit.default_timer()
+            verification_case.set_result(is_SAT)
+            
+            logging.debug(f'-'*80)
+            logging.info(f"Verification case: '{verification_case.name}' is {'PASSED' if is_SAT else 'FAILED'} ({'UNSAT' if is_SAT else 'SAT'}).")
+            logging.debug(f"Verification case: '{verification_case.name}' took {1000 * (end_time - start_time):.1f} ms.")
+            logging.debug(f'-'*80)
+            
+            return is_SAT, end_time - start_time
+        except ValueError as e:
+            logging.debug(f'-'*80)
+            logging.info(f"Verification case: '{verification_case.name}' is FAILED and cannot be run and threw an error: {e}.")
+            logging.debug(f'-'*80)
+            return None, 0
         
-        logging.debug(f'-'*80)
-        logging.debug(f"Verification case: '{verification_case.name}' is {'PASSED' if is_SAT else 'FAILED'} ({'UNSAT' if is_SAT else 'SAT'}).")
-        logging.debug(f"Verification case: '{verification_case.name}' took {1000 * (end_time - start_time):.1f} ms.")
-        logging.debug(f'-'*80)
-        
-        return is_SAT, end_time - start_time
-    
     def run_all_verification_cases(self, generate_all_SAT_models: bool = False) -> None:
         '''
         Run all verification cases.

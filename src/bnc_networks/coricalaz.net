@@ -81,18 +81,6 @@ node Die_from_PVT_Covid
 {
 states = ( "Yes" "No" );
 }
-node Input
-{
-states = ( "State0" "State1" );
-}
-node Intermediate
-{
-states = ( "State0" "State1" );
-}
-node Outcome
-{
-states = ( "State0" "State1" );
-}
 potential ( Community_transmission |  )
 {
 data = (
@@ -192,19 +180,4 @@ potential ( Die_from_PVT_Covid | PVT_Covid )
 {
 data = (
 ((0.199 0.801)(0.0 1.0))) ;
-}
-potential ( Input |  )
-{
-data = (
-(0.5 0.5)) ;
-}
-potential ( Intermediate |  )
-{
-data = (
-(0.5 0.5)) ;
-}
-potential ( Outcome |  )
-{
-data = (
-(0.5 0.5)) ;
 }
