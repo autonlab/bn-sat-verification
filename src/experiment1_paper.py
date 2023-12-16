@@ -12,6 +12,7 @@ from run_experiments_binary import ExperimentRunner
 # logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(levelname)s: %(message)s', datefmt="%Y-%m-%d|%H:%M:%S")
 
 os.chdir('src')
+random.seed(421)
 
 successful_compilations = []
 
@@ -20,7 +21,7 @@ encoding_times = []
 verification_times = []
 
 
-TIMEIT_REPEATS = 5
+TIMEIT_REPEATS = 10
 
 base_path = 'bnc_configs/'
 config_paths = [
@@ -54,7 +55,7 @@ def generate_random_fmo(n: int, varnames: list):
     fmos = []
 
     vals = [0,1]
-    assumptions = [1,2,3,4,5,6,7]
+    assumptions = [3,4,5,6,7]
     
     for i in range(n):
         
@@ -112,7 +113,7 @@ for path in config_paths:
         run_encoding(odd_filename, cnf_filename)
     
     avg_enc_time = timeit.timeit(__enocde, number=TIMEIT_REPEATS) / TIMEIT_REPEATS
-    encoding_times.append(avg_enc_time)
+    encoding_times.append(avg_enc_time * 1000)
     
     
     varnames = get_varnames_from_odd(odd_filename)
@@ -140,12 +141,22 @@ for path in config_paths:
     
     times = er.get_times()
     verification_times.append({k:v / (queries_count // 2) for k,v in times.items()})
-        
-        
+    
     print(f'Finished {name}_{id}')
     
+    print(f'Current results:')
+    tmp_frame = pd.DataFrame(
+        {
+            'compilation [s]': compilation_times,
+            'encoding [ms]': encoding_times,
+            'itr [ms]': [v['itr'] for v in verification_times],
+            'fmo [ms]': [v['fmo'] for v in verification_times],
+            'avg verification time [ms]': [(v['fmo'] + v['itr']) / 2 for v in verification_times],
+        }
+    )
+    print(tmp_frame)
+    
 print(f'Successful compilations: {successful_compilations}')
-
 print(f'Compilation times: {compilation_times}')
 print(f'Encoding times: {encoding_times}')
 print(f'Verification times: {verification_times}')
@@ -153,12 +164,17 @@ print(f'Verification times: {verification_times}')
 d = pd.DataFrame(
     {
         'compilation [s]': compilation_times,
-        'encoding [s]': encoding_times,
+        'encoding [ms]': encoding_times,
         'itr [ms]': [v['itr'] for v in verification_times],
         'fmo [ms]': [v['fmo'] for v in verification_times],
         'avg verification time [ms]': [(v['fmo'] + v['itr']) / 2 for v in verification_times],
     }
 )
 d.index = [c.split('.')[0] for c in config_paths]
+
+# to latex
+# d = d.round(2)
+d.T.to_latex('experiments_fall/experiment1_Minisat11.tex', float_format="%.2f")
+d = d.T.to_latex(float_format="%.2f")
 
 print(d)

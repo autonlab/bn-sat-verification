@@ -32,7 +32,7 @@ y6 = np.zeros(len(y3))
 
 
 # Plot them adjacently
-fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+fig, ax = plt.subplots(2, 3, figsize=(12, 6))
 
 ax=ax.flatten()
 
@@ -79,6 +79,10 @@ ax[5].set_title('Monotonically Stable at 0')
 ax[5].set_xlabel('X')
 ax[5].set_yticks([0, 1])
 ax[5].set_ylim([-0.1, 1.1])
+
+# set title font size
+for a in ax:
+    a.title.set_fontsize(14)
 
 plt.tight_layout()
 

@@ -21,17 +21,8 @@
         {
             "assumptions": [
                 [
-                    "GPA",
-                    0
-                ]
-            ],
-            "variable_to_verify": "WorkExperience"
-        },
-        {
-            "assumptions": [
-                [
                     "WorkExperience",
-                    0
+                    1
                 ]
             ],
             "variable_to_verify": "GPA"
@@ -49,19 +40,10 @@
             "assumptions": [
                 [
                     "WorkExperience",
-                    1
+                    0
                 ]
             ],
             "variable_to_verify": "GPA"
-        },
-        {
-            "assumptions": [
-                [
-                    "GPA",
-                    1
-                ]
-            ],
-            "variable_to_verify": "WorkExperience"
         },
         {
             "assumptions": [
@@ -73,14 +55,37 @@
             "variable_to_verify": "GPA"
         },
         {
-            "assumptions": [],
-            "variable_to_verify": "WorkExperience"
+            "assumptions": [
+                [
+                    "WorkExperience",
+                    1
+                ]
+            ],
+            "variable_to_verify": "GPA"
         },
         {
             "assumptions": [
                 [
                     "WorkExperience",
                     1
+                ]
+            ],
+            "variable_to_verify": "GPA"
+        },
+        {
+            "assumptions": [
+                [
+                    "WorkExperience",
+                    0
+                ]
+            ],
+            "variable_to_verify": "GPA"
+        },
+        {
+            "assumptions": [
+                [
+                    "WorkExperience",
+                    0
                 ]
             ],
             "variable_to_verify": "GPA"
@@ -100,125 +105,6 @@
             "if-tuples": [
                 [
                     "GPA",
-                    ">=",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                ">=",
-                1
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "GPA",
-                    ">=",
-                    0
-                ],
-                [
-                    "GPA",
-                    ">",
-                    0
-                ],
-                [
-                    "WorkExperience",
-                    "<",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                ">=",
-                1
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "GPA",
-                    ">",
-                    0
-                ]
-            ],
-            "then": [
-                "Y",
-                ">=",
-                1
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "GPA",
-                    ">",
-                    0
-                ]
-            ],
-            "then": [
-                "Y",
-                ">=",
-                1
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "GPA",
-                    "<=",
-                    1
-                ],
-                [
-                    "WorkExperience",
-                    "<=",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "GPA",
-                    "<=",
-                    0
-                ],
-                [
-                    "WorkExperience",
-                    "<",
-                    1
-                ],
-                [
-                    "GPA",
-                    "<=",
-                    0
-                ],
-                [
-                    "GPA",
-                    ">",
-                    1
-                ],
-                [
-                    "WorkExperience",
-                    "<",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "WorkExperience",
                     ">",
                     1
                 ]
@@ -231,16 +117,6 @@
         },
         {
             "if-tuples": [
-                [
-                    "WorkExperience",
-                    "<=",
-                    0
-                ],
-                [
-                    "GPA",
-                    "<=",
-                    0
-                ],
                 [
                     "WorkExperience",
                     ">",
@@ -262,12 +138,138 @@
             "if-tuples": [
                 [
                     "WorkExperience",
-                    ">=",
+                    ">",
+                    0
+                ],
+                [
+                    "GPA",
+                    "<=",
+                    0
+                ],
+                [
+                    "GPA",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "GPA",
+                    ">",
                     1
                 ],
                 [
                     "GPA",
                     "<",
+                    0
+                ],
+                [
+                    "WorkExperience",
+                    "<",
+                    0
+                ],
+                [
+                    "GPA",
+                    ">=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "GPA",
+                    "<",
+                    0
+                ],
+                [
+                    "GPA",
+                    "<=",
+                    0
+                ],
+                [
+                    "WorkExperience",
+                    "<=",
+                    1
+                ],
+                [
+                    "GPA",
+                    "<=",
+                    0
+                ],
+                [
+                    "WorkExperience",
+                    ">=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "WorkExperience",
+                    "<=",
+                    0
+                ],
+                [
+                    "GPA",
+                    ">",
+                    0
+                ],
+                [
+                    "GPA",
+                    "<",
+                    1
+                ],
+                [
+                    "GPA",
+                    "<",
+                    1
+                ],
+                [
+                    "GPA",
+                    "<",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "GPA",
+                    "<",
+                    1
+                ],
+                [
+                    "WorkExperience",
+                    ">",
+                    0
+                ],
+                [
+                    "GPA",
+                    "<=",
                     1
                 ]
             ],
@@ -281,7 +283,60 @@
             "if-tuples": [
                 [
                     "WorkExperience",
+                    ">=",
+                    0
+                ],
+                [
+                    "GPA",
+                    ">=",
+                    1
+                ],
+                [
+                    "WorkExperience",
+                    ">=",
+                    1
+                ],
+                [
+                    "WorkExperience",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "GPA",
                     ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "WorkExperience",
+                    "<=",
+                    1
+                ],
+                [
+                    "WorkExperience",
+                    "<",
+                    1
+                ],
+                [
+                    "GPA",
+                    "<=",
                     0
                 ]
             ],

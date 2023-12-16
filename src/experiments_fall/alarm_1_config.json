@@ -1,282 +1,242 @@
 {
-    "dataset": "child",
+    "dataset": "alarm",
     "id": "1",
     "experiment_n": 1,
     "outcomes": [
-        "BirthAsphyxia"
+        "Disconnect"
     ],
-    "config_filepath": "bnc_configs/child_1.json",
-    "cnf_filepath": "cnf_files/child_1.json",
+    "config_filepath": "bnc_configs/alarm_1.json",
+    "cnf_filepath": "cnf_files/alarm_1.json",
     "OCC": false,
     "FMO": [
         {
             "assumptions": [
                 [
-                    "CO2Report",
+                    "HRSat",
                     0
                 ],
                 [
-                    "GruntingReport",
+                    "HREKG",
                     0
                 ],
                 [
-                    "Age",
-                    1
+                    "History",
+                    0
+                ],
+                [
+                    "ExpCO2",
+                    0
                 ]
             ],
-            "variable_to_verify": "LVHreport"
+            "variable_to_verify": "PAP"
         },
         {
             "assumptions": [
                 [
-                    "RUQO2",
+                    "CVP",
+                    1
+                ],
+                [
+                    "MinVol",
                     0
                 ],
                 [
-                    "LVHreport",
+                    "ExpCO2",
+                    1
+                ],
+                [
+                    "HRBP",
+                    1
+                ],
+                [
+                    "History",
+                    1
+                ],
+                [
+                    "HREKG",
                     1
                 ]
             ],
-            "variable_to_verify": "LowerBodyO2"
+            "variable_to_verify": "BP"
         },
         {
             "assumptions": [
                 [
-                    "LVHreport",
-                    0
-                ],
-                [
-                    "XrayReport",
-                    0
-                ],
-                [
-                    "LowerBodyO2",
-                    0
-                ],
-                [
-                    "CO2Report",
+                    "History",
                     1
                 ],
                 [
-                    "RUQO2",
+                    "CVP",
+                    0
+                ],
+                [
+                    "PCWP",
                     1
                 ]
             ],
-            "variable_to_verify": "Age"
+            "variable_to_verify": "Press"
         },
         {
             "assumptions": [
                 [
-                    "LowerBodyO2",
+                    "CVP",
                     0
                 ],
                 [
-                    "Age",
+                    "MinVol",
+                    1
+                ],
+                [
+                    "Press",
+                    1
+                ],
+                [
+                    "HRBP",
                     0
-                ],
-                [
-                    "LVHreport",
-                    1
-                ],
-                [
-                    "GruntingReport",
-                    1
-                ],
-                [
-                    "CO2Report",
-                    1
                 ]
             ],
-            "variable_to_verify": "RUQO2"
+            "variable_to_verify": "History"
         },
         {
             "assumptions": [
                 [
-                    "RUQO2",
+                    "MinVol",
                     1
                 ],
                 [
-                    "LowerBodyO2",
+                    "BP",
+                    1
+                ],
+                [
+                    "PAP",
                     0
                 ],
                 [
-                    "Age",
-                    1
-                ],
-                [
-                    "GruntingReport",
-                    1
-                ],
-                [
-                    "CO2Report",
+                    "HREKG",
                     0
                 ],
                 [
-                    "XrayReport",
+                    "HRSat",
                     0
                 ]
             ],
-            "variable_to_verify": "LVHreport"
+            "variable_to_verify": "History"
         },
         {
             "assumptions": [
                 [
-                    "Age",
+                    "CVP",
+                    0
+                ],
+                [
+                    "HRSat",
                     1
                 ],
                 [
-                    "GruntingReport",
+                    "PAP",
                     0
                 ],
                 [
-                    "RUQO2",
-                    0
-                ],
-                [
-                    "CO2Report",
-                    0
-                ],
-                [
-                    "XrayReport",
+                    "HRBP",
                     1
                 ]
             ],
-            "variable_to_verify": "LowerBodyO2"
+            "variable_to_verify": "Press"
         },
         {
             "assumptions": [
                 [
-                    "Age",
+                    "Press",
                     1
                 ],
                 [
-                    "GruntingReport",
-                    0
+                    "HRSat",
+                    1
                 ]
             ],
-            "variable_to_verify": "CO2Report"
+            "variable_to_verify": "History"
         },
         {
             "assumptions": [
                 [
-                    "XrayReport",
-                    0
+                    "HRSat",
+                    1
                 ],
                 [
-                    "RUQO2",
+                    "PAP",
                     0
                 ]
             ],
-            "variable_to_verify": "CO2Report"
+            "variable_to_verify": "PCWP"
         },
         {
             "assumptions": [
                 [
-                    "XrayReport",
-                    1
-                ],
-                [
-                    "RUQO2",
-                    1
-                ],
-                [
-                    "LowerBodyO2",
+                    "MinVol",
                     0
+                ],
+                [
+                    "PAP",
+                    1
+                ],
+                [
+                    "PCWP",
+                    1
+                ],
+                [
+                    "HRSat",
+                    1
                 ]
             ],
-            "variable_to_verify": "Age"
+            "variable_to_verify": "CVP"
         },
         {
             "assumptions": [
                 [
-                    "RUQO2",
+                    "HRSat",
                     1
                 ],
                 [
-                    "CO2Report",
+                    "HREKG",
+                    1
+                ],
+                [
+                    "CVP",
                     0
                 ],
                 [
-                    "LowerBodyO2",
-                    1
+                    "ExpCO2",
+                    0
                 ],
                 [
-                    "Age",
-                    1
+                    "History",
+                    0
                 ]
             ],
-            "variable_to_verify": "XrayReport"
+            "variable_to_verify": "BP"
         }
     ],
     "ITR": [
         {
             "if-tuples": [
                 [
-                    "XrayReport",
-                    "<",
-                    1
-                ],
-                [
-                    "RUQO2",
+                    "ExpCO2",
                     "<=",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "LVHreport",
-                    ">",
-                    1
+                    0
                 ],
                 [
-                    "XrayReport",
-                    ">",
-                    1
-                ],
-                [
-                    "LVHreport",
+                    "HRSat",
                     ">=",
                     0
                 ],
                 [
-                    "XrayReport",
-                    ">",
-                    0
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "XrayReport",
-                    "<=",
-                    0
-                ],
-                [
-                    "LVHreport",
-                    ">",
-                    1
-                ],
-                [
-                    "RUQO2",
-                    ">",
-                    1
-                ],
-                [
-                    "LVHreport",
+                    "HREKG",
                     "<",
+                    0
+                ],
+                [
+                    "HREKG",
+                    "<=",
                     1
                 ]
             ],
@@ -289,24 +249,9 @@
         {
             "if-tuples": [
                 [
-                    "LVHreport",
-                    "<=",
+                    "HRSat",
+                    ">=",
                     1
-                ],
-                [
-                    "CO2Report",
-                    ">",
-                    0
-                ],
-                [
-                    "XrayReport",
-                    ">",
-                    0
-                ],
-                [
-                    "RUQO2",
-                    "<=",
-                    0
                 ]
             ],
             "then": [
@@ -318,105 +263,29 @@
         {
             "if-tuples": [
                 [
-                    "LowerBodyO2",
-                    ">",
-                    1
-                ],
-                [
-                    "CO2Report",
-                    ">",
-                    1
-                ],
-                [
-                    "Age",
+                    "History",
                     ">=",
                     1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "CO2Report",
-                    "<=",
-                    0
                 ],
                 [
-                    "Age",
-                    "<",
-                    0
-                ],
-                [
-                    "Age",
-                    "<=",
-                    1
-                ],
-                [
-                    "CO2Report",
-                    ">",
-                    0
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "LowerBodyO2",
+                    "CVP",
                     ">=",
                     1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "GruntingReport",
-                    "<=",
-                    1
                 ],
                 [
-                    "CO2Report",
+                    "HREKG",
+                    ">=",
+                    0
+                ],
+                [
+                    "BP",
                     "<",
                     1
                 ],
                 [
-                    "LVHreport",
-                    "<=",
-                    1
-                ],
-                [
-                    "GruntingReport",
+                    "Press",
                     ">=",
                     1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "LVHreport",
-                    "<",
-                    0
                 ]
             ],
             "then": [
@@ -428,19 +297,128 @@
         {
             "if-tuples": [
                 [
-                    "GruntingReport",
-                    "<=",
+                    "HRSat",
+                    ">",
                     0
-                ],
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
                 [
-                    "XrayReport",
+                    "BP",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "ExpCO2",
                     "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "HREKG",
+                    ">=",
                     1
                 ],
                 [
-                    "CO2Report",
+                    "HRBP",
+                    "<",
+                    0
+                ],
+                [
+                    "BP",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "BP",
+                    "<=",
+                    0
+                ],
+                [
+                    "PCWP",
                     ">",
                     0
+                ],
+                [
+                    "HRBP",
+                    "<=",
+                    0
+                ],
+                [
+                    "BP",
+                    ">",
+                    1
+                ],
+                [
+                    "Press",
+                    "<=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "BP",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "History",
+                    ">=",
+                    1
+                ],
+                [
+                    "HRBP",
+                    "<",
+                    1
                 ]
             ],
             "then": [

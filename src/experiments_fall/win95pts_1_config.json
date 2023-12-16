@@ -1,282 +1,259 @@
 {
-    "dataset": "child",
+    "dataset": "win95pts",
     "id": "1",
     "experiment_n": 1,
     "outcomes": [
-        "BirthAsphyxia"
+        "PTROFFLINE"
     ],
-    "config_filepath": "bnc_configs/child_1.json",
-    "cnf_filepath": "cnf_files/child_1.json",
+    "config_filepath": "bnc_configs/win95pts_1.json",
+    "cnf_filepath": "cnf_files/win95pts_1.json",
     "OCC": false,
     "FMO": [
         {
             "assumptions": [
                 [
-                    "CO2Report",
-                    0
-                ],
-                [
-                    "GruntingReport",
-                    0
-                ],
-                [
-                    "Age",
+                    "PrtStatToner",
                     1
+                ],
+                [
+                    "PrtStatPaper",
+                    1
+                ],
+                [
+                    "PSERRMEM",
+                    0
+                ],
+                [
+                    "PrtIcon",
+                    0
                 ]
             ],
-            "variable_to_verify": "LVHreport"
+            "variable_to_verify": "Problem5"
         },
         {
             "assumptions": [
                 [
-                    "RUQO2",
+                    "Problem2",
                     0
                 ],
                 [
-                    "LVHreport",
+                    "Problem5",
+                    0
+                ],
+                [
+                    "Problem4",
+                    1
+                ],
+                [
+                    "Problem6",
+                    0
+                ],
+                [
+                    "PrtStatToner",
                     1
                 ]
             ],
-            "variable_to_verify": "LowerBodyO2"
+            "variable_to_verify": "PrtIcon"
         },
         {
             "assumptions": [
                 [
-                    "LVHreport",
+                    "Problem3",
                     0
                 ],
                 [
-                    "XrayReport",
+                    "PrtStatToner",
                     0
                 ],
                 [
-                    "LowerBodyO2",
+                    "PrtStatPaper",
                     0
                 ],
                 [
-                    "CO2Report",
-                    1
-                ],
-                [
-                    "RUQO2",
+                    "PrtIcon",
                     1
                 ]
             ],
-            "variable_to_verify": "Age"
+            "variable_to_verify": "Problem5"
         },
         {
             "assumptions": [
                 [
-                    "LowerBodyO2",
+                    "PrtStatToner",
                     0
                 ],
                 [
-                    "Age",
+                    "PrtStatPaper",
                     0
                 ],
                 [
-                    "LVHreport",
+                    "PSERRMEM",
                     1
                 ],
                 [
-                    "GruntingReport",
-                    1
-                ],
-                [
-                    "CO2Report",
+                    "Problem1",
                     1
                 ]
             ],
-            "variable_to_verify": "RUQO2"
+            "variable_to_verify": "PrtFile"
         },
         {
             "assumptions": [
                 [
-                    "RUQO2",
+                    "REPEAT",
                     1
                 ],
                 [
-                    "LowerBodyO2",
+                    "Problem1",
                     0
                 ],
                 [
-                    "Age",
-                    1
-                ],
-                [
-                    "GruntingReport",
-                    1
-                ],
-                [
-                    "CO2Report",
-                    0
-                ],
-                [
-                    "XrayReport",
+                    "TstpsTxt",
                     0
                 ]
             ],
-            "variable_to_verify": "LVHreport"
+            "variable_to_verify": "Problem5"
         },
         {
             "assumptions": [
                 [
-                    "Age",
+                    "Problem6",
+                    0
+                ],
+                [
+                    "PrtStatToner",
                     1
                 ],
                 [
-                    "GruntingReport",
+                    "PrtStatPaper",
                     0
                 ],
                 [
-                    "RUQO2",
+                    "PrtStatMem",
                     0
                 ],
                 [
-                    "CO2Report",
-                    0
+                    "PSERRMEM",
+                    1
                 ],
                 [
-                    "XrayReport",
+                    "PrtFile",
                     1
                 ]
             ],
-            "variable_to_verify": "LowerBodyO2"
+            "variable_to_verify": "PrtIcon"
         },
         {
             "assumptions": [
                 [
-                    "Age",
+                    "PrtStatMem",
                     1
                 ],
                 [
-                    "GruntingReport",
+                    "PrtStatPaper",
                     0
+                ],
+                [
+                    "REPEAT",
+                    0
+                ],
+                [
+                    "Problem3",
+                    1
+                ],
+                [
+                    "Problem4",
+                    1
+                ],
+                [
+                    "PrtStatToner",
+                    1
                 ]
             ],
-            "variable_to_verify": "CO2Report"
+            "variable_to_verify": "Problem6"
         },
         {
             "assumptions": [
                 [
-                    "XrayReport",
+                    "PrtStatMem",
+                    1
+                ],
+                [
+                    "HrglssDrtnAftrPrnt",
                     0
                 ],
                 [
-                    "RUQO2",
+                    "TstpsTxt",
                     0
                 ]
             ],
-            "variable_to_verify": "CO2Report"
+            "variable_to_verify": "PrtFile"
         },
         {
             "assumptions": [
                 [
-                    "XrayReport",
+                    "Problem1",
                     1
                 ],
                 [
-                    "RUQO2",
+                    "PrtIcon",
                     1
                 ],
                 [
-                    "LowerBodyO2",
+                    "Problem2",
+                    0
+                ],
+                [
+                    "PrtStatMem",
+                    0
+                ],
+                [
+                    "PrtStatOff",
+                    0
+                ],
+                [
+                    "Problem3",
                     0
                 ]
             ],
-            "variable_to_verify": "Age"
+            "variable_to_verify": "TstpsTxt"
         },
         {
             "assumptions": [
                 [
-                    "RUQO2",
+                    "PrtStatOff",
                     1
                 ],
                 [
-                    "CO2Report",
+                    "Problem5",
+                    1
+                ],
+                [
+                    "PrtIcon",
                     0
                 ],
                 [
-                    "LowerBodyO2",
+                    "PrtFile",
                     1
                 ],
                 [
-                    "Age",
+                    "PSERRMEM",
                     1
+                ],
+                [
+                    "Problem6",
+                    0
                 ]
             ],
-            "variable_to_verify": "XrayReport"
+            "variable_to_verify": "TstpsTxt"
         }
     ],
     "ITR": [
         {
             "if-tuples": [
                 [
-                    "XrayReport",
-                    "<",
-                    1
-                ],
-                [
-                    "RUQO2",
-                    "<=",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "LVHreport",
-                    ">",
-                    1
-                ],
-                [
-                    "XrayReport",
-                    ">",
-                    1
-                ],
-                [
-                    "LVHreport",
+                    "Problem4",
                     ">=",
-                    0
-                ],
-                [
-                    "XrayReport",
-                    ">",
-                    0
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "XrayReport",
-                    "<=",
-                    0
-                ],
-                [
-                    "LVHreport",
-                    ">",
-                    1
-                ],
-                [
-                    "RUQO2",
-                    ">",
-                    1
-                ],
-                [
-                    "LVHreport",
-                    "<",
                     1
                 ]
             ],
@@ -289,22 +266,17 @@
         {
             "if-tuples": [
                 [
-                    "LVHreport",
+                    "PrtIcon",
                     "<=",
+                    0
+                ],
+                [
+                    "HrglssDrtnAftrPrnt",
+                    ">",
                     1
                 ],
                 [
-                    "CO2Report",
-                    ">",
-                    0
-                ],
-                [
-                    "XrayReport",
-                    ">",
-                    0
-                ],
-                [
-                    "RUQO2",
+                    "PrtStatOff",
                     "<=",
                     0
                 ]
@@ -318,61 +290,23 @@
         {
             "if-tuples": [
                 [
-                    "LowerBodyO2",
-                    ">",
-                    1
-                ],
-                [
-                    "CO2Report",
-                    ">",
-                    1
-                ],
-                [
-                    "Age",
-                    ">=",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "CO2Report",
-                    "<=",
-                    0
-                ],
-                [
-                    "Age",
+                    "PrtIcon",
                     "<",
                     0
                 ],
                 [
-                    "Age",
-                    "<=",
+                    "REPEAT",
+                    "<",
+                    0
+                ],
+                [
+                    "PrtIcon",
+                    ">=",
                     1
                 ],
                 [
-                    "CO2Report",
+                    "Problem5",
                     ">",
-                    0
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "LowerBodyO2",
-                    ">=",
                     1
                 ]
             ],
@@ -385,38 +319,14 @@
         {
             "if-tuples": [
                 [
-                    "GruntingReport",
+                    "Problem5",
+                    ">",
+                    1
+                ],
+                [
+                    "PrtIcon",
                     "<=",
                     1
-                ],
-                [
-                    "CO2Report",
-                    "<",
-                    1
-                ],
-                [
-                    "LVHreport",
-                    "<=",
-                    1
-                ],
-                [
-                    "GruntingReport",
-                    ">=",
-                    1
-                ]
-            ],
-            "then": [
-                "Y",
-                "<=",
-                0
-            ]
-        },
-        {
-            "if-tuples": [
-                [
-                    "LVHreport",
-                    "<",
-                    0
                 ]
             ],
             "then": [
@@ -428,17 +338,26 @@
         {
             "if-tuples": [
                 [
-                    "GruntingReport",
-                    "<=",
+                    "REPEAT",
+                    ">=",
                     0
                 ],
                 [
-                    "XrayReport",
-                    "<=",
+                    "PrtStatToner",
+                    ">=",
                     1
-                ],
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
                 [
-                    "CO2Report",
+                    "HrglssDrtnAftrPrnt",
                     ">",
                     0
                 ]
@@ -447,6 +366,112 @@
                 "Y",
                 "<=",
                 0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem1",
+                    ">",
+                    0
+                ],
+                [
+                    "Problem5",
+                    "<",
+                    1
+                ],
+                [
+                    "PSERRMEM",
+                    "<=",
+                    0
+                ],
+                [
+                    "PrtStatMem",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem5",
+                    ">",
+                    1
+                ],
+                [
+                    "PrtStatMem",
+                    ">",
+                    1
+                ],
+                [
+                    "Problem4",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem1",
+                    ">",
+                    0
+                ],
+                [
+                    "Problem5",
+                    ">=",
+                    0
+                ],
+                [
+                    "PrtStatOff",
+                    ">",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem2",
+                    ">=",
+                    1
+                ],
+                [
+                    "PrtIcon",
+                    "<=",
+                    1
+                ],
+                [
+                    "Problem1",
+                    "<=",
+                    0
+                ],
+                [
+                    "PSERRMEM",
+                    "<",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
             ]
         }
     ]
