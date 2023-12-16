@@ -204,11 +204,10 @@ if __name__ == '__main__':
     
     filedir = os.path.dirname(os.path.realpath(__file__))
     
-    NAME = 'Credit10K'
-    DATA_PATH = f'src/paper_experiment_fire/data/{NAME}.csv' 
-    TRIALS = 5
+    NAME = 'credit10k'
+    DATA_PATH = os.path.join(filedir, 'data', f'{NAME}.csv') 
+    TRIALS = 10
     RANDOM_START_SEED = 32
-    
     np.random.seed(RANDOM_START_SEED)
     
     logging.basicConfig(level=logging.INFO)
@@ -233,13 +232,16 @@ if __name__ == '__main__':
         rules = train_and_extract_rules(X, y, feature_names, feature_ranges=feature_ranges, random_state=RANDOM_START_SEED + i, criterion=criterion, splitter=splitter)
         list_of_rules += rules
     
-    list_of_rules = add_coverage_to_rules(list_of_rules, X)
     
     list_of_rules = deduplicate_list_of_rules(list_of_rules)
     
-    list_of_rules = filter_rules(list_of_rules, min_cov=0.01)
+    list_of_rules = filter_rules(list_of_rules, min_cov=0.0025)
+    
+    list_of_rules = add_coverage_to_rules(list_of_rules, X)
     
     list_of_rules = check_overlap_and_collapse(list_of_rules)
+    
+    list_of_rules = deduplicate_list_of_rules(list_of_rules)
     
     pretty_print(list_of_rules, X, y)
     

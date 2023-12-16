@@ -35,6 +35,7 @@ class VerificationIfThenRules(VerificationCase):
             self.binary = binary
             self.if_tuples = if_tuples
             self.then_tuples = then_tuples
+            self.result_model = None
             
             for tpl in then_tuples:
                 if tpl[1] not in ['>=', '<=']:
@@ -69,18 +70,38 @@ class VerificationIfThenRules(VerificationCase):
             
             # IF PART
             IF = []
-            for _if_tuple in self.if_tuples:
-                var_name, threshold = _if_tuple
-                IF.append((get_variable_values_list(variable_name=var_name), threshold))
+            for var_name, sign, threshold in self.if_tuples:
+                if sign not in ['<=', '>', '<', '>=', '==']:
+                    raise Exception(f'Sign {sign} not supported.')
+                IF.append((get_variable_values_list(variable_name=var_name), sign, int(threshold)))
                 
             
             CNF_X = []
-            for x, threshold in IF:
+            for x, sign, threshold in IF:
                 clause = []
-                for i in range(threshold, len(x)):
-                    clause.append(x[i])
+                match sign:
+                    case '>':
+                        start = threshold + 1
+                        end = len(x)
+                    case '>=':
+                        start = threshold
+                        end = len(x)
+                    case '<':
+                        start = 0
+                        end = threshold
+                    case '<=':
+                        start = 0
+                        end = threshold + 1
+                    case '==':
+                        start = threshold
+                        end = threshold + 1
+                    case _:
+                        raise Exception('Unexpected sign.')
+                    
+                for i in range(start, end):
+                    clause.append(x[i])  
                 CNF_X.append(clause)
-                 
+        
             logging.debug(f'CNF_X: {CNF_X}') 
                    
             
@@ -110,7 +131,6 @@ class VerificationIfThenRules(VerificationCase):
                     if sign == '<=':
                         if threshold + 1< len(sinks_list):
                             for i in range(threshold + 1, len(sinks_list)):
-                                print(i)
                                 DNF_Y.append([sinks_list[i]])
                 else:
                     raise Exception('Not implemented for non-binary case.')
@@ -156,7 +176,10 @@ class VerificationIfThenRules(VerificationCase):
             
             outcome = sat_solver.solve(cnf=CNF(from_clauses=final_cnf))
             
+            self.set_sat_solver(sat_solver)
             
+            self.result_model = outcome
+                   
             if outcome is None:
                 logging.debug(f'Verification case #{self.name} is UNSAT.')
                 logging.debug(f'Verification case #{self.name} model: {None}')

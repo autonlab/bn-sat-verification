@@ -72,7 +72,6 @@ class VerificationCaseMulticlassMonotonicity(VerificationCase):
                             clause[j] += offsets[i]
             
             # variable_values = [int(self.map[name]) for name in self.map_name_vars[self.variable_to_verify]]
-
             names = sorted(
                 [name for name in self.map_name_vars[self.variable_to_verify]], 
                 key=lambda x: int(x.split('=')[1].split('th')[0])
@@ -182,6 +181,7 @@ class VerificationCaseMulticlassMonotonicity(VerificationCase):
             outcome1 = sat_solver.solve(cnf=CNF(from_clauses=verif1))
             outcome2 = sat_solver.solve(cnf=CNF(from_clauses=verif2))
             
+            self.set_sat_solver(sat_solver)
             
             if outcome1 is None and outcome2 is None:
                 logging.debug(f'Verification case #{self.name} is UNSAT.')
@@ -194,23 +194,26 @@ class VerificationCaseMulticlassMonotonicity(VerificationCase):
                 if outcome1 is not None:
                     self.sat_model = outcome1
                     logging.debug(f'Verification case #{self.name} LHL model: {self.sat_model}')
+                    
+                    # self.result_model = outcome1
                 elif outcome2 is not None:
                     self.sat_model = outcome2
                     logging.debug(f'Verification case #{self.name} HLH model: {self.sat_model}')
+                    # self.result_model = outcome2
                 self.set_result(False)
                 
-                inv_map = {v: k for k, v in self.map.items()}
-                for v in self.sat_model:
-                    if v > 0: 
-                        if v < offsets[1]:
-                            v = v
-                            logging.debug(f' [1] Variable {inv_map[str(v)]} is true.')
-                        if v >= offsets[1] and v < offsets[2]:
-                            v = v - offsets[1] 
-                            logging.debug(f' [2] Variable {inv_map[str(v)]} is true.')
-                        if v >= offsets[2] and v < model_max_var:
-                            v = v - offsets[2]
-                            logging.debug(f' [3] Variable {inv_map[str(v)]} is true.')
+                # inv_map = {v: k for k, v in self.map.items()}
+                # for v in self.sat_model:
+                #     if v > 0: 
+                #         if v < offsets[1]:
+                #             v = v
+                #             logging.debug(f' [1] Variable {inv_map[str(v)]} is true.')
+                #         if v >= offsets[1] and v < offsets[2]:
+                #             v = v - offsets[1] 
+                #             logging.debug(f' [2] Variable {inv_map[str(v)]} is true.')
+                #         if v >= offsets[2] and v < model_max_var:
+                #             v = v - offsets[2]
+                #             logging.debug(f' [3] Variable {inv_map[str(v)]} is true.')
                         
                 
                 return False

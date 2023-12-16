@@ -14,6 +14,7 @@ bnc_networks/
 results/
 *BNC_SDD*
 src/test.py
+*_artifacts/
 
 
 

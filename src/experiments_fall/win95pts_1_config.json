@@ -1,0 +1,478 @@
+{
+    "dataset": "win95pts",
+    "id": "1",
+    "experiment_n": 1,
+    "outcomes": [
+        "PTROFFLINE"
+    ],
+    "config_filepath": "bnc_configs/win95pts_1.json",
+    "cnf_filepath": "cnf_files/win95pts_1.json",
+    "OCC": false,
+    "FMO": [
+        {
+            "assumptions": [
+                [
+                    "PrtStatToner",
+                    1
+                ],
+                [
+                    "PrtStatPaper",
+                    1
+                ],
+                [
+                    "PSERRMEM",
+                    0
+                ],
+                [
+                    "PrtIcon",
+                    0
+                ]
+            ],
+            "variable_to_verify": "Problem5"
+        },
+        {
+            "assumptions": [
+                [
+                    "Problem2",
+                    0
+                ],
+                [
+                    "Problem5",
+                    0
+                ],
+                [
+                    "Problem4",
+                    1
+                ],
+                [
+                    "Problem6",
+                    0
+                ],
+                [
+                    "PrtStatToner",
+                    1
+                ]
+            ],
+            "variable_to_verify": "PrtIcon"
+        },
+        {
+            "assumptions": [
+                [
+                    "Problem3",
+                    0
+                ],
+                [
+                    "PrtStatToner",
+                    0
+                ],
+                [
+                    "PrtStatPaper",
+                    0
+                ],
+                [
+                    "PrtIcon",
+                    1
+                ]
+            ],
+            "variable_to_verify": "Problem5"
+        },
+        {
+            "assumptions": [
+                [
+                    "PrtStatToner",
+                    0
+                ],
+                [
+                    "PrtStatPaper",
+                    0
+                ],
+                [
+                    "PSERRMEM",
+                    1
+                ],
+                [
+                    "Problem1",
+                    1
+                ]
+            ],
+            "variable_to_verify": "PrtFile"
+        },
+        {
+            "assumptions": [
+                [
+                    "REPEAT",
+                    1
+                ],
+                [
+                    "Problem1",
+                    0
+                ],
+                [
+                    "TstpsTxt",
+                    0
+                ]
+            ],
+            "variable_to_verify": "Problem5"
+        },
+        {
+            "assumptions": [
+                [
+                    "Problem6",
+                    0
+                ],
+                [
+                    "PrtStatToner",
+                    1
+                ],
+                [
+                    "PrtStatPaper",
+                    0
+                ],
+                [
+                    "PrtStatMem",
+                    0
+                ],
+                [
+                    "PSERRMEM",
+                    1
+                ],
+                [
+                    "PrtFile",
+                    1
+                ]
+            ],
+            "variable_to_verify": "PrtIcon"
+        },
+        {
+            "assumptions": [
+                [
+                    "PrtStatMem",
+                    1
+                ],
+                [
+                    "PrtStatPaper",
+                    0
+                ],
+                [
+                    "REPEAT",
+                    0
+                ],
+                [
+                    "Problem3",
+                    1
+                ],
+                [
+                    "Problem4",
+                    1
+                ],
+                [
+                    "PrtStatToner",
+                    1
+                ]
+            ],
+            "variable_to_verify": "Problem6"
+        },
+        {
+            "assumptions": [
+                [
+                    "PrtStatMem",
+                    1
+                ],
+                [
+                    "HrglssDrtnAftrPrnt",
+                    0
+                ],
+                [
+                    "TstpsTxt",
+                    0
+                ]
+            ],
+            "variable_to_verify": "PrtFile"
+        },
+        {
+            "assumptions": [
+                [
+                    "Problem1",
+                    1
+                ],
+                [
+                    "PrtIcon",
+                    1
+                ],
+                [
+                    "Problem2",
+                    0
+                ],
+                [
+                    "PrtStatMem",
+                    0
+                ],
+                [
+                    "PrtStatOff",
+                    0
+                ],
+                [
+                    "Problem3",
+                    0
+                ]
+            ],
+            "variable_to_verify": "TstpsTxt"
+        },
+        {
+            "assumptions": [
+                [
+                    "PrtStatOff",
+                    1
+                ],
+                [
+                    "Problem5",
+                    1
+                ],
+                [
+                    "PrtIcon",
+                    0
+                ],
+                [
+                    "PrtFile",
+                    1
+                ],
+                [
+                    "PSERRMEM",
+                    1
+                ],
+                [
+                    "Problem6",
+                    0
+                ]
+            ],
+            "variable_to_verify": "TstpsTxt"
+        }
+    ],
+    "ITR": [
+        {
+            "if-tuples": [
+                [
+                    "Problem4",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "PrtIcon",
+                    "<=",
+                    0
+                ],
+                [
+                    "HrglssDrtnAftrPrnt",
+                    ">",
+                    1
+                ],
+                [
+                    "PrtStatOff",
+                    "<=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "PrtIcon",
+                    "<",
+                    0
+                ],
+                [
+                    "REPEAT",
+                    "<",
+                    0
+                ],
+                [
+                    "PrtIcon",
+                    ">=",
+                    1
+                ],
+                [
+                    "Problem5",
+                    ">",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem5",
+                    ">",
+                    1
+                ],
+                [
+                    "PrtIcon",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "REPEAT",
+                    ">=",
+                    0
+                ],
+                [
+                    "PrtStatToner",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "HrglssDrtnAftrPrnt",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem1",
+                    ">",
+                    0
+                ],
+                [
+                    "Problem5",
+                    "<",
+                    1
+                ],
+                [
+                    "PSERRMEM",
+                    "<=",
+                    0
+                ],
+                [
+                    "PrtStatMem",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem5",
+                    ">",
+                    1
+                ],
+                [
+                    "PrtStatMem",
+                    ">",
+                    1
+                ],
+                [
+                    "Problem4",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem1",
+                    ">",
+                    0
+                ],
+                [
+                    "Problem5",
+                    ">=",
+                    0
+                ],
+                [
+                    "PrtStatOff",
+                    ">",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "Problem2",
+                    ">=",
+                    1
+                ],
+                [
+                    "PrtIcon",
+                    "<=",
+                    1
+                ],
+                [
+                    "Problem1",
+                    "<=",
+                    0
+                ],
+                [
+                    "PSERRMEM",
+                    "<",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        }
+    ]
+}

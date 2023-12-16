@@ -13,7 +13,7 @@ from verifications.verification_multiclass_monotonicity import VerificationCaseM
 from verifications.verification_ifthen import VerificationIfThenRules
 
 
-EXPERIMENTS_PATH = 'experiments'
+EXPERIMENTS_PATH = 'experiments_fall'
 
 if __name__ == '__main__':
 
@@ -29,6 +29,10 @@ if __name__ == '__main__':
 
     DATASET_NAME = parser.parse_args().dataset
     Y_NODE_NAME = parser.parse_args().ynode
+    
+    ARTIFACTS_PATH = os.path.join(dirpath, EXPERIMENTS_PATH, f'{DATASET_NAME}_artifacts')
+    if not os.path.exists(ARTIFACTS_PATH):
+        os.makedirs(ARTIFACTS_PATH)
 
     config_path = os.path.join(dirpath, EXPERIMENTS_PATH, f'{DATASET_NAME}_{Y_NODE_NAME}_config.json') 
 
@@ -38,6 +42,7 @@ if __name__ == '__main__':
     EXPERIMENT_N = CONFIG['experiment_n'] # average over n runs
 
     BINARY = True if len(CONFIG['outcomes']) == 1 else False 
+    print(f'Binary: {BINARY}')
 
 
     verbosity_level = parser.parse_args().logging
@@ -50,6 +55,7 @@ if __name__ == '__main__':
         data = json.load(f)
         
     _map = data['map']
+    _inv_map = data['map_inv']
     cnf = CNF(from_clauses=data['cnf'])
     sat_solver = PySATSolver()
     
@@ -114,28 +120,80 @@ if __name__ == '__main__':
             runtime = timeit.timeit(__fmo, number=EXPERIMENT_N) / EXPERIMENT_N
             print(f'FMO#{i}: Average time: {runtime*1000:.2f} ms')
     
+    
+    def translate_results(results: dict) -> dict:
+        
+        def __translate_model(model: list) -> list:
+            true_elements = []
+            false_elements = []
+            
+            if model is not None:
+                for atom in model:
+                    sign = 1 if atom > 0 else -1
+                    atom = str(abs(atom))
+                    if sign == 1:
+                        true_elements.append(_inv_map[atom])
+                    else:
+                        false_elements.append(_inv_map[atom])
+                        
+            return true_elements, false_elements
+        
+        for key, value in results.items():
+            model = value['result_model']
+            
+            true_elements, false_elements = __translate_model(model)
+            results[key]['true_variables'] = true_elements
+            results[key]['false_variables'] = false_elements
+            
+            
+            _all_sat_models = value['all_sat_models'].copy()
+            
+            results[key]['all_sat_models'] = []
+            for sat_model in _all_sat_models:
+                true_elements, false_elements = __translate_model(sat_model)
+                results[key]['all_sat_models'] += [{'true_variables': true_elements, 'false_variables': false_elements}]
+
+
+        return results
+    
    
     # IF then Rules (Safety Engineering Constraints)
     if CONFIG['SEC'] and not parser.parse_args().nosec:
-        for i, case in enumerate(CONFIG['SEC']):
-            if_tuples, then = case.values()
+        
         def __sec():
-            verif = VerificationIfThenRules(
-                name=f'IfThen#{i}',
-                map=_map,
-                sink_names_in_order=sinks_names_in_order,
-                if_tuples=if_tuples,
-                then_tuples=[then], 
-                map_name_vars=data['map_names_vars'],
-                binary=BINARY
-            )
             cnf = CNF(from_clauses=data['cnf'])
             experiment = VerificationExperiment(cnf=cnf, sat_solver=sat_solver)
-            experiment.add_verification_case(verif)
-            experiment.run_all_verification_cases()
+            for i, case in enumerate(CONFIG['SEC']):
+                if_tuples, then = case.values() 
+                
+                # Remove tuples that involve irrelevant variable
+                filtered_tuples = list()
+                for tpl in if_tuples:
+                    if any(str(tpl[0]).lower() in s.lower() for s in _map.keys()):
+                      filtered_tuples.append(tpl)  
+                
+                verif = VerificationIfThenRules(
+                    name=f'IfThen#{i}',
+                    map=_map,
+                    sink_names_in_order=sinks_names_in_order,
+                    if_tuples=filtered_tuples,
+                    then_tuples=[then], 
+                    map_name_vars=data['map_names_vars'],
+                    binary=BINARY
+                )
+                experiment.add_verification_case(verif)
+                
+            experiment.run_all_verification_cases(generate_all_SAT_models=True)
             
+            results = translate_results(experiment.results)
+            
+                       
+            with open(os.path.join(ARTIFACTS_PATH, f'ifthen_{DATASET_NAME}.json'), 'w') as f:
+                json.dump(results, f, indent=4)
+        
+         
         runtime = timeit.timeit(__sec, number=EXPERIMENT_N) / EXPERIMENT_N
-        print(f'SEC#{i}: Average time: {runtime*1000:.2f} ms')
+        logging.debug(f'SEC#{i}: Average time: {runtime*1000:.2f} ms')
 
 
 

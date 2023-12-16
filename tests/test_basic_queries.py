@@ -18,7 +18,7 @@ from pysat.formula import CNF
 from src.utils.cnf_json_parser import read_cnf_from_json
 from src.verifications.pysat_solver import PySATSolver
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 @pytest.fixture
 def get_data() -> Tuple[CNF, Dict, Dict]:

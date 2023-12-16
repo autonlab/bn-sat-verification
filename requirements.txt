@@ -1,6 +1,10 @@
 matplotlib==3.7.1
 networkx==2.8.8
 numpy==1.24.3
-pysmile==2.0.10
 pytest==7.3.2
 python_sat==0.1.8.dev7
+scikit-learn
+pandas
+tqdm
+pgmpy
+seaborn

@@ -4,7 +4,7 @@
 
 1. Cloning the repository
 	```bash
-	git clone --recursive git@github.com:autonlab/bnc-formal-verification.git
+	git clone --recursive git@github.com:autonlab/bn-sat-verification.git
 	```
 
 2. Check if submodules are cloned
@@ -16,10 +16,11 @@ There should be directory src/bnc_sdd. If not, run
 3. Install dependencies
 Note: Tested on Python 3.10.11
 	```bash
+	python -m pip install --index-url https://support.bayesfusion.com/pysmile-A/ pysmile
 	python3 -m pip install -r requirements.txt
 	```
 
-4. Create pysmile_license.py under src/ directory and paste *`your`* license key. It should look like this:
+4. Create pysmile_license.py under src/ directory and paste *`your`* license key. The license key can be obtain free of charge for academic usage on BayesFusion website. It should look like this:
 	```python
 	import pysmile
 
@@ -43,7 +44,34 @@ Note: Tested on Python 3.10.11
 	```
 ***
 
-## **Current workflow**
+## **Reproducibility**
+```bash
+cd src
+
+# Experiment 1: (each script generates different part of the table)
+python experiment1_1paper.py
+python experiment1_2paper.py
+python experiment1_paper.py
+
+
+# Experiment 2:
+# generating models and rules
+python experiments_fall/train.py
+python experiments_fall/generate_fmo_rules.py
+python experiments_fall/extract_rules.py
+python experiments_fall/create_config.py
+
+# running verification
+python experiment2_paper.py
+
+# for mdd visualization, quantitative analysis: experiment2_paper.ipynb
+# for counterexamples, results: experiments_fall/artifacts_visualisation.ipynb
+```
+
+***
+
+
+## **Call specific parts of the repository from shell**
 (Assuming that you're in the /src directory.)
 
 ### **To convert a Bayesian Network that is saved in pysmile format .xdsl to .net format, run**
@@ -84,7 +112,3 @@ To test a query, while being in top directory, run:
 ```bash
 pytest -v
 ```
-
-***
-## License
-tbd

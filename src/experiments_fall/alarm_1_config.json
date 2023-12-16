@@ -1,0 +1,431 @@
+{
+    "dataset": "alarm",
+    "id": "1",
+    "experiment_n": 1,
+    "outcomes": [
+        "Disconnect"
+    ],
+    "config_filepath": "bnc_configs/alarm_1.json",
+    "cnf_filepath": "cnf_files/alarm_1.json",
+    "OCC": false,
+    "FMO": [
+        {
+            "assumptions": [
+                [
+                    "HRSat",
+                    0
+                ],
+                [
+                    "HREKG",
+                    0
+                ],
+                [
+                    "History",
+                    0
+                ],
+                [
+                    "ExpCO2",
+                    0
+                ]
+            ],
+            "variable_to_verify": "PAP"
+        },
+        {
+            "assumptions": [
+                [
+                    "CVP",
+                    1
+                ],
+                [
+                    "MinVol",
+                    0
+                ],
+                [
+                    "ExpCO2",
+                    1
+                ],
+                [
+                    "HRBP",
+                    1
+                ],
+                [
+                    "History",
+                    1
+                ],
+                [
+                    "HREKG",
+                    1
+                ]
+            ],
+            "variable_to_verify": "BP"
+        },
+        {
+            "assumptions": [
+                [
+                    "History",
+                    1
+                ],
+                [
+                    "CVP",
+                    0
+                ],
+                [
+                    "PCWP",
+                    1
+                ]
+            ],
+            "variable_to_verify": "Press"
+        },
+        {
+            "assumptions": [
+                [
+                    "CVP",
+                    0
+                ],
+                [
+                    "MinVol",
+                    1
+                ],
+                [
+                    "Press",
+                    1
+                ],
+                [
+                    "HRBP",
+                    0
+                ]
+            ],
+            "variable_to_verify": "History"
+        },
+        {
+            "assumptions": [
+                [
+                    "MinVol",
+                    1
+                ],
+                [
+                    "BP",
+                    1
+                ],
+                [
+                    "PAP",
+                    0
+                ],
+                [
+                    "HREKG",
+                    0
+                ],
+                [
+                    "HRSat",
+                    0
+                ]
+            ],
+            "variable_to_verify": "History"
+        },
+        {
+            "assumptions": [
+                [
+                    "CVP",
+                    0
+                ],
+                [
+                    "HRSat",
+                    1
+                ],
+                [
+                    "PAP",
+                    0
+                ],
+                [
+                    "HRBP",
+                    1
+                ]
+            ],
+            "variable_to_verify": "Press"
+        },
+        {
+            "assumptions": [
+                [
+                    "Press",
+                    1
+                ],
+                [
+                    "HRSat",
+                    1
+                ]
+            ],
+            "variable_to_verify": "History"
+        },
+        {
+            "assumptions": [
+                [
+                    "HRSat",
+                    1
+                ],
+                [
+                    "PAP",
+                    0
+                ]
+            ],
+            "variable_to_verify": "PCWP"
+        },
+        {
+            "assumptions": [
+                [
+                    "MinVol",
+                    0
+                ],
+                [
+                    "PAP",
+                    1
+                ],
+                [
+                    "PCWP",
+                    1
+                ],
+                [
+                    "HRSat",
+                    1
+                ]
+            ],
+            "variable_to_verify": "CVP"
+        },
+        {
+            "assumptions": [
+                [
+                    "HRSat",
+                    1
+                ],
+                [
+                    "HREKG",
+                    1
+                ],
+                [
+                    "CVP",
+                    0
+                ],
+                [
+                    "ExpCO2",
+                    0
+                ],
+                [
+                    "History",
+                    0
+                ]
+            ],
+            "variable_to_verify": "BP"
+        }
+    ],
+    "ITR": [
+        {
+            "if-tuples": [
+                [
+                    "ExpCO2",
+                    "<=",
+                    0
+                ],
+                [
+                    "HRSat",
+                    ">=",
+                    0
+                ],
+                [
+                    "HREKG",
+                    "<",
+                    0
+                ],
+                [
+                    "HREKG",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "HRSat",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "History",
+                    ">=",
+                    1
+                ],
+                [
+                    "CVP",
+                    ">=",
+                    1
+                ],
+                [
+                    "HREKG",
+                    ">=",
+                    0
+                ],
+                [
+                    "BP",
+                    "<",
+                    1
+                ],
+                [
+                    "Press",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                ">=",
+                1
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "HRSat",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "BP",
+                    ">",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "ExpCO2",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "HREKG",
+                    ">=",
+                    1
+                ],
+                [
+                    "HRBP",
+                    "<",
+                    0
+                ],
+                [
+                    "BP",
+                    ">=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "BP",
+                    "<=",
+                    0
+                ],
+                [
+                    "PCWP",
+                    ">",
+                    0
+                ],
+                [
+                    "HRBP",
+                    "<=",
+                    0
+                ],
+                [
+                    "BP",
+                    ">",
+                    1
+                ],
+                [
+                    "Press",
+                    "<=",
+                    0
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "BP",
+                    "<=",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        },
+        {
+            "if-tuples": [
+                [
+                    "History",
+                    ">=",
+                    1
+                ],
+                [
+                    "HRBP",
+                    "<",
+                    1
+                ]
+            ],
+            "then": [
+                "Y",
+                "<=",
+                0
+            ]
+        }
+    ]
+}

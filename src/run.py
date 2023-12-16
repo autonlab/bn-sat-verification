@@ -21,9 +21,9 @@ from utils.tseitin_transformation import tseitin_transformation_2
 from verifications.pysat_solver import PySATSolver
 from verifications.solver_class import SATSolver
 
-DATASET_NAME = "alarm"
-VARS = 20
-OUTCOMES = ['LVFailure']
+DATASET_NAME = "credit10k"
+VARS = 12
+OUTCOMES = ['CreditWorthiness']
 LEAVES = []
 RESULTS_DIR = f"results/{DATASET_NAME}"
 DATASET_CONFIG = {
@@ -33,7 +33,7 @@ DATASET_CONFIG = {
     "vars": VARS,
     "root": None,
     "leaves": LEAVES,
-    "threshold": 0.75,
+    "threshold": 0.5,
     "input_filepath": "../bnc_networks/",
     "output_filepath": "../odd_models/"
 }
@@ -60,7 +60,7 @@ def run_net_to_odd_compilation(dataset_name: str, json_config: dict) -> bool:
     '''
     Converts the net file to a json config file and compiles it to an OBDD
     '''
-    net_file = f"bnc_networks/{dataset_name}.net"
+    net_file = f"bnc_networks/{dataset_name}_{json_config['id']}.net"
     
     # Check if net file exists
     if not os.path.exists(net_file):
