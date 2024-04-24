@@ -58,7 +58,7 @@ class ExperimentRunner:
     def __init__(self, 
                  dataset_name: str,
                  id: int,
-                 experiments_path = 'experiments_fall',
+                 experiments_path = 'experiments_spring',
                  logging_level: str = 'info',
                  nofmo: bool = False,
                  noitr: bool = False,
