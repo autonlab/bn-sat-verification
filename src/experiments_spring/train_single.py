@@ -15,20 +15,18 @@ from pgmpy.estimators import MaximumLikelihoodEstimator, BayesianEstimator, Expe
 from pgmpy.readwrite import NETWriter
 import json
 import os 
-
-print(os.getcwd())
-
 from .experiment_utils import credit_pipeline, fire_pipeline
 
-# make sure that we are in file directory
-filedirpath = os.path.dirname(os.path.abspath(__file__))
 
-data_path = os.path.join(filedirpath, 'data/credit10k.csv')
-all_data = pd.read_csv(data_path)
 
-train_df, test_df, TARGET_COL = credit_pipeline(all_data, test_split_ratio=0.3)
-print(f'Train shape: {train_df.shape}, Test shape: {test_df.shape}')
-# print(train_df.head())
+def prep_data(data_path: str, data: pd.DataFrame | None = None) -> tuple[pd.DataFrame, pd.DataFrame, str]:
+    if data is None:
+        all_data = pd.read_csv(data_path)
+    else:
+        all_data = data
+    train_df, test_df, TARGET_COL = credit_pipeline(all_data, test_split_ratio=0.3)
+    print(f'Train shape: {train_df.shape}, Test shape: {test_df.shape}')
+    return train_df, test_df, TARGET_COL
 
 # Filter user warnings
 warnings.filterwarnings('ignore')
@@ -37,12 +35,12 @@ seed = 123
 random.seed(seed)
 np.random.seed(seed)
 
-def train_model_structure(train_df: pd.DataFrame) -> BayesianNetwork:
+def train_model_structure(train_df: pd.DataFrame, target_col: str) -> BayesianNetwork:
    
     adj_blacklist = set()
     _train_data = train_df.sample(frac=0.1, random_state=seed)
     
-    ts = TreeSearch(_train_data, root_node=TARGET_COL)
+    ts = TreeSearch(_train_data, root_node=target_col)
     m = ts.estimate()
     
     
@@ -52,8 +50,8 @@ def train_model_structure(train_df: pd.DataFrame) -> BayesianNetwork:
     if str(adj) not in adj_blacklist:
         adj_blacklist.add(str(adj))
             
-        p = m.get_parents(TARGET_COL)
-        print(f'Parents of {TARGET_COL}: {p}')
+        p = m.get_parents(target_col)
+        print(f'Parents of {target_col}: {p}')
         if len(p) == 0: # no parents
             return m
         
@@ -73,7 +71,7 @@ def plot_model(model: BayesianNetwork) -> None:
     plt.tight_layout()
     plt.show()
     
-def estimate_model(model: BayesianNetwork, train_df: pd.DataFrame, test_df: pd.DataFrame) -> tuple[BayesianNetwork, float]:
+def estimate_model(model: BayesianNetwork, train_df: pd.DataFrame, test_df: pd.DataFrame, target_col: str) -> tuple[BayesianNetwork, float]:
     _train_df = train_df.copy()
         
     # Learing CPDs using Maximum Likelihood Estimators
@@ -85,38 +83,41 @@ def estimate_model(model: BayesianNetwork, train_df: pd.DataFrame, test_df: pd.D
     model.fit(_train_df, estimator=get_estimator())
     
 
-    X_test = test_df.drop(TARGET_COL, axis='columns')
+    X_test = test_df.drop(target_col, axis='columns')
     ypred = model.predict(X_test)
-    test_acc = accuracy_score(test_df[TARGET_COL], ypred[TARGET_COL])
+    test_acc = accuracy_score(test_df[target_col], ypred[target_col])
     print(f'Accuracy on test data: {test_acc} for model')
     
     return model, test_acc
 
-def save_model(model: BayesianNetwork, id: int) -> str:
+def save_model(dirpath: str, model: BayesianNetwork, id: int, target_col: str, vars_count: int) -> str:
     '''
     Saves models to file and returns list of paths to saved models
     '''
 
-    src_path = os.path.dirname(filedirpath)
+    src_path = os.path.dirname(dirpath)
     print(src_path)
 
     paths = []
     
     # Create directories if they don't exist
-    os.makedirs(f'{src_path}/bnc_networks/', exist_ok=True)
-    os.makedirs(f'{src_path}/bnc_configs/', exist_ok=True)
-    os.makedirs(f'{filedirpath}/models/', exist_ok=True)
+    if not os.path.exists(f'{src_path}/bnc_networks/'):
+        os.makedirs(f'{src_path}/bnc_networks/', mode=0o777)
+    if not os.path.exists(f'{src_path}/bnc_configs/'):
+        os.makedirs(f'{src_path}/bnc_configs/', mode=0o777)
+    if not os.path.exists(f'{dirpath}/models/'):
+        os.makedirs(f'{dirpath}/models/', mode=0o777)
 
     # Save model
-    NETWriter(model).write_net(f'{filedirpath}/models/credit10k_{id}.net')
+    NETWriter(model).write_net(f'{dirpath}/models/credit10k_{id}.net')
     NETWriter(model).write_net(f'{src_path}/bnc_networks/credit10k_{id}.net')
 
     DATASET_CONFIG = {
         "id": id,
         "name": 'credit10k',
         "filetype": "net",
-        "vars": len(train_df.columns),
-        "root": TARGET_COL,
+        "vars": vars_count,
+        "root": target_col,
         "leaves": 6,
         "threshold": 0.5,
         "input_filepath": "../bnc_networks/",
@@ -132,12 +133,20 @@ def save_model(model: BayesianNetwork, id: int) -> str:
 
 
 if __name__ == '__main__':
-    model = train_model_structure(train_df)
+    
+    
+    
+    filedirpath = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(filedirpath, 'data/credit10k.csv')
+    
+    train_df, test_df, target_col = prep_data(data_path)
+    
+    model = train_model_structure(train_df, target_col)
     plot_model(model)
-    trained_model, test_accuracy = estimate_model(model, train_df, test_df)
+    trained_model, test_accuracy = estimate_model(model, train_df, test_df, target_col)
     print(f'Test accuracy: {test_accuracy}')
     
-    save_model(trained_model, 999)
+    save_model(filedirpath, trained_model, 999, target_col, train_df.shape[1])
     
     
     
