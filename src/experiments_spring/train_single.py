@@ -35,10 +35,10 @@ seed = 123
 random.seed(seed)
 np.random.seed(seed)
 
-def train_model_structure(train_df: pd.DataFrame, target_col: str) -> BayesianNetwork:
+def train_model_structure(train_df: pd.DataFrame, target_col: str, sample_size: float = 0.1) -> BayesianNetwork:
    
     adj_blacklist = set()
-    _train_data = train_df.sample(frac=0.1, random_state=seed)
+    _train_data = train_df.sample(frac=sample_size, random_state=seed)
     
     ts = TreeSearch(_train_data, root_node=target_col)
     m = ts.estimate()
